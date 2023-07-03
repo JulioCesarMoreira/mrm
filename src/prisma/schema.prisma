@@ -1,0 +1,177 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String @id @default(uuid())
+  email     String @unique
+  cognitoId String @unique @default(uuid())
+  tenant    Tenant @relation(fields: [tenantId], references: [id])
+  tenantId  String @default(uuid())
+}
+
+model Tenant {
+  id              String            @id @default(uuid())
+  cognitoId       String            @unique @default(uuid())
+  User            User[]
+  Client          Client[]
+  ProposalService ProposalService[]
+  CategoryService CategoryService[]
+  ModelProposal   ModelProposal[]
+}
+
+model CategoryAttachment {
+  id          Int          @id @default(autoincrement())
+  description String?
+  name        String
+  Attachment  Attachment[]
+}
+
+model Client {
+  id              Int               @id @default(autoincrement())
+  name            String
+  phone           String?
+  cpfCnpj         String
+  tenant          Tenant            @relation(fields: [tenantId], references: [id])
+  tenantId        String            @default(uuid())
+  ProposalService ProposalService[]
+}
+
+model ProposalService {
+  id                  Int                   @id @default(autoincrement())
+  sendDate            DateTime
+  installmentsBalance Int
+  periodValidity      DateTime
+  discount            Int
+  percentageEntry     Int
+  guaranteePeriod     Int
+  approved            Boolean
+  client              Client                @relation(fields: [clientId], references: [id])
+  clientId            Int
+  tenat               Tenant                @relation(fields: [tenantId], references: [id])
+  tenantId            String                @default(uuid())
+  ItemProposalService ItemProposalService[]
+  Detection           Detection[]
+  Well                Well[]
+  Attachment          Attachment[]
+}
+
+model CategoryService {
+  id          Int           @id @default(autoincrement())
+  name        String
+  subCategory SubCategory
+  tenat       Tenant        @relation(fields: [tenantId], references: [id])
+  tenantId    String        @default(uuid())
+  ItemService ItemService[]
+}
+
+enum SubCategory {
+  SUPLIE
+  SERVICE
+}
+
+model ItemService {
+  id                       Int                        @id @default(autoincrement())
+  name                     String
+  description              String
+  unit                     String
+  categoryService          CategoryService            @relation(fields: [categoryServiceId], references: [id])
+  categoryServiceId        Int
+  ItemProposalService      ItemProposalService[]
+  modelProposalItemService modelProposalItemService[]
+}
+
+model ItemProposalService {
+  id                Int             @id @default(autoincrement())
+  unitPrice         Int
+  quantity          Int
+  proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
+  proposalServiceId Int
+  itemService       ItemService     @relation(fields: [itemServiceId], references: [id])
+  itemServiceId     Int
+}
+
+model ModelProposal {
+  id                       Int                        @id @default(autoincrement())
+  name                     String
+  tenat                    Tenant                     @relation(fields: [tenantId], references: [id])
+  tenantId                 String                     @default(uuid())
+  modelProposalItemService modelProposalItemService[]
+}
+
+model modelProposalItemService {
+  id              Int           @id @default(autoincrement())
+  modelProposal   ModelProposal @relation(fields: [modelProposalId], references: [id])
+  modelProposalId Int
+  itemService     ItemService   @relation(fields: [itemServiceId], references: [id])
+  itemServiceId   Int
+}
+
+model Detection {
+  id                Int             @id @default(autoincrement())
+  accuracy          Int
+  sality            Int
+  maximumDepth      Int
+  minimumDepth      Int
+  proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
+  proposalServiceId Int
+  Attachment        Attachment[]
+}
+
+model Well {
+  id                Int             @id @default(autoincrement())
+  voltage           Int
+  totalDepth        Int
+  sieveDepth        Int
+  staticLevel       Int
+  dynamicLevel      Int
+  deliveryDate      DateTime
+  sedimentaryDepth  Int
+  price             Int
+  distric           String
+  cep               String
+  street            String
+  number            String
+  longitude         String
+  latitude          String
+  mapLink           String
+  uf                Uf
+  city              City            @relation(fields: [cityId], references: [id])
+  cityId            Int
+  proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
+  proposalServiceId Int
+  Attachment        Attachment[]
+}
+
+model Attachment {
+  id                   Int                @id @default(autoincrement())
+  url                  String
+  categoryAttachment   CategoryAttachment @relation(fields: [categoryAttachmentId], references: [id])
+  categoryAttachmentId Int
+  detection            Detection          @relation(fields: [detectionId], references: [id])
+  detectionId          Int
+  well                 Well               @relation(fields: [wellId], references: [id])
+  wellId               Int
+  proposalService      ProposalService    @relation(fields: [proposalServiceId], references: [id])
+  proposalServiceId    Int
+}
+
+model City {
+  id   Int    @id @default(autoincrement())
+  uf   Uf
+  nome String
+  Well Well[]
+}
+
+enum Uf {
+  PR
+  SP
+}
