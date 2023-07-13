@@ -1,11 +1,11 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CreateTenantDto } from 'src/core/dtos/tenant';
-import { CreateTenantResponseDto } from 'src/core/dtos/tenant';
-import { TenantUseCases } from 'src/use-cases/tenant';
+import { CreateTenantDto } from '@application/core/dtos/tenant';
+import { CreateTenantResponseDto } from '@application/core/dtos/tenant';
+import { CreateTenantUseCase } from '@application/use-cases/tenant';
 
 @Controller('/tenant')
 export class TenantController {
-  constructor(private tenantUseCases: TenantUseCases) {}
+  constructor(private createTenantUseCase: CreateTenantUseCase) {}
 
   @Post()
   async createTenant(
@@ -14,7 +14,9 @@ export class TenantController {
     const createTenantResponse = new CreateTenantResponseDto();
 
     try {
-      const createdTenant = await this.tenantUseCases.createTenant(tenantDto);
+      const createdTenant = await this.createTenantUseCase.createTenant(
+        tenantDto,
+      );
 
       createTenantResponse.success = true;
       createTenantResponse.createdTenant = createdTenant;
