@@ -20,4 +20,14 @@ export class PrismaClientRepository implements IClientRepository {
 
     return createdClient;
   }
+
+  async get(id: number): Promise<Client> {
+    const getClient = await this.prisma.client.findUnique({
+      where: {
+        id: Number(id),
+      },
+    });
+
+    return getClient;
+  }
 }

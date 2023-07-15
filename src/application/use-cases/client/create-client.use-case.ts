@@ -4,10 +4,10 @@ import { Client } from '@application/core/entities';
 
 @Injectable()
 export class CreateClientUseCase {
-  constructor(private ClientRepository: IClientRepository) {}
+  constructor(private clientRepository: IClientRepository) {}
 
   async createClient(client: Client): Promise<Client> {
-    const createdClient = await this.ClientRepository.create(client);
+    const createdClient = await this.clientRepository.create(client);
 
     return createdClient;
   }

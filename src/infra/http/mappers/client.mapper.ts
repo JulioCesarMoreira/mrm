@@ -1,4 +1,7 @@
-import { CreateClientDto } from '@application/core/dtos/client';
+import {
+  CreateClientDto,
+  GetClientResponseDto,
+} from '@application/core/dtos/client';
 import { Client } from '@application/core/entities';
 
 export class ClientMapper {
@@ -12,5 +15,20 @@ export class ClientMapper {
     client.tenantId = createClientDto.tenantId;
 
     return client;
+  }
+
+  public static getClientMapper(clientEntity: Client): GetClientResponseDto {
+    const getClientResponseDto = new GetClientResponseDto();
+
+    getClientResponseDto.client = {
+      id: clientEntity.id,
+      contactName: clientEntity.contactName,
+      contactPhone: clientEntity.contactPhone,
+      cpfCnpj: clientEntity.cpfCnpj,
+      name: clientEntity.name,
+      tenantId: clientEntity.tenantId,
+    };
+
+    return getClientResponseDto;
   }
 }

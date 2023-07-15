@@ -1,14 +1,22 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import {
   CreateClientDto,
   CreateClientResponseDto,
+  GetClientDto,
+  GetClientResponseDto,
 } from '@application/core/dtos/client';
-import { CreateClientUseCase } from '@application/use-cases/client';
+import {
+  CreateClientUseCase,
+  GetClientUseCase,
+} from '@application/use-cases/client';
 import { ClientMapper } from '../mappers/client.mapper';
 
 @Controller('/client')
 export class ClientController {
-  constructor(private createClientUseCase: CreateClientUseCase) {}
+  constructor(
+    private createClientUseCase: CreateClientUseCase,
+    private getClientUsecase: GetClientUseCase,
+  ) {}
 
   @Post()
   async createClient(
@@ -32,5 +40,21 @@ export class ClientController {
     }
 
     return createClientResponse;
+  }
+
+  @Get(':id')
+  async getClient(
+    @Param() parameters: GetClientDto,
+  ): Promise<GetClientResponseDto> {
+    let getClientResponse = new GetClientResponseDto();
+
+    try {
+      const clientEntity = await this.getClientUsecase.getClient(parameters.id);
+
+      getClientResponse = ClientMapper.getClientMapper(clientEntity);
+    } catch (error) {
+      console.log('Error: ', error);
+    }
+    return getClientResponse;
   }
 }
