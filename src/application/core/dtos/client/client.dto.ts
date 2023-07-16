@@ -5,3 +5,7 @@ export type CreateClientDto = Omit<Client, 'id'>;
 export type GetClientDto = {
   id: number;
 };
+
+export type FetchClientsDto = {
+  tenantId: string;
+};

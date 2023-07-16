@@ -30,4 +30,14 @@ export class PrismaClientRepository implements IClientRepository {
 
     return getClient;
   }
+
+  async fetch(tenantId: string): Promise<Client[]> {
+    const fetchClient = await this.prisma.client.findMany({
+      where: {
+        tenantId,
+      },
+    });
+
+    return fetchClient;
+  }
 }

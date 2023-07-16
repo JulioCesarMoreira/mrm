@@ -5,7 +5,7 @@ export abstract class IClientRepository {
 
   abstract get(id: number): Promise<Client>;
 
-  // abstract fetch(tenantId: string): Promise<[Client]>;
+  abstract fetch(tenantId: string): Promise<Client[]>;
 
   // abstract update(entity: Client): Promise<Client>;
 }

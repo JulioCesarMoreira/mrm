@@ -7,10 +7,16 @@ import {
   CreateClientUseCase,
   GetClientUseCase,
 } from '@application/use-cases/client';
+import { FetchClienteUseCase } from '@application/use-cases/client/fetch-client.use-case';
 
 @Module({
   imports: [DatabaseModule],
   controllers: [TenantController, ClientController],
-  providers: [CreateTenantUseCase, CreateClientUseCase, GetClientUseCase],
+  providers: [
+    CreateTenantUseCase,
+    CreateClientUseCase,
+    GetClientUseCase,
+    FetchClienteUseCase,
+  ],
 })
 export class HttpModule {}

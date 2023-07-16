@@ -21,3 +21,19 @@ export class GetClientResponseDto {
     tenantId: string;
   };
 }
+
+export class FetchClientsResponseDto {
+  clients: {
+    id: number;
+
+    contactName: string;
+
+    contactPhone: string;
+
+    cpfCnpj: string;
+
+    name: string;
+
+    tenantId: string;
+  }[];
+}

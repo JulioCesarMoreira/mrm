@@ -1,5 +1,6 @@
 import {
   CreateClientDto,
+  FetchClientsResponseDto,
   GetClientResponseDto,
 } from '@application/core/dtos/client';
 import { Client } from '@application/core/entities';
@@ -30,5 +31,25 @@ export class ClientMapper {
     };
 
     return getClientResponseDto;
+  }
+
+  public static fetchClientMapper(
+    clientsEntity: Client[],
+  ): FetchClientsResponseDto {
+    const fetchClientsResponseDto = new FetchClientsResponseDto();
+    fetchClientsResponseDto.clients = [];
+
+    for (const clientEntity of clientsEntity) {
+      fetchClientsResponseDto.clients.push({
+        id: clientEntity.id,
+        contactName: clientEntity.contactName,
+        contactPhone: clientEntity.contactPhone,
+        cpfCnpj: clientEntity.cpfCnpj,
+        name: clientEntity.name,
+        tenantId: clientEntity.tenantId,
+      });
+    }
+
+    return fetchClientsResponseDto;
   }
 }

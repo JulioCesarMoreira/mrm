@@ -2,6 +2,8 @@ import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import {
   CreateClientDto,
   CreateClientResponseDto,
+  FetchClientsDto,
+  FetchClientsResponseDto,
   GetClientDto,
   GetClientResponseDto,
 } from '@application/core/dtos/client';
@@ -10,12 +12,14 @@ import {
   GetClientUseCase,
 } from '@application/use-cases/client';
 import { ClientMapper } from '../mappers/client.mapper';
+import { FetchClienteUseCase } from '@application/use-cases/client/fetch-client.use-case';
 
 @Controller('/client')
 export class ClientController {
   constructor(
     private createClientUseCase: CreateClientUseCase,
     private getClientUsecase: GetClientUseCase,
+    private fetchClientsUseCase: FetchClienteUseCase,
   ) {}
 
   @Post()
@@ -46,7 +50,7 @@ export class ClientController {
   async getClient(
     @Param() parameters: GetClientDto,
   ): Promise<GetClientResponseDto> {
-    let getClientResponse = new GetClientResponseDto();
+    let getClientResponse = {} as GetClientResponseDto;
 
     try {
       const clientEntity = await this.getClientUsecase.getClient(parameters.id);
@@ -56,5 +60,24 @@ export class ClientController {
       console.log('Error: ', error);
     }
     return getClientResponse;
+  }
+
+  @Get('/tenant/:tenantId')
+  async fetchClientByTenant(
+    @Param() parameters: FetchClientsDto,
+  ): Promise<FetchClientsResponseDto> {
+    let fetchCLientsResponse = new FetchClientsResponseDto();
+
+    try {
+      const fetchClientsList = await this.fetchClientsUseCase.fetchClient(
+        parameters.tenantId,
+      );
+
+      fetchCLientsResponse = ClientMapper.fetchClientMapper(fetchClientsList);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return fetchCLientsResponse;
   }
 }
