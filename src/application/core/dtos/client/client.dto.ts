@@ -9,3 +9,5 @@ export type GetClientDto = {
 export type FetchClientsDto = {
   tenantId: string;
 };
+
+export type UpdateClientDto = Client;

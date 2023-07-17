@@ -2,11 +2,12 @@ import {
   CreateClientDto,
   FetchClientsResponseDto,
   GetClientResponseDto,
+  UpdateClientResponseDto,
 } from '@application/core/dtos/client';
 import { Client } from '@application/core/entities';
 
 export class ClientMapper {
-  public static createClientMapper(createClientDto: CreateClientDto): Client {
+  public static createClientToDomain(createClientDto: CreateClientDto): Client {
     const client = new Client();
 
     client.contactName = createClientDto.contactName;
@@ -18,7 +19,9 @@ export class ClientMapper {
     return client;
   }
 
-  public static getClientMapper(clientEntity: Client): GetClientResponseDto {
+  public static getClientToController(
+    clientEntity: Client,
+  ): GetClientResponseDto {
     const getClientResponseDto = new GetClientResponseDto();
 
     getClientResponseDto.client = {
@@ -33,7 +36,7 @@ export class ClientMapper {
     return getClientResponseDto;
   }
 
-  public static fetchClientMapper(
+  public static fetchClientToController(
     clientsEntity: Client[],
   ): FetchClientsResponseDto {
     const fetchClientsResponseDto = new FetchClientsResponseDto();
@@ -51,5 +54,19 @@ export class ClientMapper {
     }
 
     return fetchClientsResponseDto;
+  }
+
+  public static updateClientToController(
+    updatedClient: Client,
+  ): UpdateClientResponseDto {
+    const updateClientResponseDto = new UpdateClientResponseDto();
+
+    updateClientResponseDto.contactName = updatedClient.contactName;
+    updateClientResponseDto.contactPhone = updatedClient.contactPhone;
+    updateClientResponseDto.cpfCnpj = updatedClient.cpfCnpj;
+    updateClientResponseDto.name = updatedClient.name;
+    updateClientResponseDto.tenantId = updatedClient.tenantId;
+
+    return updateClientResponseDto;
   }
 }

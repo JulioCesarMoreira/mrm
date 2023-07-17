@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { IClientRepository } from '@application/core/repositories';
 import { Client } from '@application/core/entities';
+import { PrismaClientMapper } from '../mappers/prisma-client.mapper';
 
 @Injectable()
 export class PrismaClientRepository implements IClientRepository {
@@ -39,5 +40,18 @@ export class PrismaClientRepository implements IClientRepository {
     });
 
     return fetchClient;
+  }
+
+  async update(entity: Client): Promise<Client> {
+    const clientPrismaData = PrismaClientMapper.toPrisma(entity);
+
+    const updatedClient = await this.prisma.client.update({
+      where: {
+        id: entity.id,
+      },
+      data: clientPrismaData,
+    });
+
+    return updatedClient;
   }
 }

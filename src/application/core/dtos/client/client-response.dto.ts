@@ -37,3 +37,5 @@ export class FetchClientsResponseDto {
     tenantId: string;
   }[];
 }
+
+export class UpdateClientResponseDto extends Client {}

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import {
   CreateClientDto,
   CreateClientResponseDto,
@@ -6,6 +6,8 @@ import {
   FetchClientsResponseDto,
   GetClientDto,
   GetClientResponseDto,
+  UpdateClientDto,
+  UpdateClientResponseDto,
 } from '@application/core/dtos/client';
 import {
   CreateClientUseCase,
@@ -13,6 +15,7 @@ import {
 } from '@application/use-cases/client';
 import { ClientMapper } from '../mappers/client.mapper';
 import { FetchClienteUseCase } from '@application/use-cases/client/fetch-client.use-case';
+import { UpdateClientUseCase } from '@application/use-cases/client/update-client.use-case';
 
 @Controller('/client')
 export class ClientController {
@@ -20,6 +23,7 @@ export class ClientController {
     private createClientUseCase: CreateClientUseCase,
     private getClientUsecase: GetClientUseCase,
     private fetchClientsUseCase: FetchClienteUseCase,
+    private updateClientUseCase: UpdateClientUseCase,
   ) {}
 
   @Post()
@@ -29,7 +33,7 @@ export class ClientController {
     const createClientResponse = new CreateClientResponseDto();
 
     try {
-      const clientEntity = ClientMapper.createClientMapper(clientDto);
+      const clientEntity = ClientMapper.createClientToDomain(clientDto);
 
       const createdClient = await this.createClientUseCase.createClient(
         clientEntity,
@@ -55,7 +59,7 @@ export class ClientController {
     try {
       const clientEntity = await this.getClientUsecase.getClient(parameters.id);
 
-      getClientResponse = ClientMapper.getClientMapper(clientEntity);
+      getClientResponse = ClientMapper.getClientToController(clientEntity);
     } catch (error) {
       console.log('Error: ', error);
     }
@@ -73,11 +77,30 @@ export class ClientController {
         parameters.tenantId,
       );
 
-      fetchCLientsResponse = ClientMapper.fetchClientMapper(fetchClientsList);
+      fetchCLientsResponse =
+        ClientMapper.fetchClientToController(fetchClientsList);
     } catch (error) {
       console.log(error);
     }
 
     return fetchCLientsResponse;
+  }
+
+  @Put()
+  async updateClient(
+    @Body() body: UpdateClientDto,
+  ): Promise<UpdateClientResponseDto> {
+    let updateClientResponse = new UpdateClientResponseDto();
+
+    try {
+      const updateClient = await this.updateClientUseCase.updateClient(body);
+
+      updateClientResponse =
+        ClientMapper.updateClientToController(updateClient);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return updateClientResponse;
   }
 }
