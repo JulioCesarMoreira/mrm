@@ -38,7 +38,8 @@ model CategoryAttachment {
 model Client {
   id              Int               @id @default(autoincrement())
   name            String
-  phone           String?
+  contactName     String?
+  contactPhone    String?
   cpfCnpj         String
   tenant          Tenant            @relation(fields: [tenantId], references: [id])
   tenantId        String            @default(uuid())
