@@ -1,6 +1,8 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { CreateTenantDto } from '@application/core/dtos/tenant';
-import { CreateTenantResponseDto } from '@application/core/dtos/tenant';
+import {
+  CreateTenantResponseDto,
+  CreateTenantDto,
+} from '@application/core/dtos/tenant';
 import { CreateTenantUseCase } from '@application/use-cases/tenant';
 
 @Controller('/tenant')
