@@ -7,17 +7,10 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
     "prisma:migrate": "pnpm dlx prisma migrate dev --schema=./prisma/schema.prisma"
   },
   "dependencies": {
@@ -26,7 +19,9 @@
     "@nestjs/platform-express": "^9.4.2",
     "@nestjs/platform-fastify": "^9.4.2",
     "@prisma/client": "4.15.0",
+    "backend": "workspace:^",
     "class-validator": "^0.14.0",
+    "none": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
