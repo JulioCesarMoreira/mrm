@@ -1,0 +1,23 @@
+{
+  "name": "@monorepo-mrm/root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "pnpm": "^8.6.9"
+  },
+  "devDependencies": {
+    "prettier": "^2.8.8"
+  },
+  "workspaces": [
+    "frontend/*",
+    "backend/*"
+  ]
+}
