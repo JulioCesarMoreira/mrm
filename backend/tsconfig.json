@@ -16,20 +16,20 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@infra/service/*": [
+        "infra/service/*"
+      ],
+      "@infra/http/*": [
+        "infra/http/*"
+      ],
+      "@application/use-cases/*": [
+        "application/use-cases/*"
+      ],
+      "@application/core/*": [
+        "application/core/*"
+      ]
+    }
   },
-  "paths": {
-    "@infra/service/*": [
-      "infra/service/*"
-    ],
-    "@infra/http/*": [
-      "infra/http/*"
-    ],
-    "@application/use-cases/*": [
-      "application/use-cases/*"
-    ],
-    "@application/core/*": [
-      "application/core/*"
-    ],
-  }
 }
