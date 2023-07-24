@@ -4,7 +4,7 @@ import {
   CreateClientResponseDto,
   FetchClientsDto,
   FetchClientsResponseDto,
-  GetClientDto,
+  ClientIdDto,
   GetClientResponseDto,
   UpdateClientDto,
   UpdateClientResponseDto,
@@ -12,10 +12,10 @@ import {
 import {
   CreateClientUseCase,
   GetClientUseCase,
+  FetchClienteUseCase,
+  UpdateClientUseCase,
 } from '@application/use-cases/client';
 import { ClientMapper } from '../mappers/client.mapper';
-import { FetchClienteUseCase } from '@application/use-cases/client/fetch-client.use-case';
-import { UpdateClientUseCase } from '@application/use-cases/client/update-client.use-case';
 
 @Controller('/client')
 export class ClientController {
@@ -52,12 +52,14 @@ export class ClientController {
 
   @Get(':id')
   async getClient(
-    @Param() parameters: GetClientDto,
+    @Param() parameters: ClientIdDto,
   ): Promise<GetClientResponseDto> {
     let getClientResponse = {} as GetClientResponseDto;
 
     try {
-      const clientEntity = await this.getClientUsecase.getClient(parameters.id);
+      const clientEntity = await this.getClientUsecase.getClient(
+        Number(parameters.id),
+      );
 
       getClientResponse = ClientMapper.getClientToController(clientEntity);
     } catch (error) {
@@ -88,7 +90,7 @@ export class ClientController {
 
   @Put(':id')
   async updateClient(
-    @Param() parameters: GetClientDto,
+    @Param() parameters: ClientIdDto,
     @Body() body: UpdateClientDto,
   ): Promise<UpdateClientResponseDto> {
     let updateClientResponse = new UpdateClientResponseDto();
