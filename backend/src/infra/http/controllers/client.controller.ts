@@ -66,15 +66,15 @@ export class ClientController {
     return getClientResponse;
   }
 
-  @Get('/tenant/:tenantId')
+  @Get()
   async fetchClientByTenant(
-    @Param() parameters: FetchClientsDto,
+    @Body() filters: FetchClientsDto,
   ): Promise<FetchClientsResponseDto> {
     let fetchCLientsResponse = new FetchClientsResponseDto();
 
     try {
       const fetchClientsList = await this.fetchClientsUseCase.fetchClient(
-        parameters.tenantId,
+        filters,
       );
 
       fetchCLientsResponse =
@@ -86,14 +86,18 @@ export class ClientController {
     return fetchCLientsResponse;
   }
 
-  @Put()
+  @Put(':id')
   async updateClient(
+    @Param() parameters: GetClientDto,
     @Body() body: UpdateClientDto,
   ): Promise<UpdateClientResponseDto> {
     let updateClientResponse = new UpdateClientResponseDto();
 
     try {
-      const updateClient = await this.updateClientUseCase.updateClient(body);
+      const updateClient = await this.updateClientUseCase.updateClient(
+        Number(parameters.id),
+        body,
+      );
 
       updateClientResponse =
         ClientMapper.updateClientToController(updateClient);

@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { IClientRepository } from '@application/core/repositories';
 import { Client } from '@application/core/entities';
-import { PrismaClientMapper } from '../mappers/prisma-client.mapper';
+import {
+  FetchClientsDto,
+  UpdateClientDto,
+} from '@application/core/dtos/client';
 
 @Injectable()
 export class PrismaClientRepository implements IClientRepository {
@@ -32,24 +35,39 @@ export class PrismaClientRepository implements IClientRepository {
     return getClient;
   }
 
-  async fetch(tenantId: string): Promise<Client[]> {
+  async fetch({
+    id,
+    contactName,
+    contactPhone,
+    name,
+    tenantId,
+  }: FetchClientsDto): Promise<Client[]> {
     const fetchClient = await this.prisma.client.findMany({
       where: {
-        tenantId,
+        ...(id && { id }),
+        ...(contactName && { contactName: { contains: contactName } }),
+        ...(contactPhone && { contactPhone: { contains: contactPhone } }),
+        ...(name && { name: { contains: name } }),
+        ...(tenantId && { tenantId }),
       },
     });
 
     return fetchClient;
   }
 
-  async update(entity: Client): Promise<Client> {
-    const clientPrismaData = PrismaClientMapper.toPrisma(entity);
-
+  async update(
+    entityId: number,
+    { contactName, contactPhone, name }: UpdateClientDto,
+  ): Promise<Client> {
     const updatedClient = await this.prisma.client.update({
       where: {
-        id: entity.id,
+        id: entityId,
       },
-      data: clientPrismaData,
+      data: {
+        ...(contactName && { contactName }),
+        ...(contactPhone && { contactPhone }),
+        ...(name && { name }),
+      },
     });
 
     return updatedClient;
