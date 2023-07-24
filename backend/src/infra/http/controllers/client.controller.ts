@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import {
   CreateClientDto,
   CreateClientResponseDto,
@@ -8,12 +16,14 @@ import {
   GetClientResponseDto,
   UpdateClientDto,
   UpdateClientResponseDto,
+  DeleteClientResponseDto,
 } from '@application/core/dtos/client';
 import {
   CreateClientUseCase,
   GetClientUseCase,
   FetchClienteUseCase,
   UpdateClientUseCase,
+  DeleteClientUseCase,
 } from '@application/use-cases/client';
 import { ClientMapper } from '../mappers/client.mapper';
 
@@ -24,6 +34,7 @@ export class ClientController {
     private getClientUsecase: GetClientUseCase,
     private fetchClientsUseCase: FetchClienteUseCase,
     private updateClientUseCase: UpdateClientUseCase,
+    private deleteClientUseCase: DeleteClientUseCase,
   ) {}
 
   @Post()
@@ -108,5 +119,24 @@ export class ClientController {
     }
 
     return updateClientResponse;
+  }
+
+  @Delete(':id')
+  async deleteClient(
+    @Param() parameters: ClientIdDto,
+  ): Promise<DeleteClientResponseDto> {
+    let deleteClientResponse = new DeleteClientResponseDto();
+    try {
+      const deleteClient = await this.deleteClientUseCase.deleteClient(
+        Number(parameters.id),
+      );
+
+      deleteClientResponse =
+        ClientMapper.deleteClientToController(deleteClient);
+    } catch (error) {
+      console.log(error);
+    }
+
+    return deleteClientResponse;
   }
 }

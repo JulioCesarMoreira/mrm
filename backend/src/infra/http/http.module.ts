@@ -7,6 +7,7 @@ import {
   CreateClientUseCase,
   GetClientUseCase,
   FetchClienteUseCase,
+  DeleteClientUseCase,
 } from '@application/use-cases/client';
 import { UpdateClientUseCase } from '@application/use-cases/client/update-client.use-case';
 
@@ -19,6 +20,7 @@ import { UpdateClientUseCase } from '@application/use-cases/client/update-client
     GetClientUseCase,
     FetchClienteUseCase,
     UpdateClientUseCase,
+    DeleteClientUseCase,
   ],
 })
 export class HttpModule {}
