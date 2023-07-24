@@ -7,7 +7,21 @@ export type GetClientDto = {
 };
 
 export type FetchClientsDto = {
-  tenantId: string;
+  id?: number;
+
+  contactName?: string;
+
+  contactPhone?: string;
+
+  name?: string;
+
+  tenantId?: string;
 };
 
-export type UpdateClientDto = Client;
+export type UpdateClientDto = {
+  contactName?: string;
+
+  contactPhone?: string;
+
+  name?: string;
+};
