@@ -1,4 +1,4 @@
-import { CategoryService, SubCategory } from '@application/core/entities';
+import { CategoryService } from '@application/core/entities';
 
 export type CreateCategoryServiceDto = Omit<CategoryService, 'id'>;
 
@@ -11,13 +11,13 @@ export type FetchCategoryServicesDto = {
 
   name?: string;
 
-  subCategory?: SubCategory;
+  subCategory?: 'SUPLIE' | 'SERVICE';
 
   tenantId?: string;
 };
 
 export type UpdateCategoryServiceDto = {
-  subCategory?: SubCategory;
+  subCategory?: 'SUPLIE' | 'SERVICE';
 
   name?: string;
 };

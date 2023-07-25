@@ -1,4 +1,4 @@
-import { CategoryService, SubCategory } from '@application/core/entities';
+import { CategoryService } from '@application/core/entities';
 
 export class CreateCategoryServiceResponseDto {
   sucess: boolean;
@@ -10,7 +10,7 @@ export class GetCategoryServiceResponseDto {
   CategoryService: {
     id: number;
 
-    subCategory: SubCategory;
+    subCategory: 'SUPLIE' | 'SERVICE';
 
     name: string;
   };
@@ -20,7 +20,7 @@ export class FetchCategoryServicesResponseDto {
   categoryServices: {
     id: number;
 
-    subCategory: SubCategory;
+    subCategory: 'SUPLIE' | 'SERVICE';
 
     name: string;
   }[];

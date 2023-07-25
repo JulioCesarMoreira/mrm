@@ -1,11 +1,6 @@
 export class CategoryService {
   id: number;
   name: string;
-  subCategory: SubCategory;
+  subCategory: 'SUPLIE' | 'SERVICE';
   tenantId: string;
-}
-
-export enum SubCategory {
-  SUPLIE,
-  SERVICE,
 }
