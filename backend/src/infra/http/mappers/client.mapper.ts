@@ -1,5 +1,6 @@
 import {
   CreateClientDto,
+  DeleteClientResponseDto,
   FetchClientsResponseDto,
   GetClientResponseDto,
   UpdateClientResponseDto,
@@ -68,5 +69,15 @@ export class ClientMapper {
     updateClientResponseDto.tenantId = updatedClient.tenantId;
 
     return updateClientResponseDto;
+  }
+
+  public static deleteClientToController(
+    resultDelete: boolean,
+  ): DeleteClientResponseDto {
+    const deleteClientResponseDto = new DeleteClientResponseDto();
+
+    deleteClientResponseDto.sucess = resultDelete;
+
+    return deleteClientResponseDto;
   }
 }

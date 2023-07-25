@@ -28,7 +28,7 @@ export class PrismaClientRepository implements IClientRepository {
   async get(id: number): Promise<Client> {
     const getClient = await this.prisma.client.findUnique({
       where: {
-        id: Number(id),
+        id: id,
       },
     });
 
@@ -71,5 +71,15 @@ export class PrismaClientRepository implements IClientRepository {
     });
 
     return updatedClient;
+  }
+
+  async delete(id: number): Promise<boolean> {
+    const client = await this.prisma.client.delete({
+      where: {
+        id,
+      },
+    });
+
+    return !!client || false;
   }
 }

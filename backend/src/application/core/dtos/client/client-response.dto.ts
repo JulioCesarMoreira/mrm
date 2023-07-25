@@ -38,4 +38,8 @@ export class FetchClientsResponseDto {
   }[];
 }
 
+export class DeleteClientResponseDto {
+  sucess: boolean;
+}
+
 export class UpdateClientResponseDto extends Client {}

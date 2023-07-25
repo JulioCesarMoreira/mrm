@@ -16,5 +16,5 @@ export abstract class IClientRepository {
     entityFields: UpdateClientDto,
   ): Promise<Client>;
 
-  // abstract delete(id: number): Promise<boolean>;
+  abstract delete(id: number): Promise<boolean>;
 }
