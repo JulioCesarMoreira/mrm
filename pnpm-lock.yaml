@@ -125,10 +125,10 @@ importers:
         specifier: 18.2.0
         version: 18.2.0(react@18.2.0)
       react-hook-form:
-        specifier: ^7.45.2
+        specifier: 7.45.2
         version: 7.45.2(react@18.2.0)
       tailwind-merge:
-        specifier: ^1.14.0
+        specifier: 1.14.0
         version: 1.14.0
     devDependencies:
       '@types/react':
