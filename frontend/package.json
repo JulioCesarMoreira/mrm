@@ -9,8 +9,11 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@tippyjs/react": "^4.2.6",
+		"jotai": "^2.2.3",
 		"react": "18.2.0",
-		"react-dom": "18.2.0"
+		"react-dom": "18.2.0",
+		"tailwind-merge": "^1.14.0"
 	},
 	"devDependencies": {
 		"@types/react": "18.0.28",
