@@ -6,6 +6,7 @@ import ServicesPage from './pages/Services/ServicesPage';
 import ServiceItemsPage from './pages/ServiceItems/ServiceItemsPage';
 import WellsPage from './pages/Wells/WellsPage';
 import CustomersPage from './pages/Customers/CustomersPage';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 import App from './App';
 
 import './index.css';
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
+    errorElement: <PageNotFound />,
     children: [
       {
         path: '/servicos',
