@@ -1,6 +1,7 @@
 import SideMenuLogo from './SideMenuLogo';
 import SideMenuItem from './SideMenuItem';
 import SideMenuExpandHandler from './SideMenuExpandHandler';
+import SideMenuLogOut from './SideMenuLogOut';
 import { useAtomValue } from 'jotai';
 import { sideMenuItems } from '../../constants';
 import { isSideMenuOpenAtom } from '../../atoms';
@@ -28,11 +29,7 @@ export default function SideMenu(): ReactElement {
           className="absolute bottom-0 p-5 transition-[width] duration-300"
           style={{ width: isOpen ? '200px' : '74px' }}
         >
-          <SideMenuItem
-            label="Sair"
-            onClickItem={(): void => {}}
-            svgName="logout"
-          />
+          <SideMenuLogOut />
         </div>
       </div>
     </div>

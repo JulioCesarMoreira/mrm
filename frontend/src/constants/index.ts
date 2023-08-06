@@ -1,24 +1,29 @@
+import { nanoid } from 'nanoid';
 import type { SideMenuItemProperties } from '../components/SideMenu/types';
 
-export const sideMenuItems: SideMenuItemProperties[] = [
+export const sideMenuItems: (SideMenuItemProperties & { key: string })[] = [
   {
+    key: nanoid(),
     label: 'Serviços',
-    onClickItem: (): void => {},
     svgName: 'services',
+    route: '/servicos',
   },
   {
+    key: nanoid(),
     label: 'Poços',
-    onClickItem: (): void => {},
     svgName: 'well',
+    route: '/pocos',
   },
   {
+    key: nanoid(),
     label: 'Itens de serviço',
-    onClickItem: (): void => {},
     svgName: 'service_item',
+    route: '/itens-servico',
   },
   {
+    key: nanoid(),
     label: 'Clientes',
-    onClickItem: (): void => {},
     svgName: 'customers',
+    route: '/clientes',
   },
 ];
