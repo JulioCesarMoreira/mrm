@@ -7,7 +7,7 @@ import PasswordInput from './PasswordInput';
 import EmailInput from './EmailInput';
 import { LoginFields } from './types';
 
-export default function Login(): ReactElement {
+export default function LoginPage(): ReactElement {
   function onLogin(data: LoginFields): void {
     console.log('data', data);
   }
