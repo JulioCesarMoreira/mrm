@@ -1,4 +1,4 @@
-import { Tenant } from '../../entities';
+import { Tenant } from '@application/core/entities';
 
 export class CreateTenantResponseDto {
   success: boolean;

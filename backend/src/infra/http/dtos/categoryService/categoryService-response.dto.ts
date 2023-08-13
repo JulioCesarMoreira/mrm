@@ -1,18 +1,22 @@
-import { CategoryService } from '@application/core/entities';
-
 export class CreateCategoryServiceResponseDto {
-  sucess: boolean;
+  id: number;
 
-  createdCategoryService: CategoryService;
+  name: string;
+
+  subCategory: 'SUPLIE' | 'SERVICE';
+
+  tenantId: string;
 }
 
 export class GetCategoryServiceResponseDto {
-  CategoryService: {
+  categoryService: {
     id: number;
 
     subCategory: 'SUPLIE' | 'SERVICE';
 
     name: string;
+
+    tenantId: string;
   };
 }
 
@@ -23,6 +27,8 @@ export class FetchCategoryServicesResponseDto {
     subCategory: 'SUPLIE' | 'SERVICE';
 
     name: string;
+
+    tenantId: string;
   }[];
 }
 
@@ -30,4 +36,12 @@ export class DeleteCategoryServiceResponseDto {
   sucess: boolean;
 }
 
-export class UpdateCategoryServiceResponseDto extends CategoryService {}
+export class UpdateCategoryServiceResponseDto {
+  id: number;
+
+  name: string;
+
+  subCategory: 'SUPLIE' | 'SERVICE';
+
+  tenantId: string;
+}
