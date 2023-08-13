@@ -36,10 +36,6 @@ function getHttpStatusForPrismaError(exceptionCode: string): number {
     case 'P1017':
     case 'P2000':
     case 'P2001':
-    case 'P2002':
-    case 'P2003':
-    case 'P2004':
-    case 'P2005':
     case 'P2006':
     case 'P2007':
     case 'P2008':
