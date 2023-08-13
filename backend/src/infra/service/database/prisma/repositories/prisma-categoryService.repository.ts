@@ -5,10 +5,12 @@ import { CategoryService } from '@application/core/entities';
 import {
   FetchCategoryServicesDto,
   UpdateCategoryServiceDto,
-} from '@application/core/dtos/categoryService';
+} from '@infra/http/dtos/categoryService';
 
 @Injectable()
-export class PrismaClientRepository implements ICategoryServiceRepository {
+export class PrismaCategoryServiceRepository
+  implements ICategoryServiceRepository
+{
   prisma = new PrismaClient();
 
   async create(categoryService: CategoryService): Promise<CategoryService> {

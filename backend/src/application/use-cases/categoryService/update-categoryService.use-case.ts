@@ -1,6 +1,6 @@
 import { CategoryService } from '@application/core/entities';
 import { ICategoryServiceRepository } from '@application/core/repositories';
-import { UpdateCategoryServiceDto } from '@application/core/dtos/categoryService';
+import { UpdateCategoryServiceDto } from '@infra/http/dtos/categoryService';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

@@ -1,8 +1,8 @@
 import {
   FetchCategoryServicesDto,
   UpdateCategoryServiceDto,
-} from '../dtos/categoryService';
-import { CategoryService } from '../entities/categoryService.entity';
+} from '@infra/http/dtos/categoryService';
+import { CategoryService } from '@application/core/entities/categoryService.entity';
 
 export abstract class ICategoryServiceRepository {
   abstract create(entity: CategoryService): Promise<CategoryService>;
