@@ -13,7 +13,7 @@
     "start:prod": "node dist/main",
     "prisma:migrate": "pnpm dlx prisma migrate dev --schema=./prisma/schema.prisma",
     "test": "jest",
-    "test:api": "pnpm test -- ./_tests/*.api.spec.ts"
+    "test:api": "pnpm test -- ./__tests__/**/*.api.spec.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.4.2",
@@ -22,7 +22,9 @@
     "@nestjs/platform-fastify": "^9.4.2",
     "@prisma/client": "4.15.0",
     "backend": "workspace:^",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "nestjs-prisma": "^0.22.0",
     "none": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
