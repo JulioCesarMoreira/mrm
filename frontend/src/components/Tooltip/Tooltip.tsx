@@ -1,6 +1,6 @@
 import Tippy from '@tippyjs/react';
-import { twMerge } from 'tailwind-merge';
 import { getArrowPosition } from './getArrowPosition';
+import { cn } from '@lib/utils';
 import type { ReactElement } from 'react';
 import type { TooltipProperties } from './types';
 import './tooltip.css';
@@ -19,7 +19,7 @@ export default function Tooltip({
       placement={position}
       disabled={disabled}
       hideOnClick
-      className={twMerge(
+      className={cn(
         'break-words rounded-md p-2 text-center text-xs text-white after:border-dark-blue bg-dark-blue shadow-lg after:absolute after:border-4 after:border-solid',
         getArrowPosition(position),
         className,

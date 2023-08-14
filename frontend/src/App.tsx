@@ -3,7 +3,7 @@ import SideMenu from './components/SideMenu/SideMenu';
 
 function App() {
   return (
-    <div className="max-w-[100vw] h-screen max-h-[100vh] bg-gray-scale-800 flex">
+    <div className="max-w-[100vw] h-screen max-h-[100vh] flex">
       <SideMenu />
       <Outlet />
     </div>

@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ServicesPage from './pages/Services/ServicesPage';
 import ServiceItemsPage from './pages/ServiceItems/ServiceItemsPage';
 import WellsPage from './pages/Wells/WellsPage';
-import CustomersPage from './pages/Customers/CustomersPage';
+import ClientsPage from './pages/Clients/ClientsPage';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import App from './App';
 
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/clientes',
-        element: <CustomersPage />,
+        element: <ClientsPage />,
       },
     ],
   },
