@@ -1,8 +1,8 @@
 import Svg from '../Svg/Svg';
 import Tooltip from '../Tooltip/Tooltip';
 import { useAtomValue } from 'jotai';
-import { twMerge } from 'tailwind-merge';
 import { isSideMenuOpenAtom } from '../../atoms';
+import { cn } from '@lib/utils';
 import type { ReactElement } from 'react';
 
 export default function SideMenuLogOut(): ReactElement {
@@ -29,7 +29,7 @@ export default function SideMenuLogOut(): ReactElement {
           className="w-5 h-5 fill-gray-scale-500 flex-shrink-0"
         />
         <p
-          className={twMerge(
+          className={cn(
             'transition-all text-sm font-medium duration-200 text-gray-scale-700 whitespace-nowrap',
             isOpen ? 'w-auto opacity-100' : 'pointer-events-none opacity-0 w-0',
           )}
