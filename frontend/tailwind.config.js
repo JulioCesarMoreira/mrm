@@ -7,6 +7,8 @@ module.exports = {
         'hidro-blue-300': '#006aff',
         'dark-blue': '#1C232C',
 
+        'gray-d9': '#D9D9D9',
+
         'gray-scale-200': '#353A41',
         'gray-scale-300': '#52575F',
         'gray-scale-500': '#797E86',
