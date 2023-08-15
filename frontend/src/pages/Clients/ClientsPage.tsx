@@ -1,27 +1,27 @@
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, Pencil, Trash2 } from 'lucide-react';
 import { Button } from '@components/ui/button';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@components/ui/table';
 import { Client } from './types';
-import { useState } from 'react';
+import Tooltip from '@components/Tooltip/Tooltip';
+import DataTable from '@components/DataTable/DataTable';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from '@components/ui/alert-dialog';
+import DataTableTitle from '@components/DataTable/DataTableTitle';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@components/ui/dialog';
 
 const data: Client[] = [
   {
@@ -36,9 +36,22 @@ const data: Client[] = [
     contactPhone: '42988884444',
     cpfCnpj: '0123456789',
   },
+
   {
-    id: 'derv1ws0',
-    name: 'Henrique Luhm 3',
+    id: '5kma53ae',
+    name: 'Henrique Luhm 4',
+    contactPhone: '42988884444',
+    cpfCnpj: '0123456789',
+  },
+  {
+    id: 'bhqecj4p',
+    name: 'Henrique Luhm 5',
+    contactPhone: '42988884444',
+    cpfCnpj: '0123456789',
+  },
+  {
+    id: '3u1reuv4',
+    name: 'Henrique Luhm 2',
     contactPhone: '42988884444',
     cpfCnpj: '0123456789',
   },
@@ -54,9 +67,21 @@ const data: Client[] = [
     contactPhone: '42988884444',
     cpfCnpj: '0123456789',
   },
+  {
+    id: '3u1reuv4',
+    name: 'Henrique Luhm 2',
+    contactPhone: '42988884444',
+    cpfCnpj: '0123456789',
+  },
+  {
+    id: '3u1reuv4',
+    name: 'Henrique Luhm 2',
+    contactPhone: '42988884444',
+    cpfCnpj: '0123456789',
+  },
 ];
 
-export const columns: ColumnDef<Client>[] = [
+const columns: ColumnDef<Client>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
@@ -66,13 +91,22 @@ export const columns: ColumnDef<Client>[] = [
     accessorKey: 'name',
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        <Tooltip
+          position="top"
+          text={
+            column.getIsSorted() === 'asc'
+              ? 'Ordenar decrescente'
+              : 'Ordenar crescente'
+          }
         >
-          Nome
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Nome
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        </Tooltip>
       );
     },
     cell: ({ row }) => <div className="lowercase">{row.getValue('name')}</div>,
@@ -93,24 +127,49 @@ export const columns: ColumnDef<Client>[] = [
   },
   {
     id: 'actions',
-    enableHiding: false,
     cell: ({ row }) => {
       return (
         <div className="flex-center">
-          <Button variant="ghost" className="hover:bg-transparent group">
-            <Pencil
-              size={18}
-              color="#797E86"
-              className="duration-200 group-hover:stroke-hidro-blue-300"
-            />
-          </Button>
-          <Button variant="ghost" className="hover:bg-transparent group">
-            <Trash2
-              size={18}
-              color="#797E86"
-              className="duration-200 group-hover:stroke-hidro-blue-300"
-            />
-          </Button>
+          <Tooltip position="bottom" text="Editar">
+            <Button variant="ghost" className="hover:bg-transparent group">
+              <Pencil
+                size={18}
+                color="#797E86"
+                className="duration-200 group-hover:stroke-hidro-blue-300"
+              />
+            </Button>
+          </Tooltip>
+
+          <AlertDialog>
+            <Tooltip position="bottom" text="Excluir">
+              <AlertDialogTrigger>
+                <Button variant="ghost" className="hover:bg-transparent group">
+                  <Trash2
+                    size={18}
+                    color="#797E86"
+                    className="duration-200 group-hover:stroke-hidro-blue-300"
+                  />
+                </Button>
+              </AlertDialogTrigger>
+            </Tooltip>
+            <AlertDialogContent className="bg-white">
+              <AlertDialogHeader>
+                <AlertDialogDescription className="font-semibold text-center text-base text-gray-scale-300">
+                  <span>
+                    Você está prestes a excluir o cliente {row.original.name}.
+                  </span>
+                  <br />
+                  <span>Deseja continuar?</span>
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="border-t border-gray-scale-800 pt-4">
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction className="!bg-red-auxiliary text-white">
+                  Sim, excluir cliente
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       );
     },
@@ -118,111 +177,30 @@ export const columns: ColumnDef<Client>[] = [
 ];
 
 export default function ClientsPage() {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = useState({});
-
-  const table = useReactTable({
-    data,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
-  });
-
   return (
-    <div className="w-full m-10">
-      <div className="flex items-center justify-between py-4">
-        <p className="text-gray-scale-400 font-semibold text-xl">Clientes</p>
-        <Button>Adicionar cliente</Button>
+    <div className="flex flex-col w-full">
+      <div className="w-full border-b border-gray-scale-800 !min-h-[100px] !h-[100px]">
+        Filters will go here
       </div>
 
-      <div className="border rounded-lg">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+      <div className="w-full pb-10 px-10">
+        <Dialog>
+          <DataTableTitle
+            title={'Clientes'}
+            addElementButtonLabel="Adicionar cliente"
+          />
+          <DialogContent className="bg-white">
+            <DialogHeader>
+              <DialogTitle>Are you sure absolutely sure?</DialogTitle>
+              <DialogDescription>
+                This action cannot be undone. This will permanently delete your
+                account and remove your data from our servers.
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
 
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          Página {table.getState().pagination.pageIndex + 1} de{' '}
-          {table.getPageCount()} {table.getPageCount() > 1 && 'páginas'}
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
+        <DataTable data={data} columns={columns} />
       </div>
     </div>
   );
