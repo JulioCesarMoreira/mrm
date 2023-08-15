@@ -25,10 +25,7 @@ export default function SideMenu(): ReactElement {
           ))}
         </div>
 
-        <div
-          className="absolute bottom-0 p-5 transition-[width] duration-300"
-          style={{ width: isOpen ? '200px' : '74px' }}
-        >
+        <div className="absolute bottom-0 p-5 transition-[width] duration-300 w-full">
           <SideMenuLogOut />
         </div>
       </div>
