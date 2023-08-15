@@ -9,7 +9,7 @@ import ClientsPage from './pages/Clients/ClientsPage';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import App from './App';
 
-import './index.css';
+import './global.css';
 
 const router = createBrowserRouter([
   {

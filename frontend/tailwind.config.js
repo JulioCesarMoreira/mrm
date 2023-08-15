@@ -21,6 +21,7 @@ module.exports = {
         'gray-scale-600': '#A0A7AF',
         'gray-scale-700': '#C3C8CE',
         'gray-scale-800': '#E8EAED',
+        'gray-scale-900': '#F3F5F6',
 
         'red-auxiliary': '#CB0000',
 

@@ -5,7 +5,9 @@ function App() {
   return (
     <div className="max-w-[100vw] h-screen max-h-[100vh] flex">
       <SideMenu />
-      <Outlet />
+      <div className="overflow-auto w-full">
+        <Outlet />
+      </div>
     </div>
   );
 }
