@@ -2,16 +2,22 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import ServicesPage from './pages/Services/ServicesPage';
-import ServiceItemsPage from './pages/ServiceItems/ServiceItemsPage';
+import LoginPage from './pages/Login/LoginPage';
 import WellsPage from './pages/Wells/WellsPage';
 import ClientsPage from './pages/Clients/ClientsPage';
+import ServicesPage from './pages/Services/ServicesPage';
+import ServiceItemsPage from './pages/ServiceItems/ServiceItemsPage';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import App from './App';
 
 import './global.css';
 
 const router = createBrowserRouter([
+  {
+    path: '/login',
+    element: <LoginPage />,
+    errorElement: <PageNotFound />,
+  },
   {
     path: '/',
     element: <App />,

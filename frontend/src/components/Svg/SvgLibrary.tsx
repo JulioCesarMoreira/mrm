@@ -1,4 +1,6 @@
 export { default as hidro_ponta } from '../../assets/svgs/hidro_ponta.svg';
+export { default as visibility } from '../../assets/svgs/visibility.svg';
+export { default as visibility_off } from '../../assets/svgs/visibility_off.svg';
 export { default as customers } from '../../assets/svgs/customers.svg';
 export { default as chevron_right } from '../../assets/svgs/chevron_right.svg';
 export { default as logout } from '../../assets/svgs/logout.svg';
