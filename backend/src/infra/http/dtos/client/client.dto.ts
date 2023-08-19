@@ -5,7 +5,9 @@ import {
   IsString,
   IsUUID,
   MaxLength,
+  Validate,
 } from 'class-validator';
+import { CpfCnpjValidation } from 'src/utils/documentValidation';
 
 export class CreateClientDto {
   @IsString()
@@ -25,6 +27,7 @@ export class CreateClientDto {
   @IsUUID()
   tenantId: string;
 
+  @Validate(CpfCnpjValidation)
   @IsString()
   @MaxLength(14)
   cpfCnpj: string;

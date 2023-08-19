@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import {
   CreateClientDto,
@@ -100,7 +100,7 @@ export class ClientController {
     return fetchCLientsResponse;
   }
 
-  @Put(':id')
+  @Patch(':id')
   async updateClient(
     @Param() parameters: ClientIdDto,
     @Body() body: UpdateClientDto,
