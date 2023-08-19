@@ -3,11 +3,11 @@ import { ITenantRepository } from '@application/core/repositories';
 import { Tenant } from '@application/core/entities';
 
 @Injectable()
-export class CreateTenantUseCase {
+export class GetTenantUseCase {
   constructor(private tenantRepository: ITenantRepository) {}
 
-  async createTenant(tenant: Tenant): Promise<Tenant> {
-    const createdTenant = await this.tenantRepository.create(tenant);
+  async createTenant(tenantId: string): Promise<Tenant> {
+    const createdTenant = await this.tenantRepository.get(tenantId);
 
     return createdTenant;
   }

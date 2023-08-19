@@ -7,14 +7,13 @@ import { Tenant } from '@application/core/entities';
 export class PrismaTenantRepository implements ITenantRepository {
   prisma = new PrismaClient();
 
-  async create(tenant: Tenant): Promise<Tenant> {
-    const createdTenant = await this.prisma.tenant.create({
-      data: {
-        id: tenant.id,
-        cognitoId: tenant.cognitoId,
+  async get(tenantId: string): Promise<Tenant | null> {
+    const getTenant = await this.prisma.tenant.findUnique({
+      where: {
+        id: tenantId,
       },
     });
 
-    return createdTenant;
+    return !!getTenant ? getTenant : null;
   }
 }
