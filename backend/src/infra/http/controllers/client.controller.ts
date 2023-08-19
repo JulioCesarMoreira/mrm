@@ -75,7 +75,9 @@ export class ClientController {
         getClientResponse = ClientMapper.getClientToController(clientEntity);
       }
     } catch (error) {
-      console.log('Error: ', error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
     return getClientResponse;
   }
@@ -94,7 +96,9 @@ export class ClientController {
       fetchCLientsResponse =
         ClientMapper.fetchClientToController(fetchClientsList);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return fetchCLientsResponse;
@@ -116,7 +120,9 @@ export class ClientController {
       updateClientResponse =
         ClientMapper.updateClientToController(updateClient);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return updateClientResponse;
@@ -135,7 +141,9 @@ export class ClientController {
       deleteClientResponse =
         ClientMapper.deleteClientToController(deleteClient);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return deleteClientResponse;
