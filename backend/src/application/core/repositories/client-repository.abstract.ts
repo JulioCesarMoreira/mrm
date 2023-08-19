@@ -1,8 +1,5 @@
 import { Client } from '@prisma/client';
-import {
-  FetchClientsDto,
-  UpdateClientDto,
-} from '@application/core/dtos/client';
+import { FetchClientsDto, UpdateClientDto } from '@infra/http/dtos/client';
 
 export abstract class IClientRepository {
   abstract create(entity: Client): Promise<Client>;

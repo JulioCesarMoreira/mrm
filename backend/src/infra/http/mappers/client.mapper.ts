@@ -4,7 +4,7 @@ import {
   FetchClientsResponseDto,
   GetClientResponseDto,
   UpdateClientResponseDto,
-} from '@application/core/dtos/client';
+} from '@infra/http/dtos/client';
 import { Client } from '@application/core/entities';
 
 export class ClientMapper {
@@ -23,9 +23,9 @@ export class ClientMapper {
   public static getClientToController(
     clientEntity: Client,
   ): GetClientResponseDto {
-    const getClientResponseDto = new GetClientResponseDto();
+    let getClientResponseDto = new GetClientResponseDto();
 
-    getClientResponseDto.client = {
+    getClientResponseDto = {
       id: clientEntity.id,
       contactName: clientEntity.contactName,
       contactPhone: clientEntity.contactPhone,

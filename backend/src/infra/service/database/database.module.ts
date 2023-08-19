@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import {
+  ICategoryServiceRepository,
   IClientRepository,
   ITenantRepository,
 } from '@application/core/repositories';
 import { PrismaDataService } from './prisma/prisma-database.service';
 import { PrismaTenantRepository } from './prisma/repositories/prisma-tenant.repository';
 import { PrismaClientRepository } from './prisma/repositories/prisma-client.repository';
+import { PrismaCategoryServiceRepository } from './prisma/repositories/prisma-categoryService.repository';
 
 @Module({
   imports: [],
@@ -19,6 +21,10 @@ import { PrismaClientRepository } from './prisma/repositories/prisma-client.repo
       provide: IClientRepository,
       useClass: PrismaClientRepository,
     },
+    {
+      provide: ICategoryServiceRepository,
+      useClass: PrismaCategoryServiceRepository,
+    },
   ],
   exports: [
     {
@@ -28,6 +34,10 @@ import { PrismaClientRepository } from './prisma/repositories/prisma-client.repo
     {
       provide: IClientRepository,
       useClass: PrismaClientRepository,
+    },
+    {
+      provide: ICategoryServiceRepository,
+      useClass: PrismaCategoryServiceRepository,
     },
   ],
 })

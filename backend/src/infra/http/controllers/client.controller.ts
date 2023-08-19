@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import {
   CreateClientDto,
@@ -17,7 +17,7 @@ import {
   UpdateClientDto,
   UpdateClientResponseDto,
   DeleteClientResponseDto,
-} from '@application/core/dtos/client';
+} from '@infra/http/dtos/client';
 import {
   CreateClientUseCase,
   GetClientUseCase,
@@ -25,7 +25,8 @@ import {
   UpdateClientUseCase,
   DeleteClientUseCase,
 } from '@application/use-cases/client';
-import { ClientMapper } from '../mappers/client.mapper';
+import { ClientMapper } from '@infra/http/mappers/client.mapper';
+import { Prisma } from '@prisma/client';
 
 @Controller('/client')
 export class ClientController {
@@ -41,7 +42,7 @@ export class ClientController {
   async createClient(
     @Body() clientDto: CreateClientDto,
   ): Promise<CreateClientResponseDto> {
-    const createClientResponse = new CreateClientResponseDto();
+    let createClientResponse = new CreateClientResponseDto();
 
     try {
       const clientEntity = ClientMapper.createClientToDomain(clientDto);
@@ -50,12 +51,11 @@ export class ClientController {
         clientEntity,
       );
 
-      createClientResponse.sucess = true;
-      createClientResponse.createdClient = createdClient;
+      createClientResponse = createdClient;
     } catch (error) {
-      console.log(error);
-
-      createClientResponse.sucess = false;
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return createClientResponse;
@@ -66,15 +66,18 @@ export class ClientController {
     @Param() parameters: ClientIdDto,
   ): Promise<GetClientResponseDto> {
     let getClientResponse = {} as GetClientResponseDto;
-
     try {
       const clientEntity = await this.getClientUsecase.getClient(
         Number(parameters.id),
       );
 
-      getClientResponse = ClientMapper.getClientToController(clientEntity);
+      if (clientEntity) {
+        getClientResponse = ClientMapper.getClientToController(clientEntity);
+      }
     } catch (error) {
-      console.log('Error: ', error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
     return getClientResponse;
   }
@@ -93,13 +96,15 @@ export class ClientController {
       fetchCLientsResponse =
         ClientMapper.fetchClientToController(fetchClientsList);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return fetchCLientsResponse;
   }
 
-  @Put(':id')
+  @Patch(':id')
   async updateClient(
     @Param() parameters: ClientIdDto,
     @Body() body: UpdateClientDto,
@@ -115,7 +120,9 @@ export class ClientController {
       updateClientResponse =
         ClientMapper.updateClientToController(updateClient);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return updateClientResponse;
@@ -134,7 +141,9 @@ export class ClientController {
       deleteClientResponse =
         ClientMapper.deleteClientToController(deleteClient);
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return deleteClientResponse;

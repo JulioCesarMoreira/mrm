@@ -2,7 +2,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 import {
   CreateTenantResponseDto,
   CreateTenantDto,
-} from '@application/core/dtos/tenant';
+} from '@infra/http/dtos/tenant';
 import { CreateTenantUseCase } from '@application/use-cases/tenant';
 
 @Controller('/tenant')

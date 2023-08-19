@@ -1,4 +1,4 @@
-import { FetchClientsDto } from '@application/core/dtos/client';
+import { FetchClientsDto } from '@infra/http/dtos/client';
 import { Client } from '@application/core/entities';
 import { IClientRepository } from '@application/core/repositories';
 import { Injectable } from '@nestjs/common';

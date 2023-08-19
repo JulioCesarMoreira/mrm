@@ -6,7 +6,7 @@ import { Injectable } from '@nestjs/common';
 export class GetClientUseCase {
   constructor(private clienteRepository: IClientRepository) {}
 
-  async getClient(id: number): Promise<Client> {
+  async getClient(id: number): Promise<Client | null> {
     const getClient = await this.clienteRepository.get(id);
 
     return getClient;
