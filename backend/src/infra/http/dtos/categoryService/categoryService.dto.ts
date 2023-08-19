@@ -1,4 +1,10 @@
 import {
+  CreateCategoryServiceDto as CreateCategoryServiceDtoCore,
+  UpdateCategoryServiceDto as UpdateCategoryServiceDtoCore,
+  GetCategoryServiceIdDto as GetCategoryServiceIdDtoCore,
+  FetchCategoryServicesDto as FetchCategoryServicesDtoCore,
+} from '@application/core/dtos/categoryService.dto';
+import {
   IsEnum,
   IsNotEmpty,
   IsInt,
@@ -14,7 +20,7 @@ enum SubCategoryType {
   SERVICE = 'SERVICE',
 }
 
-export class CreateCategoryServiceDto {
+export class CreateCategoryServiceDto implements CreateCategoryServiceDtoCore {
   @IsString()
   @IsNotEmpty()
   @MaxLength(191)
@@ -29,12 +35,12 @@ export class CreateCategoryServiceDto {
   tenantId: string;
 }
 
-export class GetCategoryServiceIdDto {
+export class GetCategoryServiceIdDto implements GetCategoryServiceIdDtoCore {
   @IsNumberString()
   id: number;
 }
 
-export class FetchCategoryServicesDto {
+export class FetchCategoryServicesDto implements FetchCategoryServicesDtoCore {
   @IsInt()
   @IsOptional()
   @MaxLength(11)
@@ -54,7 +60,7 @@ export class FetchCategoryServicesDto {
   tenantId?: string;
 }
 
-export class UpdateCategoryServiceDto {
+export class UpdateCategoryServiceDto implements UpdateCategoryServiceDtoCore {
   @IsEnum(SubCategoryType)
   subCategory?: SubCategoryType;
 

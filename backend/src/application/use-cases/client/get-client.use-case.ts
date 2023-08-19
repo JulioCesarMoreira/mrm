@@ -9,6 +9,6 @@ export class GetClientUseCase {
   async getClient(id: number): Promise<Client | null> {
     const getClient = await this.clienteRepository.get(id);
 
-    return getClient;
+    return !!getClient ? getClient : null;
   }
 }

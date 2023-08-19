@@ -6,6 +6,7 @@ import {
   FetchCategoryServicesDto,
   UpdateCategoryServiceDto,
 } from '@infra/http/dtos/categoryService';
+import { CreateCategoryServiceDto } from '@application/core/dtos/categoryService.dto';
 
 @Injectable()
 export class PrismaCategoryServiceRepository
@@ -13,7 +14,9 @@ export class PrismaCategoryServiceRepository
 {
   prisma = new PrismaClient();
 
-  async create(categoryService: CategoryService): Promise<CategoryService> {
+  async create(
+    categoryService: CreateCategoryServiceDto,
+  ): Promise<CategoryService> {
     const createdCategoryService = await this.prisma.categoryService.create({
       data: {
         name: categoryService.name,
