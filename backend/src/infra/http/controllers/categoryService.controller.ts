@@ -4,8 +4,8 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
 import {
   CreateCategoryServiceDto,
@@ -72,10 +72,12 @@ export class CategoryServiceController {
           Number(parameters.id),
         );
 
-      getCategoryServiceResponse =
-        CategoryServiceMapper.getCategoryServiceToController(
-          categoryServiceEntity,
-        );
+      if (categoryServiceEntity) {
+        getCategoryServiceResponse =
+          CategoryServiceMapper.getCategoryServiceToController(
+            categoryServiceEntity,
+          );
+      }
     } catch (error) {
       console.log('Error: ', error);
     }
@@ -103,7 +105,7 @@ export class CategoryServiceController {
     return fetchCLientsResponse;
   }
 
-  @Put(':id')
+  @Patch(':id')
   async updateCategoryService(
     @Param() parameters: GetCategoryServiceIdDto,
     @Body() body: UpdateCategoryServiceDto,

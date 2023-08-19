@@ -9,15 +9,13 @@ export class CreateCategoryServiceResponseDto {
 }
 
 export class GetCategoryServiceResponseDto {
-  categoryService: {
-    id: number;
+  id: number;
 
-    subCategory: 'SUPLIE' | 'SERVICE';
+  subCategory: 'SUPLIE' | 'SERVICE';
 
-    name: string;
+  name: string;
 
-    tenantId: string;
-  };
+  tenantId: string;
 }
 
 export class FetchCategoryServicesResponseDto {

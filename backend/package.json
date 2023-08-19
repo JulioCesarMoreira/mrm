@@ -13,7 +13,7 @@
     "start:prod": "node dist/main",
     "prisma:migrate": "pnpm dlx prisma migrate dev --schema=./prisma/schema.prisma",
     "test": "jest",
-    "test:api": "pnpm test -- ./__tests__/**/*.api.spec.ts"
+    "test:api": "pnpm test -- ./__tests__/*.api.spec.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.4.2",

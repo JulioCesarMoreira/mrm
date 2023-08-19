@@ -5,6 +5,8 @@ import {
   IsString,
   IsUUID,
   MaxLength,
+  IsNumberString,
+  IsOptional,
 } from 'class-validator';
 
 enum SubCategoryType {
@@ -28,22 +30,27 @@ export class CreateCategoryServiceDto {
 }
 
 export class GetCategoryServiceIdDto {
-  @IsInt()
-  @IsNotEmpty()
+  @IsNumberString()
   id: number;
 }
 
 export class FetchCategoryServicesDto {
   @IsInt()
+  @IsOptional()
+  @MaxLength(11)
   id?: number;
 
   @IsString()
+  @IsOptional()
+  @MaxLength(191)
   name?: string;
 
   @IsEnum(SubCategoryType)
+  @IsOptional()
   subCategory?: SubCategoryType;
 
   @IsUUID()
+  @IsOptional()
   tenantId?: string;
 }
 

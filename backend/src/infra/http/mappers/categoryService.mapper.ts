@@ -23,9 +23,9 @@ export class CategoryServiceMapper {
   public static getCategoryServiceToController(
     categoryServiceEntity: CategoryService,
   ): GetCategoryServiceResponseDto {
-    const getCategoryServiceResponseDto = new GetCategoryServiceResponseDto();
+    let getCategoryServiceResponseDto = new GetCategoryServiceResponseDto();
 
-    getCategoryServiceResponseDto.categoryService = {
+    getCategoryServiceResponseDto = {
       id: categoryServiceEntity.id,
       name: categoryServiceEntity.name,
       subCategory: categoryServiceEntity.subCategory,
