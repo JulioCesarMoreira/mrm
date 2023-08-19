@@ -9,9 +9,10 @@ async function bootstrap(): Promise<void> {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: false,
+      transform: true,
       transformOptions: { enableImplicitConversion: false },
-      forbidNonWhitelisted: false,
+      forbidNonWhitelisted: true,
+      whitelist: true,
       exceptionFactory: (
         validationErrors: ValidationError[] = [],
       ): BadRequestException => {
