@@ -1,25 +1,31 @@
 import { Client } from '@application/core/entities';
 
 export class CreateClientResponseDto {
-  sucess: boolean;
+  id: number;
 
-  createdClient: Client;
+  contactName: string;
+
+  contactPhone: string;
+
+  cpfCnpj: string;
+
+  name: string;
+
+  tenantId: string;
 }
 
 export class GetClientResponseDto {
-  client: {
-    id: number;
+  id: number;
 
-    contactName: string;
+  contactName: string;
 
-    contactPhone: string;
+  contactPhone: string;
 
-    cpfCnpj: string;
+  cpfCnpj: string;
 
-    name: string;
+  name: string;
 
-    tenantId: string;
-  };
+  tenantId: string;
 }
 
 export class FetchClientsResponseDto {

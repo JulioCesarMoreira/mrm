@@ -1,6 +1,6 @@
 import { Client } from '@application/core/entities';
 import { IClientRepository } from '@application/core/repositories';
-import { UpdateClientDto } from '@application/core/dtos/client';
+import { UpdateClientDto } from '@infra/http/dtos/client';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
