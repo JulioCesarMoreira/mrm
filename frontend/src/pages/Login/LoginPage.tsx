@@ -3,8 +3,8 @@ import FormWrapper from '../../components/FormWrapper/FormWrapper';
 import type { ReactElement } from 'react';
 import Button from '../../components/Button/Button';
 import Svg from '../../components/Svg/Svg';
-import PasswordInput from './PasswordInput';
-import EmailInput from './EmailInput';
+import PasswordInput from './components/PasswordInput';
+import EmailInput from './components/EmailInput';
 import { LoginFields } from './types';
 
 export default function LoginPage(): ReactElement {

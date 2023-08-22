@@ -1,6 +1,6 @@
+import { Input } from '@components/FormFields/Input';
+import Svg from '@components/Svg/Svg';
 import { ReactElement, useState } from 'react';
-import Svg from '../../components/Svg/Svg';
-import { Input } from '../../components/FormFields/Input';
 
 export default function PasswordInput(): ReactElement {
   const [visible, setVisible] = useState<boolean>(false);

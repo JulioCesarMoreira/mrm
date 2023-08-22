@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Input } from '../../components/FormFields/Input';
+import { Input } from '../../../components/FormFields/Input';
 
 export default function EmailInput(): ReactElement {
   return (
