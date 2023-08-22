@@ -69,10 +69,10 @@ export default function InputField({
   ) : (
     <div
       className={twMerge(
-        'border-1 relative flex max-h-[40px] w-full cursor-text items-center rounded-md bg-white p-[1.75px]',
+        'bg-gray-scale-900 ring-gray-scale-800 relative flex max-h-[40px] w-full cursor-text items-center rounded-md p-[1.75px] ring-1 duration-200',
         disabled ? '!pointer-events-none !cursor-not-allowed shadow-none ' : '',
-        focus && !error ? 'ring-1 ring-opacity-50' : '',
-        error && focus ? 'shadow-outline ring-1 ring-opacity-50' : '',
+        focus && !error ? 'ring-hidro-blue-500' : '',
+        error && focus ? 'shadow-outline ring-1' : '',
         className ?? '',
       )}
       onBlur={onBlur}
@@ -84,7 +84,7 @@ export default function InputField({
         {...field}
         disabled={disabled}
         className={twMerge(
-          'text-body h-[40px] max-h-[40px] w-full rounded-md border-0 border-none py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
+          'text-body bg-gray-scale-900 h-[40px] max-h-[40px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
           disabled
             ? '!pointer-events-none !cursor-not-allowed select-none shadow-none'
             : '',
