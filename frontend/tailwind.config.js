@@ -12,6 +12,7 @@ module.exports = {
       colors: {
         'main-blue': '#0100CA',
         'hidro-blue-300': '#006AFF',
+        'hidro-blue-500': '#4593FF',
         'dark-blue': '#1C232C',
 
         'gray-d9': '#D9D9D9',
