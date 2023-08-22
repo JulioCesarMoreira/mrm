@@ -1,5 +1,4 @@
 import {
-  IsNumber,
   IsNumberString,
   IsOptional,
   IsString,
@@ -24,13 +23,13 @@ export class CreateClientDto {
   @MaxLength(191)
   name: string;
 
-  @IsUUID()
-  tenantId: string;
-
   @Validate(CpfCnpjValidation)
   @IsString()
   @MaxLength(14)
   cpfCnpj: string;
+
+  @IsUUID()
+  tenantId: string;
 }
 
 export class ClientIdDto {
@@ -39,44 +38,39 @@ export class ClientIdDto {
 }
 
 export class FetchClientsDto {
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  @MaxLength(11)
-  id?: number;
+  @MaxLength(191)
+  name: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(191)
-  name?: string;
-
-  @IsString()
-  @IsOptional()
-  @MaxLength(191)
-  contactName?: string;
+  contactName: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(11)
-  contactPhone?: string;
+  contactPhone: string;
 
   @IsUUID()
   @IsOptional()
-  tenantId?: string;
+  tenantId: string;
 }
 
 export class UpdateClientDto {
   @IsString()
   @IsOptional()
   @MaxLength(191)
-  name?: string;
+  name: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(191)
-  contactName?: string;
+  contactName: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(11)
-  contactPhone?: string;
+  contactPhone: string;
 }

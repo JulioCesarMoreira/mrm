@@ -1,10 +1,6 @@
 import { Module } from '@nestjs/common';
-import {
-  TenantController,
-  ClientController,
-  CategoryServiceController,
-} from './controllers';
-import { CreateTenantUseCase } from '@application/use-cases/tenant';
+import { ClientController, CategoryServiceController } from './controllers';
+import { GetTenantUseCase } from '@application/use-cases/tenant';
 import { DatabaseModule } from '@infra/service/database/database.module';
 import {
   CreateClientUseCase,
@@ -23,9 +19,9 @@ import {
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [TenantController, ClientController, CategoryServiceController],
+  controllers: [ClientController, CategoryServiceController],
   providers: [
-    CreateTenantUseCase,
+    GetTenantUseCase,
 
     CreateClientUseCase,
     GetClientUseCase,

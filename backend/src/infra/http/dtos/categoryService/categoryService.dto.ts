@@ -1,7 +1,6 @@
 import {
   IsEnum,
   IsNotEmpty,
-  IsInt,
   IsString,
   IsUUID,
   MaxLength,
@@ -35,30 +34,25 @@ export class GetCategoryServiceIdDto {
 }
 
 export class FetchCategoryServicesDto {
-  @IsInt()
-  @IsOptional()
-  @MaxLength(11)
-  id?: number;
-
   @IsString()
   @IsOptional()
   @MaxLength(191)
-  name?: string;
+  name: string;
 
   @IsEnum(SubCategoryType)
   @IsOptional()
-  subCategory?: SubCategoryType;
+  subCategory: SubCategoryType;
 
   @IsUUID()
   @IsOptional()
-  tenantId?: string;
+  tenantId: string;
 }
 
 export class UpdateCategoryServiceDto {
   @IsEnum(SubCategoryType)
-  subCategory?: SubCategoryType;
+  subCategory: SubCategoryType;
 
   @IsString()
   @MaxLength(191)
-  name?: string;
+  name: string;
 }

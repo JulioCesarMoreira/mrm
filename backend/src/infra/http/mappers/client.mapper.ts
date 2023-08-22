@@ -57,7 +57,7 @@ export class ClientMapper {
     return fetchClientsResponseDto;
   }
 
-  public static updateClientToController(
+  public static updateClientToResponse(
     updatedClient: Client,
   ): UpdateClientResponseDto {
     const updateClientResponseDto = new UpdateClientResponseDto();

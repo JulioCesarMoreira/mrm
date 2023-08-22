@@ -100,6 +100,7 @@ describe('Client routes e2e testing', () => {
     const expectedClient = {
       ...updatePayload,
       tenantId: payload.tenantId,
+      id: clientId,
     };
 
     const updatedClient = { ...response.body };

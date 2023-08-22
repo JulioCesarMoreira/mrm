@@ -33,7 +33,6 @@ export class PrismaClientRepository implements IClientRepository {
   }
 
   async fetch({
-    id,
     contactName,
     contactPhone,
     name,
@@ -41,7 +40,6 @@ export class PrismaClientRepository implements IClientRepository {
   }: FetchClientsDto): Promise<Client[]> {
     const fetchClient = await this.prisma.client.findMany({
       where: {
-        ...(id && { id }),
         ...(contactName && { contactName: { contains: contactName } }),
         ...(contactPhone && { contactPhone: { contains: contactPhone } }),
         ...(name && { name: { contains: name } }),

@@ -1,1 +1,1 @@
-export * from './create.tenant.use-case';
+export * from './get.tenant.use-case';

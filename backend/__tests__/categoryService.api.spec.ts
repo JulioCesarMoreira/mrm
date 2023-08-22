@@ -95,6 +95,7 @@ describe('CategoryService routes e2e testing', () => {
     const expectedCategoryService = {
       ...updatePayload,
       tenantId: payload.tenantId,
+      id: categoryServiceId,
     };
 
     const updatedCategoryService = { ...response.body };

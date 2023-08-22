@@ -1,4 +1,3 @@
-import { FetchClientsDto } from '@infra/http/dtos/client';
 import { Client } from '@application/core/entities';
 import { IClientRepository } from '@application/core/repositories';
 import { Injectable } from '@nestjs/common';
@@ -7,7 +6,9 @@ import { Injectable } from '@nestjs/common';
 export class FetchClienteUseCase {
   constructor(private clientRepository: IClientRepository) {}
 
-  async fetchClient(filters: FetchClientsDto): Promise<Client[]> {
+  async fetchClient(
+    filters: Omit<Client, 'id' | 'cpfCnpj'>,
+  ): Promise<Client[]> {
     const fetchCliente = await this.clientRepository.fetch(filters);
 
     return fetchCliente;

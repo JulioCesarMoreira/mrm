@@ -8,7 +8,7 @@ export class FetchCategoryServiceeUseCase {
   constructor(private categoryServiceRepository: ICategoryServiceRepository) {}
 
   async fetchCategoryService(
-    filters: FetchCategoryServicesDto,
+    filters: Omit<CategoryService, 'id'>,
   ): Promise<CategoryService[]> {
     const fetchCategoryServicee = await this.categoryServiceRepository.fetch(
       filters,

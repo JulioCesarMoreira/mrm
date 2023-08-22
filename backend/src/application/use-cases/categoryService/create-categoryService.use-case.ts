@@ -7,7 +7,7 @@ export class CreateCategoryServiceUseCase {
   constructor(private categoryServiceRepository: ICategoryServiceRepository) {}
 
   async createCategoryService(
-    categoryService: CategoryService,
+    categoryService: Omit<CategoryService, 'id'>,
   ): Promise<CategoryService> {
     const createdCategoryService = await this.categoryServiceRepository.create(
       categoryService,

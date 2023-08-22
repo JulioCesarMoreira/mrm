@@ -1,6 +1,5 @@
 import { Client } from '@application/core/entities';
 import { IClientRepository } from '@application/core/repositories';
-import { UpdateClientDto } from '@infra/http/dtos/client';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -9,7 +8,7 @@ export class UpdateClientUseCase {
 
   async updateClient(
     clientId: number,
-    clientFields: UpdateClientDto,
+    clientFields: Omit<Client, 'id' | 'cpfCnpj' | 'tenantId'>,
   ): Promise<Client> {
     const updatedClient = await this.clientRepository.update(
       clientId,

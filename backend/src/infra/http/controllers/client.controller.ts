@@ -65,15 +65,13 @@ export class ClientController {
   async getClient(
     @Param() parameters: ClientIdDto,
   ): Promise<GetClientResponseDto> {
-    let getClientResponse = {} as GetClientResponseDto;
+    let getClientResponse: GetClientResponseDto;
     try {
       const clientEntity = await this.getClientUsecase.getClient(
         Number(parameters.id),
       );
 
-      if (clientEntity) {
-        getClientResponse = ClientMapper.getClientToController(clientEntity);
-      }
+      getClientResponse = clientEntity;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         throw new Prisma.PrismaClientKnownRequestError(error.message, error);
@@ -117,8 +115,7 @@ export class ClientController {
         body,
       );
 
-      updateClientResponse =
-        ClientMapper.updateClientToController(updateClient);
+      updateClientResponse = updateClient;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
         throw new Prisma.PrismaClientKnownRequestError(error.message, error);

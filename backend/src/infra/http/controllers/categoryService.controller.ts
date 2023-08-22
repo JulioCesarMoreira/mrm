@@ -26,6 +26,7 @@ import {
   UpdateCategoryServiceUseCase,
   DeleteCategoryServiceUseCase,
 } from '@application/use-cases/categoryService';
+import { Prisma } from '@prisma/client';
 
 @Controller('/categoryService')
 export class CategoryServiceController {
@@ -44,17 +45,16 @@ export class CategoryServiceController {
     let createCategoryServiceResponse = new CreateCategoryServiceResponseDto();
 
     try {
-      const categoryServiceEntity =
-        CategoryServiceMapper.createCategoryServiceToDomain(categoryServiceDto);
-
       const createdCategoryService =
         await this.createCategoryServiceUseCase.createCategoryService(
-          categoryServiceEntity,
+          categoryServiceDto,
         );
 
       createCategoryServiceResponse = createdCategoryService;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return createCategoryServiceResponse;
@@ -71,13 +71,7 @@ export class CategoryServiceController {
         await this.getCategoryServiceUsecase.getCategoryService(
           Number(parameters.id),
         );
-
-      if (categoryServiceEntity) {
-        getCategoryServiceResponse =
-          CategoryServiceMapper.getCategoryServiceToController(
-            categoryServiceEntity,
-          );
-      }
+      getCategoryServiceResponse = categoryServiceEntity;
     } catch (error) {
       console.log('Error: ', error);
     }
@@ -99,7 +93,9 @@ export class CategoryServiceController {
           fetchCategoryServicesList,
         );
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return fetchCLientsResponse;
@@ -119,12 +115,11 @@ export class CategoryServiceController {
           body,
         );
 
-      updateCategoryServiceResponse =
-        CategoryServiceMapper.updateCategoryServiceToController(
-          updateCategoryService,
-        );
+      updateCategoryServiceResponse = updateCategoryService;
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return updateCategoryServiceResponse;
@@ -146,7 +141,9 @@ export class CategoryServiceController {
           deleteCategoryService,
         );
     } catch (error) {
-      console.log(error);
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
+      }
     }
 
     return deleteCategoryServiceResponse;

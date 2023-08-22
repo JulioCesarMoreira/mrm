@@ -1,16 +1,17 @@
-import { Client } from '@prisma/client';
-import { FetchClientsDto, UpdateClientDto } from '@infra/http/dtos/client';
+import { Client } from '@application/core/entities';
 
 export abstract class IClientRepository {
-  abstract create(entity: Client): Promise<Client>;
+  abstract create(entity: Omit<Client, 'id'>): Promise<Client>;
 
   abstract get(id: number): Promise<Client | null>;
 
-  abstract fetch(filters: FetchClientsDto): Promise<Client[]>;
+  abstract fetch(
+    filters: Omit<Client, 'id' | 'cpfCnpj' | 'tenantId'>,
+  ): Promise<Client[]>;
 
   abstract update(
     entityId: number,
-    entityFields: UpdateClientDto,
+    entityFields: Omit<Client, 'id' | 'cpfCnpj' | 'tenantId'>,
   ): Promise<Client>;
 
   abstract delete(id: number): Promise<boolean>;

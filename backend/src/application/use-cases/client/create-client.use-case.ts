@@ -6,7 +6,7 @@ import { Client } from '@application/core/entities';
 export class CreateClientUseCase {
   constructor(private clientRepository: IClientRepository) {}
 
-  async createClient(client: Client): Promise<Client> {
+  async createClient(client: Omit<Client, 'id'>): Promise<Client> {
     const createdClient = await this.clientRepository.create(client);
 
     return createdClient;
