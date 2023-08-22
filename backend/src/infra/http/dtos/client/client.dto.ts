@@ -41,36 +41,36 @@ export class FetchClientsDto {
   @IsString()
   @IsOptional()
   @MaxLength(191)
-  name?: string;
+  name: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(191)
-  contactName?: string;
+  contactName: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(11)
-  contactPhone?: string;
+  contactPhone: string;
 
   @IsUUID()
   @IsOptional()
-  tenantId?: string;
+  tenantId: string;
 }
 
 export class UpdateClientDto {
   @IsString()
   @IsOptional()
   @MaxLength(191)
-  name?: string;
+  name: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(191)
-  contactName?: string;
+  contactName: string;
 
   @IsString()
   @IsOptional()
   @MaxLength(11)
-  contactPhone?: string;
+  contactPhone: string;
 }

@@ -2,11 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { ICategoryServiceRepository } from '@application/core/repositories';
 import { CategoryService } from '@application/core/entities';
-import {
-  FetchCategoryServicesDto,
-  UpdateCategoryServiceDto,
-} from '@infra/http/dtos/categoryService';
-import { CreateCategoryServiceDto } from '@application/core/dtos/categoryService.dto';
 
 @Injectable()
 export class PrismaCategoryServiceRepository
@@ -15,7 +10,7 @@ export class PrismaCategoryServiceRepository
   prisma = new PrismaClient();
 
   async create(
-    categoryService: CreateCategoryServiceDto,
+    categoryService: Omit<CategoryService, 'id'>,
   ): Promise<CategoryService> {
     const createdCategoryService = await this.prisma.categoryService.create({
       data: {
@@ -41,14 +36,12 @@ export class PrismaCategoryServiceRepository
   }
 
   async fetch({
-    id,
     name,
     subCategory,
     tenantId,
-  }: FetchCategoryServicesDto): Promise<CategoryService[]> {
+  }: Omit<CategoryService, 'id'>): Promise<CategoryService[]> {
     const fetchCategoryService = await this.prisma.categoryService.findMany({
       where: {
-        ...(id && { id }),
         ...(subCategory && { subCategory }),
         ...(name && { name: { contains: name } }),
         ...(tenantId && { tenantId }),
@@ -60,7 +53,7 @@ export class PrismaCategoryServiceRepository
 
   async update(
     entityId: number,
-    { subCategory, name }: UpdateCategoryServiceDto,
+    { subCategory, name }: Omit<CategoryService, 'id' | 'tenantId'>,
   ): Promise<CategoryService> {
     const updatedCategoryService = await this.prisma.categoryService.update({
       where: {
