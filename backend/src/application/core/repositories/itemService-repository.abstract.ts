@@ -1,7 +1,7 @@
 import { ItemService } from '@application/core/entities';
 
 export abstract class ItemServiceRepository {
-  abstract create(entity: ItemService): Promise<ItemService>;
+  abstract create(entity: Omit<ItemService, 'id'>): Promise<ItemService>;
 
   abstract get(id: number): Promise<ItemService | null>;
 
