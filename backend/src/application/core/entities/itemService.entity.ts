@@ -3,9 +3,9 @@ export class ItemService {
 
   name: string;
 
-  unit: string;
-
   description: string;
+
+  unit: string;
 
   status: 'AVAILABLE' | 'UNAVAILABLE';
 
