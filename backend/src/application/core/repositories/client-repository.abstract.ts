@@ -1,6 +1,6 @@
 import { Client } from '@application/core/entities';
 
-export abstract class IClientRepository {
+export abstract class ClientRepository {
   abstract create(entity: Omit<Client, 'id'>): Promise<Client>;
 
   abstract get(id: number): Promise<Client | null>;

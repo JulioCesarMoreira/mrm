@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { IClientRepository } from '@application/core/repositories';
+import { ClientRepository } from '@application/core/repositories';
 import { Client } from '@application/core/entities';
 import { FetchClientsDto, UpdateClientDto } from '@infra/http/dtos/client';
 
 @Injectable()
-export class PrismaClientRepository implements IClientRepository {
+export class PrismaClientRepository implements ClientRepository {
   prisma = new PrismaClient();
 
   async create(client: Client): Promise<Client> {

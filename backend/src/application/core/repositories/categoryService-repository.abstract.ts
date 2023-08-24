@@ -1,6 +1,6 @@
 import { CategoryService } from '@application/core/entities';
 
-export abstract class ICategoryServiceRepository {
+export abstract class CategoryServiceRepository {
   abstract create(
     entity: Omit<CategoryService, 'id'>,
   ): Promise<CategoryService>;
