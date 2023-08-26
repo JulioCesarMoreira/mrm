@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { IClientRepository } from '@application/core/repositories';
+import { ClientRepository } from '@application/core/repositories';
 import { Client } from '@application/core/entities';
 
 @Injectable()
 export class CreateClientUseCase {
-  constructor(private clientRepository: IClientRepository) {}
+  constructor(private clientRepository: ClientRepository) {}
 
   async createClient(client: Omit<Client, 'id'>): Promise<Client> {
     const createdClient = await this.clientRepository.create(client);

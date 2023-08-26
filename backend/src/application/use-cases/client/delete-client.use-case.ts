@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { IClientRepository } from '@application/core/repositories';
+import { ClientRepository } from '@application/core/repositories';
 
 @Injectable()
 export class DeleteClientUseCase {
-  constructor(private clientRepository: IClientRepository) {}
+  constructor(private clientRepository: ClientRepository) {}
 
   async deleteClient(id: number): Promise<boolean> {
     const deletedClient = await this.clientRepository.delete(id);

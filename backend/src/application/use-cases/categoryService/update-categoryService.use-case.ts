@@ -1,11 +1,11 @@
 import { CategoryService } from '@application/core/entities';
-import { ICategoryServiceRepository } from '@application/core/repositories';
+import { CategoryServiceRepository } from '@application/core/repositories';
 import { UpdateCategoryServiceDto } from '@infra/http/dtos/categoryService';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UpdateCategoryServiceUseCase {
-  constructor(private categoryServiceRepository: ICategoryServiceRepository) {}
+  constructor(private categoryServiceRepository: CategoryServiceRepository) {}
 
   async updateCategoryService(
     categoryServiceId: number,

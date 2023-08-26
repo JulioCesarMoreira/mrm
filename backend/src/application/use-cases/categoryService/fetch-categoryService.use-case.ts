@@ -1,11 +1,11 @@
 import { FetchCategoryServicesDto } from '@infra/http/dtos/categoryService';
 import { CategoryService } from '@application/core/entities';
-import { ICategoryServiceRepository } from '@application/core/repositories';
+import { CategoryServiceRepository } from '@application/core/repositories';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FetchCategoryServiceeUseCase {
-  constructor(private categoryServiceRepository: ICategoryServiceRepository) {}
+  constructor(private categoryServiceRepository: CategoryServiceRepository) {}
 
   async fetchCategoryService(
     filters: Omit<CategoryService, 'id'>,

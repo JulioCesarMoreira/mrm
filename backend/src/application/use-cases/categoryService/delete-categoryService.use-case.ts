@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ICategoryServiceRepository } from '@application/core/repositories';
+import { CategoryServiceRepository } from '@application/core/repositories';
 
 @Injectable()
 export class DeleteCategoryServiceUseCase {
-  constructor(private categoryServiceRepository: ICategoryServiceRepository) {}
+  constructor(private categoryServiceRepository: CategoryServiceRepository) {}
 
   async deleteCategoryService(id: number): Promise<boolean> {
     const deletedCategoryService = await this.categoryServiceRepository.delete(

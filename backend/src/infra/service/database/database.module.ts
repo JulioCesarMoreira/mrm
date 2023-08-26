@@ -1,43 +1,53 @@
 import { Module } from '@nestjs/common';
 import {
-  ICategoryServiceRepository,
-  IClientRepository,
-  ITenantRepository,
+  CategoryServiceRepository,
+  ClientRepository,
+  ItemServiceRepository,
+  TenantRepository,
 } from '@application/core/repositories';
 import { PrismaDataService } from './prisma/prisma-database.service';
 import { PrismaTenantRepository } from './prisma/repositories/prisma-tenant.repository';
 import { PrismaClientRepository } from './prisma/repositories/prisma-client.repository';
 import { PrismaCategoryServiceRepository } from './prisma/repositories/prisma-categoryService.repository';
+import { PrismaItemServiceRepository } from './prisma/repositories/prisma-itemService.repository';
 
 @Module({
   imports: [],
   providers: [
     PrismaDataService,
     {
-      provide: ITenantRepository,
+      provide: TenantRepository,
       useClass: PrismaTenantRepository,
     },
     {
-      provide: IClientRepository,
+      provide: ClientRepository,
       useClass: PrismaClientRepository,
     },
     {
-      provide: ICategoryServiceRepository,
+      provide: CategoryServiceRepository,
       useClass: PrismaCategoryServiceRepository,
+    },
+    {
+      provide: ItemServiceRepository,
+      useClass: PrismaItemServiceRepository,
     },
   ],
   exports: [
     {
-      provide: ITenantRepository,
+      provide: TenantRepository,
       useClass: PrismaTenantRepository,
     },
     {
-      provide: IClientRepository,
+      provide: ClientRepository,
       useClass: PrismaClientRepository,
     },
     {
-      provide: ICategoryServiceRepository,
+      provide: CategoryServiceRepository,
       useClass: PrismaCategoryServiceRepository,
+    },
+    {
+      provide: ItemServiceRepository,
+      useClass: PrismaItemServiceRepository,
     },
   ],
 })
