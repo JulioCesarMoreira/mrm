@@ -8,7 +8,10 @@ export class UpdateProposalServiceUseCase {
 
   async updateProposalService(
     proposalServiceId: number,
-    proposalServiceFields: Omit<ProposalService, 'id' | 'tenantId'>,
+    proposalServiceFields: Omit<
+      ProposalService,
+      'id' | 'tenantId' | 'clientId'
+    >,
   ): Promise<ProposalService> {
     const updatedProposalService = await this.proposalServiceRepository.update(
       proposalServiceId,
