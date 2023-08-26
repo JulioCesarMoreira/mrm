@@ -41,13 +41,13 @@ model Client {
 
 model ProposalService {
   id                  Int                   @id @default(autoincrement())
-  sendDate            DateTime
-  installmentsBalance Int
-  periodValidity      DateTime
-  discount            Int
-  percentageEntry     Int
-  guaranteePeriod     Int
-  approved            Boolean
+  sendDate            DateTime?
+  installmentsBalance Int?
+  periodValidity      DateTime?
+  discount            Int?
+  percentageEntry     Int?
+  guaranteePeriod     Int?
+  approved            Boolean?              @default(false)
   client              Client                @relation(fields: [clientId], references: [id])
   clientId            Int
   tenat               Tenant                @relation(fields: [tenantId], references: [id])

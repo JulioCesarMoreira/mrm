@@ -1,5 +1,8 @@
 import { httpExceptionFilter } from '@infra/http/http-exception/http-exception.filter';
-import { prismaClientExceptionFilter } from '@infra/service/database/prisma/prisma-exception/prisma-exception.filter';
+import {
+  prismaClientKnowExceptionFilter,
+  prismaClientValidationExceptionFilter,
+} from '@infra/service/database/prisma/prisma-exception/prisma-exception.filter';
 import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
@@ -12,7 +15,11 @@ export class GlobalExceptionFilter extends BaseExceptionFilter {
     }
 
     if (exception instanceof Prisma.PrismaClientKnownRequestError) {
-      prismaClientExceptionFilter(exception, host);
+      prismaClientKnowExceptionFilter(exception, host);
+    }
+
+    if (exception instanceof Prisma.PrismaClientValidationError) {
+      prismaClientValidationExceptionFilter(exception, host);
     }
   }
 }

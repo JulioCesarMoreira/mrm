@@ -18,6 +18,7 @@ export class CreateProposalServiceDto {
   installmentsBalance: number;
 
   @IsDateString()
+  @IsOptional()
   periodValidity: Date;
 
   @IsInt()
@@ -97,6 +98,7 @@ export class UpdateProposalServiceDto {
   installmentsBalance: number;
 
   @IsDateString()
+  @IsOptional()
   periodValidity: Date;
 
   @IsInt()
