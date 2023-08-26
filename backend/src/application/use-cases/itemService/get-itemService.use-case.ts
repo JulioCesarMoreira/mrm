@@ -4,10 +4,10 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class GetItemServiceUseCase {
-  constructor(private itemServiceeRepository: ItemServiceRepository) {}
+  constructor(private itemServiceRepository: ItemServiceRepository) {}
 
   async getItemService(id: number): Promise<ItemService> {
-    const getItemService = await this.itemServiceeRepository.get(id);
+    const getItemService = await this.itemServiceRepository.get(id);
 
     return getItemService;
   }

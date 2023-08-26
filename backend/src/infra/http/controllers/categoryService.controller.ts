@@ -22,7 +22,7 @@ import { CategoryServiceMapper } from '@infra/http/mappers/categoryService.mappe
 import {
   CreateCategoryServiceUseCase,
   GetCategoryServiceUseCase,
-  FetchCategoryServiceeUseCase,
+  FetchCategoryServiceUseCase,
   UpdateCategoryServiceUseCase,
   DeleteCategoryServiceUseCase,
 } from '@application/use-cases/categoryService';
@@ -33,7 +33,7 @@ export class CategoryServiceController {
   constructor(
     private createCategoryServiceUseCase: CreateCategoryServiceUseCase,
     private getCategoryServiceUsecase: GetCategoryServiceUseCase,
-    private fetchCategoryServicesUseCase: FetchCategoryServiceeUseCase,
+    private fetchCategoryServicesUseCase: FetchCategoryServiceUseCase,
     private updateCategoryServiceUseCase: UpdateCategoryServiceUseCase,
     private deleteCategoryServiceUseCase: DeleteCategoryServiceUseCase,
   ) {}

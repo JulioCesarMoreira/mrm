@@ -22,7 +22,7 @@ import { ItemServiceMapper } from '@infra/http/mappers/itemService.mapper';
 import {
   CreateItemServiceUseCase,
   GetItemServiceUseCase,
-  FetchItemServiceeUseCase,
+  FetchItemServiceUseCase,
   UpdateItemServiceUseCase,
   DeleteItemServiceUseCase,
 } from '@application/use-cases/itemService';
@@ -33,7 +33,7 @@ export class ItemServiceController {
   constructor(
     private createItemServiceUseCase: CreateItemServiceUseCase,
     private getItemServiceUsecase: GetItemServiceUseCase,
-    private fetchItemServicesUseCase: FetchItemServiceeUseCase,
+    private fetchItemServicesUseCase: FetchItemServiceUseCase,
     private updateItemServiceUseCase: UpdateItemServiceUseCase,
     private deleteItemServiceUseCase: DeleteItemServiceUseCase,
   ) {}

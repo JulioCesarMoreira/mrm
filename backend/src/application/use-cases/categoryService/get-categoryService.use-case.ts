@@ -4,10 +4,10 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class GetCategoryServiceUseCase {
-  constructor(private categoryServiceeRepository: CategoryServiceRepository) {}
+  constructor(private categoryServiceRepository: CategoryServiceRepository) {}
 
   async getCategoryService(id: number): Promise<CategoryService> {
-    const getCategoryService = await this.categoryServiceeRepository.get(id);
+    const getCategoryService = await this.categoryServiceRepository.get(id);
 
     return getCategoryService;
   }

@@ -3,16 +3,16 @@ import { ProposalServiceRepository } from '@application/core/repositories';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class FetchProposalServiceeUseCase {
+export class FetchProposalServiceUseCase {
   constructor(private proposalServiceRepository: ProposalServiceRepository) {}
 
   async fetchProposalService(
     filters: Omit<ProposalService, 'id'>,
   ): Promise<ProposalService[]> {
-    const fetchProposalServicee = await this.proposalServiceRepository.fetch(
+    const fetchProposalService = await this.proposalServiceRepository.fetch(
       filters,
     );
 
-    return fetchProposalServicee;
+    return fetchProposalService;
   }
 }

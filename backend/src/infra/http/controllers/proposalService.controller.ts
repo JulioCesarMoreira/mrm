@@ -22,7 +22,7 @@ import { ProposalServiceMapper } from '@infra/http/mappers/proposalService.mappe
 import {
   CreateProposalServiceUseCase,
   GetProposalServiceUseCase,
-  FetchProposalServiceeUseCase,
+  FetchProposalServiceUseCase,
   UpdateProposalServiceUseCase,
   DeleteProposalServiceUseCase,
 } from '@application/use-cases/proposalService';
@@ -33,7 +33,7 @@ export class ProposalServiceController {
   constructor(
     private createProposalServiceUseCase: CreateProposalServiceUseCase,
     private getProposalServiceUsecase: GetProposalServiceUseCase,
-    private fetchProposalServicesUseCase: FetchProposalServiceeUseCase,
+    private fetchProposalServicesUseCase: FetchProposalServiceUseCase,
     private updateProposalServiceUseCase: UpdateProposalServiceUseCase,
     private deleteProposalServiceUseCase: DeleteProposalServiceUseCase,
   ) {}
