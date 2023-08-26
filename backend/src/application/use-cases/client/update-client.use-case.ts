@@ -1,10 +1,10 @@
 import { Client } from '@application/core/entities';
-import { IClientRepository } from '@application/core/repositories';
+import { ClientRepository } from '@application/core/repositories';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class UpdateClientUseCase {
-  constructor(private clientRepository: IClientRepository) {}
+  constructor(private clientRepository: ClientRepository) {}
 
   async updateClient(
     clientId: number,

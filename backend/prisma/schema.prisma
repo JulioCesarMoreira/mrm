@@ -84,6 +84,7 @@ model ItemService {
   name                     String
   description              String
   unit                     String
+  status                   Status
   categoryService          CategoryService            @relation(fields: [categoryServiceId], references: [id])
   categoryServiceId        Int
   ItemProposalService      ItemProposalService[]
@@ -175,4 +176,9 @@ model City {
 enum Uf {
   PR
   SP
+}
+
+enum Status {
+  AVAILABLE
+  UNAVAILABLE
 }

@@ -16,10 +16,22 @@ import {
   GetCategoryServiceUseCase,
   UpdateCategoryServiceUseCase,
 } from '@application/use-cases/categoryService';
+import { ItemServiceController } from './controllers/itemService.controller';
+import {
+  CreateItemServiceUseCase,
+  DeleteItemServiceUseCase,
+  FetchItemServiceeUseCase,
+  GetItemServiceUseCase,
+  UpdateItemServiceUseCase,
+} from '@application/use-cases/itemService';
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [ClientController, CategoryServiceController],
+  controllers: [
+    ItemServiceController,
+    ClientController,
+    CategoryServiceController,
+  ],
   providers: [
     GetTenantUseCase,
 
@@ -34,6 +46,12 @@ import {
     FetchCategoryServiceeUseCase,
     UpdateCategoryServiceUseCase,
     DeleteCategoryServiceUseCase,
+
+    CreateItemServiceUseCase,
+    GetItemServiceUseCase,
+    FetchItemServiceeUseCase,
+    UpdateItemServiceUseCase,
+    DeleteItemServiceUseCase,
   ],
 })
 export class HttpModule {}

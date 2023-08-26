@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { ITenantRepository } from '@application/core/repositories';
+import { TenantRepository } from '@application/core/repositories';
 import { Tenant } from '@application/core/entities';
 
 @Injectable()
 export class GetTenantUseCase {
-  constructor(private tenantRepository: ITenantRepository) {}
+  constructor(private tenantRepository: TenantRepository) {}
 
   async createTenant(tenantId: string): Promise<Tenant> {
     const createdTenant = await this.tenantRepository.get(tenantId);
