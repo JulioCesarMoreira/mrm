@@ -1,4 +1,3 @@
-import { FetchCategoryServicesDto } from '@infra/http/dtos/categoryService';
 import { CategoryService } from '@application/core/entities';
 import { CategoryServiceRepository } from '@application/core/repositories';
 import { Injectable } from '@nestjs/common';
