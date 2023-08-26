@@ -28,13 +28,6 @@ model Tenant {
   ModelProposal   ModelProposal[]
 }
 
-model CategoryAttachment {
-  id          Int          @id @default(autoincrement())
-  description String?
-  name        String
-  Attachment  Attachment[]
-}
-
 model Client {
   id              Int               @id @default(autoincrement())
   name            String
@@ -62,7 +55,6 @@ model ProposalService {
   ItemProposalService ItemProposalService[]
   Detection           Detection[]
   Well                Well[]
-  Attachment          Attachment[]
 }
 
 model CategoryService {
@@ -125,7 +117,6 @@ model Detection {
   minimumDepth      Int
   proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
   proposalServiceId Int
-  Attachment        Attachment[]
 }
 
 model Well {
@@ -150,20 +141,6 @@ model Well {
   cityId            Int
   proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
   proposalServiceId Int
-  Attachment        Attachment[]
-}
-
-model Attachment {
-  id                   Int                @id @default(autoincrement())
-  url                  String
-  categoryAttachment   CategoryAttachment @relation(fields: [categoryAttachmentId], references: [id])
-  categoryAttachmentId Int
-  detection            Detection          @relation(fields: [detectionId], references: [id])
-  detectionId          Int
-  well                 Well               @relation(fields: [wellId], references: [id])
-  wellId               Int
-  proposalService      ProposalService    @relation(fields: [proposalServiceId], references: [id])
-  proposalServiceId    Int
 }
 
 model City {
