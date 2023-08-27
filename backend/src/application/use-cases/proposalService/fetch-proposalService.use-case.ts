@@ -21,8 +21,6 @@ export class FetchProposalServiceUseCase {
       filters,
     );
 
-    console.log('fetchProposalService', fetchProposalService);
-
     return fetchProposalService;
   }
 }
