@@ -12,8 +12,10 @@ export class CreateProposalServiceUseCase {
     const { periodValidity, sendDate } = proposalService;
 
     // converting the received dates in to a DATE type
-    proposalService.periodValidity = new Date(periodValidity);
-    proposalService.sendDate = new Date(sendDate);
+    proposalService.periodValidity = periodValidity
+      ? new Date(periodValidity)
+      : periodValidity;
+    proposalService.sendDate = sendDate ? new Date(sendDate) : sendDate;
 
     const createdProposalService = await this.proposalServiceRepository.create(
       proposalService,

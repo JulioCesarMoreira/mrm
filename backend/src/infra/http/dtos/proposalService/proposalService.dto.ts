@@ -61,6 +61,7 @@ export class FetchProposalServicesDto {
   installmentsBalance: number;
 
   @IsDateString()
+  @IsOptional()
   periodValidity: Date;
 
   @IsInt()

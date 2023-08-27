@@ -13,6 +13,14 @@ export class UpdateProposalServiceUseCase {
       'id' | 'tenantId' | 'clientId'
     >,
   ): Promise<ProposalService> {
+    const { periodValidity, sendDate } = proposalServiceFields;
+
+    // converting the received dates in to a DATE type
+    proposalServiceFields.periodValidity = periodValidity
+      ? new Date(periodValidity)
+      : periodValidity;
+    proposalServiceFields.sendDate = sendDate ? new Date(sendDate) : sendDate;
+
     const updatedProposalService = await this.proposalServiceRepository.update(
       proposalServiceId,
       proposalServiceFields,
