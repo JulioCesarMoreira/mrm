@@ -3,7 +3,9 @@
     "baseUrl": "./src",
     "paths": {
       "@components/*": ["components/*"],
-      "@lib/utils": ["lib/utils"]
+      "@lib/utils": ["lib/utils"],
+      "constants/*": ["constants/*"],
+      "hooks/*": ["hooks/*"]
     },
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
