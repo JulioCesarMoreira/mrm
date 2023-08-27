@@ -50,9 +50,11 @@ export class FetchCategoryServicesDto {
 
 export class UpdateCategoryServiceDto {
   @IsEnum(SubCategoryType)
+  @IsOptional()
   subCategory: SubCategoryType;
 
   @IsString()
+  @IsOptional()
   @MaxLength(191)
   name: string;
 }
