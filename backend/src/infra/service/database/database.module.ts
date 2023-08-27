@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import {
   CategoryServiceRepository,
   ClientRepository,
+  DetectionRepository,
   ItemServiceRepository,
+  ProposalServiceRepository,
   TenantRepository,
 } from '@application/core/repositories';
 import { PrismaDataService } from './prisma/prisma-database.service';
@@ -10,6 +12,8 @@ import { PrismaTenantRepository } from './prisma/repositories/prisma-tenant.repo
 import { PrismaClientRepository } from './prisma/repositories/prisma-client.repository';
 import { PrismaCategoryServiceRepository } from './prisma/repositories/prisma-categoryService.repository';
 import { PrismaItemServiceRepository } from './prisma/repositories/prisma-itemService.repository';
+import { PrismaProposalServiceRepository } from './prisma/repositories/prisma-proposalService.repository';
+import { PrismaDetectionRepository } from './prisma/repositories/prisma-detection.repository';
 
 @Module({
   imports: [],
@@ -31,6 +35,14 @@ import { PrismaItemServiceRepository } from './prisma/repositories/prisma-itemSe
       provide: ItemServiceRepository,
       useClass: PrismaItemServiceRepository,
     },
+    {
+      provide: ProposalServiceRepository,
+      useClass: PrismaProposalServiceRepository,
+    },
+    {
+      provide: DetectionRepository,
+      useClass: PrismaDetectionRepository,
+    },
   ],
   exports: [
     {
@@ -48,6 +60,14 @@ import { PrismaItemServiceRepository } from './prisma/repositories/prisma-itemSe
     {
       provide: ItemServiceRepository,
       useClass: PrismaItemServiceRepository,
+    },
+    {
+      provide: ProposalServiceRepository,
+      useClass: PrismaProposalServiceRepository,
+    },
+    {
+      provide: DetectionRepository,
+      useClass: PrismaDetectionRepository,
     },
   ],
 })

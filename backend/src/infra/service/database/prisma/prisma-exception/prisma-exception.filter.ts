@@ -2,7 +2,20 @@ import { ArgumentsHost, HttpStatus } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { Response } from 'express';
 
-export function prismaClientExceptionFilter(
+export function prismaClientValidationExceptionFilter(
+  exception: Prisma.PrismaClientValidationError,
+  host: ArgumentsHost,
+): void {
+  const ctx = host.switchToHttp();
+  const response = ctx.getResponse<Response>();
+
+  response.status(400).json({
+    message: 'One or more fields are incompatible with the schema database',
+    stackError: exception.stack,
+  });
+}
+
+export function prismaClientKnowExceptionFilter(
   exception: Prisma.PrismaClientKnownRequestError,
   host: ArgumentsHost,
 ): void {
