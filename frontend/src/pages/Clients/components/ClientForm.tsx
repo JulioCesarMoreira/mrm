@@ -38,18 +38,20 @@ export default function ClientForm({
   async function onSubmitClient(client: ClientFields): Promise<void> {
     setIsLoading(true);
 
-    if (defaultValues.id) {
-      await updateClient(defaultValues.id, {
-        name: client.name,
-        contactPhone: client.contactPhone,
-      });
-    } else {
-      await insertClient(client);
+    try {
+      if (defaultValues.id) {
+        await updateClient(defaultValues.id, {
+          name: client.name,
+          contactPhone: client.contactPhone,
+        });
+      } else {
+        await insertClient(client);
+      }
+    } finally {
+      setOpenDialog(false);
+      setToggleFetchClients((previous) => !previous);
+      setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
     }
-
-    setOpenDialog(false);
-    setToggleFetchClients((previous) => !previous);
-    setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
   }
 
   return (

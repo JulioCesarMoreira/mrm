@@ -27,11 +27,13 @@ export default function ClientDelete({ client }: ClientProperty): ReactElement {
   async function onDelete(): Promise<void> {
     setIsLoading(true);
 
-    await deleteClient(client.original.id);
-
-    setOpenAlert(false);
-    setToggleFetchClients((previous) => !previous);
-    setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
+    try {
+      await deleteClient(client.original.id);
+    } finally {
+      setOpenAlert(false);
+      setToggleFetchClients((previous) => !previous);
+      setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
+    }
   }
 
   return (
