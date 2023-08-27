@@ -6,20 +6,35 @@ import {
 import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
+import { Response } from 'express';
 
 @Catch()
 export class GlobalExceptionFilter extends BaseExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost): void {
-    if (exception instanceof HttpException) {
-      httpExceptionFilter(exception, host);
-    }
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
 
-    if (exception instanceof Prisma.PrismaClientKnownRequestError) {
-      prismaClientKnowExceptionFilter(exception, host);
-    }
+    switch (true) {
+      case exception instanceof HttpException:
+        httpExceptionFilter(exception as HttpException, host);
+        break;
 
-    if (exception instanceof Prisma.PrismaClientValidationError) {
-      prismaClientValidationExceptionFilter(exception, host);
+      case exception instanceof Prisma.PrismaClientKnownRequestError:
+        prismaClientKnowExceptionFilter(
+          exception as Prisma.PrismaClientKnownRequestError,
+          host,
+        );
+        break;
+
+      case exception instanceof Prisma.PrismaClientValidationError:
+        prismaClientValidationExceptionFilter(
+          exception as Prisma.PrismaClientValidationError,
+          host,
+        );
+        break;
+
+      default:
+        response.status(500).json({ message: 'Internal server error' });
     }
   }
 }

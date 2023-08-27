@@ -9,6 +9,8 @@ export class ErrorResponseDto {
         this.error.message,
         this.error,
       );
+    } else if (this.error instanceof Prisma.PrismaClientValidationError) {
+      throw new Prisma.PrismaClientValidationError(this.error.message);
     } else if (
       Array.isArray(this.error) &&
       this.error.every((item) => item instanceof ValidationError)
