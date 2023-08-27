@@ -70,7 +70,7 @@ export default function InputField({
     <div
       className={twMerge(
         'bg-gray-scale-900 ring-gray-scale-800 relative flex max-h-[40px] w-full cursor-text items-center rounded-md p-[1.75px] ring-1 duration-200',
-        disabled ? '!pointer-events-none !cursor-not-allowed shadow-none ' : '',
+        disabled ? 'bg-gray-scale-800 !cursor-not-allowed shadow-none' : '',
         focus && !error ? 'ring-hidro-blue-500' : '',
         error && focus ? 'shadow-outline ring-1' : '',
         className ?? '',
@@ -86,7 +86,7 @@ export default function InputField({
         className={twMerge(
           'text-body bg-gray-scale-900 h-[40px] max-h-[40px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
           disabled
-            ? '!pointer-events-none !cursor-not-allowed select-none shadow-none'
+            ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
             : '',
         )}
         onFocus={onFocus}
