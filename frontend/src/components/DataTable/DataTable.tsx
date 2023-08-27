@@ -11,10 +11,12 @@ import {
 import { ReactElement, useState } from 'react';
 import { DataTableProperties } from './types';
 import DataTablePagination from './DataTablePagination';
+import Spinner from '@components/ui/spinner';
 
 export default function DataTable<T>({
   data,
   columns,
+  isLoading,
 }: DataTableProperties<T>): ReactElement {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -33,7 +35,7 @@ export default function DataTable<T>({
 
   return (
     <>
-      <div className="border rounded-lg">
+      <div className="rounded-lg border">
         <Table.Wrapper>
           <Table.Header>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -77,7 +79,13 @@ export default function DataTable<T>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Nada encontrado.
+                  {isLoading ? (
+                    <div className="flex-center h-40 w-full">
+                      <Spinner />
+                    </div>
+                  ) : (
+                    'Nada encontrado.'
+                  )}
                 </Table.Cell>
               </Table.Row>
             )}

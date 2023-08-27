@@ -10,11 +10,11 @@ export default function DataTableTitle({
 }: DataTableTitleProperties): ReactElement {
   return (
     <div className="flex items-center justify-between py-4">
-      <p className="text-gray-scale-400 font-semibold text-xl">{title}</p>
+      <p className="text-gray-scale-400 text-xl font-semibold">{title}</p>
 
       {addElementButtonLabel && (
         <DialogTrigger>
-          <Button className="rounded-md bg-hidro-blue-300 text-white hover:bg-main-blue flex gap-4">
+          <Button className="bg-hidro-blue-300 hover:bg-main-blue flex gap-4 rounded-md text-white">
             <Plus size={18} /> {addElementButtonLabel}
           </Button>
         </DialogTrigger>

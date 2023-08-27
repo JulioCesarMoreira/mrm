@@ -12,4 +12,5 @@ export interface DataTableTitleProperties {
 export interface DataTableProperties<T> {
   data: T[];
   columns: ColumnDef<T, unknown>[];
+  isLoading?: boolean;
 }
