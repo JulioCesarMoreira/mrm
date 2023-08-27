@@ -4,7 +4,7 @@ import SideMenuExpandHandler from './SideMenuExpandHandler';
 import SideMenuLogOut from './SideMenuLogOut';
 import { useAtomValue } from 'jotai';
 import { sideMenuItems } from '../../constants';
-import { isSideMenuOpenAtom } from '../../atoms';
+import { isSideMenuOpenAtom } from '../../constants/atoms';
 import type { ReactElement } from 'react';
 
 export default function SideMenu(): ReactElement {
@@ -12,10 +12,10 @@ export default function SideMenu(): ReactElement {
 
   return (
     <div
-      className="bg-dark-blue transition-[width] duration-300 h-screen p-5 relative"
+      className="bg-dark-blue relative h-screen p-5 transition-[width] duration-300"
       style={{ width: isOpen ? '200px' : '74px' }}
     >
-      <div className="w-full flex-col-center">
+      <div className="flex-col-center w-full">
         <SideMenuLogo />
         <SideMenuExpandHandler />
 
@@ -25,7 +25,7 @@ export default function SideMenu(): ReactElement {
           ))}
         </div>
 
-        <div className="absolute bottom-0 p-5 transition-[width] duration-300 w-full">
+        <div className="absolute bottom-0 w-full p-5 transition-[width] duration-300">
           <SideMenuLogOut />
         </div>
       </div>
