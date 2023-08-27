@@ -26,7 +26,7 @@ import {
   UpdateProposalServiceUseCase,
   DeleteProposalServiceUseCase,
 } from '@application/use-cases/proposalService';
-import { Prisma } from '@prisma/client';
+import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
 
 @Controller('/proposalService')
 export class ProposalServiceController {
@@ -41,73 +41,63 @@ export class ProposalServiceController {
   @Post()
   async createProposalService(
     @Body() proposalServiceDto: CreateProposalServiceDto,
-  ): Promise<CreateProposalServiceResponseDto> {
-    let createProposalServiceResponse = new CreateProposalServiceResponseDto();
-
+  ): Promise<
+    CreateProposalServiceResponseDto | ErrorResponseDto | ErrorResponseDto
+  > {
     try {
       const createdProposalService =
         await this.createProposalServiceUseCase.createProposalService(
           proposalServiceDto,
         );
 
-      createProposalServiceResponse = createdProposalService;
+      return createdProposalService;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return createProposalServiceResponse;
   }
 
   @Get(':id')
   async getProposalService(
     @Param() parameters: GetProposalServiceIdDto,
-  ): Promise<GetProposalServiceResponseDto> {
-    let getProposalServiceResponse = {} as GetProposalServiceResponseDto;
-
+  ): Promise<
+    GetProposalServiceResponseDto | ErrorResponseDto | ErrorResponseDto
+  > {
     try {
       const proposalServiceEntity =
         await this.getProposalServiceUsecase.getProposalService(
           Number(parameters.id),
         );
-      getProposalServiceResponse = proposalServiceEntity;
+      return proposalServiceEntity;
     } catch (error) {
-      console.log('Error: ', error);
+      return new ErrorResponseDto(error);
     }
-    return getProposalServiceResponse;
   }
 
   @Get()
   async fetchProposalServiceByTenant(
     @Body() filters: FetchProposalServicesDto,
-  ): Promise<FetchProposalServicesResponseDto> {
-    let fetchCLientsResponse = new FetchProposalServicesResponseDto();
-
+  ): Promise<
+    FetchProposalServicesResponseDto | ErrorResponseDto | ErrorResponseDto
+  > {
     try {
       const fetchProposalServicesList =
         await this.fetchProposalServicesUseCase.fetchProposalService(filters);
 
-      fetchCLientsResponse =
-        ProposalServiceMapper.fetchProposalServiceToController(
-          fetchProposalServicesList,
-        );
+      return ProposalServiceMapper.fetchProposalServiceToController(
+        fetchProposalServicesList,
+      );
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return fetchCLientsResponse;
   }
 
   @Patch(':id')
   async updateProposalService(
     @Param() parameters: GetProposalServiceIdDto,
     @Body() body: UpdateProposalServiceDto,
-  ): Promise<UpdateProposalServiceResponseDto> {
-    let updateProposalServiceResponse = new UpdateProposalServiceResponseDto();
-
+  ): Promise<
+    UpdateProposalServiceResponseDto | ErrorResponseDto | ErrorResponseDto
+  > {
     try {
       const updateProposalService =
         await this.updateProposalServiceUseCase.updateProposalService(
@@ -115,37 +105,27 @@ export class ProposalServiceController {
           body,
         );
 
-      updateProposalServiceResponse = updateProposalService;
+      return updateProposalService;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return updateProposalServiceResponse;
   }
 
   @Delete(':id')
   async deleteProposalService(
     @Param() parameters: GetProposalServiceIdDto,
-  ): Promise<DeleteProposalServiceResponseDto> {
-    let deleteProposalServiceResponse = new DeleteProposalServiceResponseDto();
+  ): Promise<DeleteProposalServiceResponseDto | ErrorResponseDto> {
     try {
       const deleteProposalService =
         await this.deleteProposalServiceUseCase.deleteProposalService(
           Number(parameters.id),
         );
 
-      deleteProposalServiceResponse =
-        ProposalServiceMapper.deleteProposalServiceToController(
-          deleteProposalService,
-        );
+      return ProposalServiceMapper.deleteProposalServiceToController(
+        deleteProposalService,
+      );
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return deleteProposalServiceResponse;
   }
 }

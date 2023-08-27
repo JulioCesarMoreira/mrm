@@ -26,7 +26,7 @@ import {
   UpdateCategoryServiceUseCase,
   DeleteCategoryServiceUseCase,
 } from '@application/use-cases/categoryService';
-import { Prisma } from '@prisma/client';
+import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
 
 @Controller('/categoryService')
 export class CategoryServiceController {
@@ -41,73 +41,55 @@ export class CategoryServiceController {
   @Post()
   async createCategoryService(
     @Body() categoryServiceDto: CreateCategoryServiceDto,
-  ): Promise<CreateCategoryServiceResponseDto> {
-    let createCategoryServiceResponse = new CreateCategoryServiceResponseDto();
-
+  ): Promise<CreateCategoryServiceResponseDto | ErrorResponseDto> {
     try {
       const createdCategoryService =
         await this.createCategoryServiceUseCase.createCategoryService(
           categoryServiceDto,
         );
 
-      createCategoryServiceResponse = createdCategoryService;
+      return createdCategoryService;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return createCategoryServiceResponse;
   }
 
   @Get(':id')
   async getCategoryService(
     @Param() parameters: GetCategoryServiceIdDto,
-  ): Promise<GetCategoryServiceResponseDto> {
-    let getCategoryServiceResponse = {} as GetCategoryServiceResponseDto;
-
+  ): Promise<GetCategoryServiceResponseDto | ErrorResponseDto> {
     try {
       const categoryServiceEntity =
         await this.getCategoryServiceUsecase.getCategoryService(
           Number(parameters.id),
         );
-      getCategoryServiceResponse = categoryServiceEntity;
+      return categoryServiceEntity;
     } catch (error) {
-      console.log('Error: ', error);
+      return new ErrorResponseDto(error);
     }
-    return getCategoryServiceResponse;
   }
 
   @Get()
   async fetchCategoryServiceByTenant(
     @Body() filters: FetchCategoryServicesDto,
-  ): Promise<FetchCategoryServicesResponseDto> {
-    let fetchCLientsResponse = new FetchCategoryServicesResponseDto();
-
+  ): Promise<FetchCategoryServicesResponseDto | ErrorResponseDto> {
     try {
       const fetchCategoryServicesList =
         await this.fetchCategoryServicesUseCase.fetchCategoryService(filters);
 
-      fetchCLientsResponse =
-        CategoryServiceMapper.fetchCategoryServiceToController(
-          fetchCategoryServicesList,
-        );
+      return CategoryServiceMapper.fetchCategoryServiceToController(
+        fetchCategoryServicesList,
+      );
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return fetchCLientsResponse;
   }
 
   @Patch(':id')
   async updateCategoryService(
     @Param() parameters: GetCategoryServiceIdDto,
     @Body() body: UpdateCategoryServiceDto,
-  ): Promise<UpdateCategoryServiceResponseDto> {
-    let updateCategoryServiceResponse = new UpdateCategoryServiceResponseDto();
-
+  ): Promise<UpdateCategoryServiceResponseDto | ErrorResponseDto> {
     try {
       const updateCategoryService =
         await this.updateCategoryServiceUseCase.updateCategoryService(
@@ -115,37 +97,27 @@ export class CategoryServiceController {
           body,
         );
 
-      updateCategoryServiceResponse = updateCategoryService;
+      return updateCategoryService;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return updateCategoryServiceResponse;
   }
 
   @Delete(':id')
   async deleteCategoryService(
     @Param() parameters: GetCategoryServiceIdDto,
-  ): Promise<DeleteCategoryServiceResponseDto> {
-    let deleteCategoryServiceResponse = new DeleteCategoryServiceResponseDto();
+  ): Promise<DeleteCategoryServiceResponseDto | ErrorResponseDto> {
     try {
       const deleteCategoryService =
         await this.deleteCategoryServiceUseCase.deleteCategoryService(
           Number(parameters.id),
         );
 
-      deleteCategoryServiceResponse =
-        CategoryServiceMapper.deleteCategoryServiceToController(
-          deleteCategoryService,
-        );
+      return CategoryServiceMapper.deleteCategoryServiceToController(
+        deleteCategoryService,
+      );
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return deleteCategoryServiceResponse;
   }
 }
