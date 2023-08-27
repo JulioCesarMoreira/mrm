@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import {
   CategoryServiceRepository,
   ClientRepository,
+  DetectionRepository,
   ItemServiceRepository,
   ProposalServiceRepository,
   TenantRepository,
@@ -12,6 +13,7 @@ import { PrismaClientRepository } from './prisma/repositories/prisma-client.repo
 import { PrismaCategoryServiceRepository } from './prisma/repositories/prisma-categoryService.repository';
 import { PrismaItemServiceRepository } from './prisma/repositories/prisma-itemService.repository';
 import { PrismaProposalServiceRepository } from './prisma/repositories/prisma-proposalService.repository';
+import { PrismaDetectionRepository } from './prisma/repositories/prisma-detection.repository';
 
 @Module({
   imports: [],
@@ -37,6 +39,10 @@ import { PrismaProposalServiceRepository } from './prisma/repositories/prisma-pr
       provide: ProposalServiceRepository,
       useClass: PrismaProposalServiceRepository,
     },
+    {
+      provide: DetectionRepository,
+      useClass: PrismaDetectionRepository,
+    },
   ],
   exports: [
     {
@@ -58,6 +64,10 @@ import { PrismaProposalServiceRepository } from './prisma/repositories/prisma-pr
     {
       provide: ProposalServiceRepository,
       useClass: PrismaProposalServiceRepository,
+    },
+    {
+      provide: DetectionRepository,
+      useClass: PrismaDetectionRepository,
     },
   ],
 })
