@@ -1,5 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ClientController, CategoryServiceController } from './controllers';
+import {
+  ClientController,
+  CategoryServiceController,
+  ProposalServiceController,
+  ItemServiceController,
+} from './controllers';
 import { GetTenantUseCase } from '@application/use-cases/tenant';
 import { DatabaseModule } from '@infra/service/database/database.module';
 import {
@@ -12,18 +17,24 @@ import { UpdateClientUseCase } from '@application/use-cases/client/update-client
 import {
   CreateCategoryServiceUseCase,
   DeleteCategoryServiceUseCase,
-  FetchCategoryServiceeUseCase,
+  FetchCategoryServiceUseCase,
   GetCategoryServiceUseCase,
   UpdateCategoryServiceUseCase,
 } from '@application/use-cases/categoryService';
-import { ItemServiceController } from './controllers/itemService.controller';
 import {
   CreateItemServiceUseCase,
   DeleteItemServiceUseCase,
-  FetchItemServiceeUseCase,
+  FetchItemServiceUseCase,
   GetItemServiceUseCase,
   UpdateItemServiceUseCase,
 } from '@application/use-cases/itemService';
+import {
+  CreateProposalServiceUseCase,
+  DeleteProposalServiceUseCase,
+  FetchProposalServiceUseCase,
+  GetProposalServiceUseCase,
+  UpdateProposalServiceUseCase,
+} from '@application/use-cases/proposalService';
 
 @Module({
   imports: [DatabaseModule],
@@ -31,6 +42,7 @@ import {
     ItemServiceController,
     ClientController,
     CategoryServiceController,
+    ProposalServiceController,
   ],
   providers: [
     GetTenantUseCase,
@@ -43,15 +55,21 @@ import {
 
     CreateCategoryServiceUseCase,
     GetCategoryServiceUseCase,
-    FetchCategoryServiceeUseCase,
+    FetchCategoryServiceUseCase,
     UpdateCategoryServiceUseCase,
     DeleteCategoryServiceUseCase,
 
     CreateItemServiceUseCase,
     GetItemServiceUseCase,
-    FetchItemServiceeUseCase,
+    FetchItemServiceUseCase,
     UpdateItemServiceUseCase,
     DeleteItemServiceUseCase,
+
+    CreateProposalServiceUseCase,
+    GetProposalServiceUseCase,
+    FetchProposalServiceUseCase,
+    UpdateProposalServiceUseCase,
+    DeleteProposalServiceUseCase,
   ],
 })
 export class HttpModule {}

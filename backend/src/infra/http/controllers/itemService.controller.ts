@@ -22,18 +22,18 @@ import { ItemServiceMapper } from '@infra/http/mappers/itemService.mapper';
 import {
   CreateItemServiceUseCase,
   GetItemServiceUseCase,
-  FetchItemServiceeUseCase,
+  FetchItemServiceUseCase,
   UpdateItemServiceUseCase,
   DeleteItemServiceUseCase,
 } from '@application/use-cases/itemService';
-import { Prisma } from '@prisma/client';
+import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
 
 @Controller('/itemService')
 export class ItemServiceController {
   constructor(
     private createItemServiceUseCase: CreateItemServiceUseCase,
     private getItemServiceUsecase: GetItemServiceUseCase,
-    private fetchItemServicesUseCase: FetchItemServiceeUseCase,
+    private fetchItemServicesUseCase: FetchItemServiceUseCase,
     private updateItemServiceUseCase: UpdateItemServiceUseCase,
     private deleteItemServiceUseCase: DeleteItemServiceUseCase,
   ) {}
@@ -41,69 +41,53 @@ export class ItemServiceController {
   @Post()
   async createItemService(
     @Body() itemServiceDto: CreateItemServiceDto,
-  ): Promise<CreateItemServiceResponseDto> {
-    let createItemServiceResponse = new CreateItemServiceResponseDto();
-
+  ): Promise<CreateItemServiceResponseDto | ErrorResponseDto> {
     try {
       const createdItemService =
         await this.createItemServiceUseCase.createItemService(itemServiceDto);
 
-      createItemServiceResponse = createdItemService;
+      return createdItemService;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return createItemServiceResponse;
   }
 
   @Get(':id')
   async getItemService(
     @Param() parameters: GetItemServiceIdDto,
-  ): Promise<GetItemServiceResponseDto> {
-    let getItemServiceResponse = {} as GetItemServiceResponseDto;
-
+  ): Promise<GetItemServiceResponseDto | ErrorResponseDto> {
     try {
       const itemServiceEntity = await this.getItemServiceUsecase.getItemService(
         Number(parameters.id),
       );
-      getItemServiceResponse = itemServiceEntity;
+
+      return itemServiceEntity;
     } catch (error) {
-      console.log('Error: ', error);
+      return new ErrorResponseDto(error);
     }
-    return getItemServiceResponse;
   }
 
   @Get()
   async fetchItemServiceByTenant(
     @Body() filters: FetchItemServicesDto,
-  ): Promise<FetchItemServicesResponseDto> {
-    let fetchCLientsResponse = new FetchItemServicesResponseDto();
-
+  ): Promise<FetchItemServicesResponseDto | ErrorResponseDto> {
     try {
       const fetchItemServicesList =
         await this.fetchItemServicesUseCase.fetchItemService(filters);
 
-      fetchCLientsResponse = ItemServiceMapper.fetchItemServiceToController(
+      return ItemServiceMapper.fetchItemServiceToController(
         fetchItemServicesList,
       );
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return fetchCLientsResponse;
   }
 
   @Patch(':id')
   async updateItemService(
     @Param() parameters: GetItemServiceIdDto,
     @Body() body: UpdateItemServiceDto,
-  ): Promise<UpdateItemServiceResponseDto> {
-    let updateItemServiceResponse = new UpdateItemServiceResponseDto();
-
+  ): Promise<UpdateItemServiceResponseDto | ErrorResponseDto> {
     try {
       const updateItemService =
         await this.updateItemServiceUseCase.updateItemService(
@@ -111,35 +95,25 @@ export class ItemServiceController {
           body,
         );
 
-      updateItemServiceResponse = updateItemService;
+      return updateItemService;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return updateItemServiceResponse;
   }
 
   @Delete(':id')
   async deleteItemService(
     @Param() parameters: GetItemServiceIdDto,
-  ): Promise<DeleteItemServiceResponseDto> {
-    let deleteItemServiceResponse = new DeleteItemServiceResponseDto();
+  ): Promise<DeleteItemServiceResponseDto | ErrorResponseDto> {
     try {
       const deleteItemService =
         await this.deleteItemServiceUseCase.deleteItemService(
           Number(parameters.id),
         );
 
-      deleteItemServiceResponse =
-        ItemServiceMapper.deleteItemServiceToController(deleteItemService);
+      return ItemServiceMapper.deleteItemServiceToController(deleteItemService);
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return deleteItemServiceResponse;
   }
 }

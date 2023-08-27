@@ -26,7 +26,7 @@ import {
   DeleteClientUseCase,
 } from '@application/use-cases/client';
 import { ClientMapper } from '@infra/http/mappers/client.mapper';
-import { Prisma } from '@prisma/client';
+import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
 
 @Controller('/client')
 export class ClientController {
@@ -41,9 +41,7 @@ export class ClientController {
   @Post()
   async createClient(
     @Body() clientDto: CreateClientDto,
-  ): Promise<CreateClientResponseDto> {
-    let createClientResponse = new CreateClientResponseDto();
-
+  ): Promise<CreateClientResponseDto | ErrorResponseDto> {
     try {
       const clientEntity = ClientMapper.createClientToDomain(clientDto);
 
@@ -51,98 +49,71 @@ export class ClientController {
         clientEntity,
       );
 
-      createClientResponse = createdClient;
+      return createdClient;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return createClientResponse;
   }
 
   @Get(':id')
   async getClient(
     @Param() parameters: ClientIdDto,
-  ): Promise<GetClientResponseDto> {
-    let getClientResponse: GetClientResponseDto;
+  ): Promise<GetClientResponseDto | ErrorResponseDto> {
     try {
       const clientEntity = await this.getClientUsecase.getClient(
         Number(parameters.id),
       );
 
-      getClientResponse = clientEntity;
+      return clientEntity;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-    return getClientResponse;
   }
 
   @Get()
   async fetchClientByTenant(
     @Body() filters: FetchClientsDto,
-  ): Promise<FetchClientsResponseDto> {
-    let fetchCLientsResponse = new FetchClientsResponseDto();
-
+  ): Promise<FetchClientsResponseDto | ErrorResponseDto> {
     try {
       const fetchClientsList = await this.fetchClientsUseCase.fetchClient(
         filters,
       );
 
-      fetchCLientsResponse =
-        ClientMapper.fetchClientToController(fetchClientsList);
+      return ClientMapper.fetchClientToController(fetchClientsList);
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return fetchCLientsResponse;
   }
 
   @Patch(':id')
   async updateClient(
     @Param() parameters: ClientIdDto,
     @Body() body: UpdateClientDto,
-  ): Promise<UpdateClientResponseDto> {
-    let updateClientResponse = new UpdateClientResponseDto();
-
+  ): Promise<UpdateClientResponseDto | ErrorResponseDto> {
     try {
       const updateClient = await this.updateClientUseCase.updateClient(
         Number(parameters.id),
         body,
       );
 
-      updateClientResponse = updateClient;
+      return updateClient;
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return updateClientResponse;
   }
 
   @Delete(':id')
   async deleteClient(
     @Param() parameters: ClientIdDto,
-  ): Promise<DeleteClientResponseDto> {
-    let deleteClientResponse = new DeleteClientResponseDto();
+  ): Promise<DeleteClientResponseDto | ErrorResponseDto> {
     try {
       const deleteClient = await this.deleteClientUseCase.deleteClient(
         Number(parameters.id),
       );
 
-      deleteClientResponse =
-        ClientMapper.deleteClientToController(deleteClient);
+      return ClientMapper.deleteClientToController(deleteClient);
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        throw new Prisma.PrismaClientKnownRequestError(error.message, error);
-      }
+      return new ErrorResponseDto(error);
     }
-
-    return deleteClientResponse;
   }
 }
