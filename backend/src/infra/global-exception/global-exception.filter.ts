@@ -14,6 +14,8 @@ export class GlobalExceptionFilter extends BaseExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
 
+    console.error(exception);
+
     switch (true) {
       case exception instanceof HttpException:
         httpExceptionFilter(exception as HttpException, host);
