@@ -109,6 +109,7 @@ export default function ClientForm({
                       name="cpfCnpj"
                       placeholder="Documento do cliente"
                       disabled={!!defaultValues.id}
+                      maskType="cpf-cnpj"
                     />
                   </Input.Wrapper>
 
