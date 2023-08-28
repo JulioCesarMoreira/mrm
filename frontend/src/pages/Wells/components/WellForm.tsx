@@ -1,7 +1,6 @@
 import FormWrapper from '@components/FormWrapper/FormWrapper';
 import { ReactElement, useState } from 'react';
 import { Well } from '../types';
-import { Input } from '@components/FormFields/Input';
 import { Button } from '@components/ui/button';
 import {
   Dialog,

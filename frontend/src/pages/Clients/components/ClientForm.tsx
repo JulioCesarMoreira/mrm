@@ -43,6 +43,7 @@ export default function ClientForm({
         await updateClient(defaultValues.id, {
           name: client.name,
           contactPhone: client.contactPhone,
+          contactName: client.contactName,
         });
       } else {
         await insertClient(client);
@@ -99,6 +100,14 @@ export default function ClientForm({
                       id="name"
                       name="name"
                       placeholder="Insira o nome do cliente"
+                    />
+                  </Input.Wrapper>
+                  <Input.Wrapper className="col-span-full">
+                    <Input.Label label="Nome do contato" required />
+                    <Input.Field
+                      id="contactName"
+                      name="contactName"
+                      placeholder="Insira o nome do contato"
                     />
                   </Input.Wrapper>
 
