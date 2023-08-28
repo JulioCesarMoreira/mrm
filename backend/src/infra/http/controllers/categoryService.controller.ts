@@ -70,7 +70,7 @@ export class CategoryServiceController {
   }
 
   @Get()
-  async fetchCategoryServiceByTenant(
+  async fetchCategoryService(
     @Body() filters: FetchCategoryServicesDto,
   ): Promise<FetchCategoryServicesResponseDto | ErrorResponseDto> {
     try {

@@ -71,7 +71,7 @@ export class ClientController {
   }
 
   @Get()
-  async fetchClientByTenant(
+  async fetchClient(
     @Body() filters: FetchClientsDto,
   ): Promise<FetchClientsResponseDto | ErrorResponseDto> {
     try {

@@ -6,6 +6,7 @@ import {
   ItemServiceRepository,
   ProposalServiceRepository,
   TenantRepository,
+  WellRepository,
 } from '@application/core/repositories';
 import { PrismaDataService } from './prisma/prisma-database.service';
 import { PrismaTenantRepository } from './prisma/repositories/prisma-tenant.repository';
@@ -14,6 +15,7 @@ import { PrismaCategoryServiceRepository } from './prisma/repositories/prisma-ca
 import { PrismaItemServiceRepository } from './prisma/repositories/prisma-itemService.repository';
 import { PrismaProposalServiceRepository } from './prisma/repositories/prisma-proposalService.repository';
 import { PrismaDetectionRepository } from './prisma/repositories/prisma-detection.repository';
+import { PrismaWellRepository } from './prisma/repositories/prisma-well.repository';
 
 @Module({
   imports: [],
@@ -43,6 +45,10 @@ import { PrismaDetectionRepository } from './prisma/repositories/prisma-detectio
       provide: DetectionRepository,
       useClass: PrismaDetectionRepository,
     },
+    {
+      provide: WellRepository,
+      useClass: PrismaWellRepository,
+    },
   ],
   exports: [
     {
@@ -68,6 +74,10 @@ import { PrismaDetectionRepository } from './prisma/repositories/prisma-detectio
     {
       provide: DetectionRepository,
       useClass: PrismaDetectionRepository,
+    },
+    {
+      provide: WellRepository,
+      useClass: PrismaWellRepository,
     },
   ],
 })

@@ -41,7 +41,7 @@ export class DetectionController {
   @Post()
   async createDetection(
     @Body() detectionDto: CreateDetectionDto,
-  ): Promise<CreateDetectionResponseDto | ErrorResponseDto | ErrorResponseDto> {
+  ): Promise<CreateDetectionResponseDto | ErrorResponseDto> {
     try {
       const createdDetection =
         await this.createDetectionUseCase.createDetection(detectionDto);
@@ -55,7 +55,7 @@ export class DetectionController {
   @Get(':id')
   async getDetection(
     @Param() parameters: GetDetectionIdDto,
-  ): Promise<GetDetectionResponseDto | ErrorResponseDto | ErrorResponseDto> {
+  ): Promise<GetDetectionResponseDto | ErrorResponseDto> {
     try {
       const detectionEntity = await this.getDetectionUsecase.getDetection(
         Number(parameters.id),
@@ -67,9 +67,9 @@ export class DetectionController {
   }
 
   @Get()
-  async fetchDetectionByTenant(
+  async fetchDetection(
     @Body() filters: FetchDetectionsDto,
-  ): Promise<FetchDetectionsResponseDto | ErrorResponseDto | ErrorResponseDto> {
+  ): Promise<FetchDetectionsResponseDto | ErrorResponseDto> {
     try {
       const fetchDetectionsList =
         await this.fetchDetectionsUseCase.fetchDetection(filters);
@@ -84,7 +84,7 @@ export class DetectionController {
   async updateDetection(
     @Param() parameters: GetDetectionIdDto,
     @Body() body: UpdateDetectionDto,
-  ): Promise<UpdateDetectionResponseDto | ErrorResponseDto | ErrorResponseDto> {
+  ): Promise<UpdateDetectionResponseDto | ErrorResponseDto> {
     try {
       const updateDetection = await this.updateDetectionUseCase.updateDetection(
         Number(parameters.id),
