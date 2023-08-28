@@ -6,3 +6,5 @@ export * from './itemService.entity';
 export * from './proposalService.entity';
 export * from './detection.entity';
 export * from './well.entity';
+export * from './itemProposalService.entity';
+export * from './modelProposal.entity';

@@ -1,18 +1,20 @@
-import { Detection } from '@application/core/entities';
+import { ItemProposalService } from '@application/core/entities';
 import {
-  DetectionRepository,
+  ItemProposalServiceRepository,
   ProposalServiceRepository,
 } from '@application/core/repositories';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()
-export class FetchDetectionUseCase {
+export class FetchItemProposalServiceUseCase {
   constructor(
-    private detectionRepository: DetectionRepository,
+    private itemProposalServiceRepository: ItemProposalServiceRepository,
     private proposalServiceRepository: ProposalServiceRepository,
   ) {}
 
-  async fetchDetection(filters: Omit<Detection, 'id'>): Promise<Detection[]> {
+  async fetchItemProposalService(
+    filters: Omit<ItemProposalService, 'id'>,
+  ): Promise<ItemProposalService[]> {
     const { proposalServiceId } = filters;
 
     if (proposalServiceId) {
@@ -25,8 +27,9 @@ export class FetchDetectionUseCase {
       }
     }
 
-    const fetchDetection = await this.detectionRepository.fetch(filters);
+    const fetchItemProposalService =
+      await this.itemProposalServiceRepository.fetch(filters);
 
-    return fetchDetection;
+    return fetchItemProposalService;
   }
 }
