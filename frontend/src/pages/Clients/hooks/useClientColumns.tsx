@@ -5,7 +5,7 @@ import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import ClientActions from '../components/ClientActions';
 
-export default function useClientsColumns(): ColumnDef<Client>[] {
+export default function useClientColumns(): ColumnDef<Client>[] {
   return [
     {
       accessorKey: 'id',

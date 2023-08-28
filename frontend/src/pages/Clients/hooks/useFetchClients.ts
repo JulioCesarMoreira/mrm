@@ -32,10 +32,10 @@ export default function useFetchClients(): FetchClientsResponse {
 
   useAsyncEffect(async () => {
     setIsLoading(true);
-    const test = await fetchData();
+    const data = await fetchData();
     setIsLoading(false);
 
-    setData(test.clients);
+    setData(data.clients);
   }, [toggleFetch]);
 
   return { data, isLoading };

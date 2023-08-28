@@ -5,6 +5,10 @@ interface CustomError {
   message: { field?: string; error: string }[];
 }
 
+interface ErrorMessage {
+  message: string;
+}
+
 interface OnError {
   handleError: (error: unknown) => void;
 }
@@ -14,13 +18,17 @@ export default function useOnError(): OnError {
 
   function handleError(error: unknown): void {
     const axiosError = error as AxiosError;
-    const customError = axiosError.response?.data as CustomError;
+    const customError = axiosError.response?.data as CustomError | ErrorMessage;
+
+    const title = (customError as CustomError).message[0]?.error
+      ? (customError as CustomError).message[0].error
+      : (customError.message as string);
 
     toast({
-      title: customError.message[0]?.error,
+      title,
       variant: 'destructive',
     });
-    console.error('Error deleting client:', error);
+    console.log('Error:', error);
   }
 
   return { handleError };
