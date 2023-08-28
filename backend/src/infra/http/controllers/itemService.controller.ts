@@ -68,7 +68,7 @@ export class ItemServiceController {
   }
 
   @Get()
-  async fetchItemServiceByTenant(
+  async fetchItemService(
     @Body() filters: FetchItemServicesDto,
   ): Promise<FetchItemServicesResponseDto | ErrorResponseDto> {
     try {

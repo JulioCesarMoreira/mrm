@@ -121,22 +121,20 @@ model Detection {
 
 model Well {
   id                Int             @id @default(autoincrement())
-  voltage           Int
-  totalDepth        Int
-  sieveDepth        Int
-  staticLevel       Int
-  dynamicLevel      Int
-  deliveryDate      DateTime
-  sedimentaryDepth  Int
-  price             Int
-  distric           String
-  cep               String
-  street            String
-  number            String
-  longitude         String
-  latitude          String
-  mapLink           String
-  uf                Uf
+  voltage           Voltage?
+  totalDepth        Int?
+  sieveDepth        Int?
+  staticLevel       Int?
+  dynamicLevel      Int?
+  deliveryDate      DateTime?
+  sedimentaryDepth  Int?
+  distric           String?
+  cep               String?
+  street            String?
+  number            String?
+  longitude         String?
+  latitude          String?
+  mapLink           String?
   city              City            @relation(fields: [cityId], references: [id])
   cityId            Int
   proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
@@ -158,4 +156,9 @@ enum Uf {
 enum Status {
   AVAILABLE
   UNAVAILABLE
+}
+
+enum Voltage {
+  V110
+  V220
 }
