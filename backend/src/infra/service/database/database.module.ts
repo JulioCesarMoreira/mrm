@@ -3,6 +3,7 @@ import {
   CategoryServiceRepository,
   ClientRepository,
   DetectionRepository,
+  ItemProposalServiceRepository,
   ItemServiceRepository,
   ProposalServiceRepository,
   TenantRepository,
@@ -16,6 +17,7 @@ import { PrismaItemServiceRepository } from './prisma/repositories/prisma-itemSe
 import { PrismaProposalServiceRepository } from './prisma/repositories/prisma-proposalService.repository';
 import { PrismaDetectionRepository } from './prisma/repositories/prisma-detection.repository';
 import { PrismaWellRepository } from './prisma/repositories/prisma-well.repository';
+import { PrismaItemProposalServiceRepository } from './prisma/repositories/prisma-itemProposalService.repository';
 
 @Module({
   imports: [],
@@ -49,6 +51,10 @@ import { PrismaWellRepository } from './prisma/repositories/prisma-well.reposito
       provide: WellRepository,
       useClass: PrismaWellRepository,
     },
+    {
+      provide: ItemProposalServiceRepository,
+      useClass: PrismaItemProposalServiceRepository,
+    },
   ],
   exports: [
     {
@@ -78,6 +84,10 @@ import { PrismaWellRepository } from './prisma/repositories/prisma-well.reposito
     {
       provide: WellRepository,
       useClass: PrismaWellRepository,
+    },
+    {
+      provide: ItemProposalServiceRepository,
+      useClass: PrismaItemProposalServiceRepository,
     },
   ],
 })
