@@ -71,11 +71,6 @@ export default function InputField({
     setFocus(false);
   }, []);
 
-  if (name === 'cpfCnpj') {
-    console.log('field.value', field.value.replace(/[^0-9]/g, ''));
-    console.log('field.value', field.value.replace(/[^0-9]/g, '').length);
-  }
-
   useEffect(() => {
     if (field.value && field.value.replace(/[^0-9]/g, '').length < CPF_LIMIT) {
       setMask('###.###.###-#####');
