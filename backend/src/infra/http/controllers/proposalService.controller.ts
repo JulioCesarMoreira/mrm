@@ -41,9 +41,7 @@ export class ProposalServiceController {
   @Post()
   async createProposalService(
     @Body() proposalServiceDto: CreateProposalServiceDto,
-  ): Promise<
-    CreateProposalServiceResponseDto | ErrorResponseDto | ErrorResponseDto
-  > {
+  ): Promise<CreateProposalServiceResponseDto | ErrorResponseDto> {
     try {
       const createdProposalService =
         await this.createProposalServiceUseCase.createProposalService(
@@ -59,9 +57,7 @@ export class ProposalServiceController {
   @Get(':id')
   async getProposalService(
     @Param() parameters: GetProposalServiceIdDto,
-  ): Promise<
-    GetProposalServiceResponseDto | ErrorResponseDto | ErrorResponseDto
-  > {
+  ): Promise<GetProposalServiceResponseDto | ErrorResponseDto> {
     try {
       const proposalServiceEntity =
         await this.getProposalServiceUsecase.getProposalService(
@@ -74,11 +70,9 @@ export class ProposalServiceController {
   }
 
   @Get()
-  async fetchProposalServiceByTenant(
+  async fetchProposalService(
     @Body() filters: FetchProposalServicesDto,
-  ): Promise<
-    FetchProposalServicesResponseDto | ErrorResponseDto | ErrorResponseDto
-  > {
+  ): Promise<FetchProposalServicesResponseDto | ErrorResponseDto> {
     try {
       const fetchProposalServicesList =
         await this.fetchProposalServicesUseCase.fetchProposalService(filters);
@@ -95,9 +89,7 @@ export class ProposalServiceController {
   async updateProposalService(
     @Param() parameters: GetProposalServiceIdDto,
     @Body() body: UpdateProposalServiceDto,
-  ): Promise<
-    UpdateProposalServiceResponseDto | ErrorResponseDto | ErrorResponseDto
-  > {
+  ): Promise<UpdateProposalServiceResponseDto | ErrorResponseDto> {
     try {
       const updateProposalService =
         await this.updateProposalServiceUseCase.updateProposalService(
