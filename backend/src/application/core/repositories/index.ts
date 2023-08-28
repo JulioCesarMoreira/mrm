@@ -5,3 +5,4 @@ export * from './itemService-repository.abstract';
 export * from './proposalService-repository.abstract';
 export * from './detection-repository.abstract';
 export * from './well-repository.abstract';
+export * from './itemProposalService-repository.abstract';

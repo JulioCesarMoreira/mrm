@@ -1,16 +1,10 @@
 import { Well } from '@application/core/entities';
-import {
-  WellRepository,
-  ProposalServiceRepository,
-} from '@application/core/repositories';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { WellRepository } from '@application/core/repositories';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FetchWellUseCase {
-  constructor(
-    private wellRepository: WellRepository,
-    private proposalServiceRepository: ProposalServiceRepository,
-  ) {}
+  constructor(private wellRepository: WellRepository) {}
 
   async fetchWell(
     filters: Omit<
@@ -27,19 +21,9 @@ export class FetchWellUseCase {
       | 'mapLink'
     >,
   ): Promise<Well[]> {
-    const { proposalServiceId, deliveryDate } = filters;
+    const { deliveryDate } = filters;
 
-    if (proposalServiceId) {
-      const proposalService = await this.proposalServiceRepository.get(
-        proposalServiceId,
-      );
-
-      if (!proposalService) {
-        throw new BadRequestException('proposalService not found.');
-      }
-    }
-
-    // converting date to save in RDS
+    // converting datvscode-file://vscode-app/snap/code/137/usr/share/code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.htmle to save in RDS
     filters.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
 
     const fetchWell = await this.wellRepository.fetch(filters);
