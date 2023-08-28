@@ -1,11 +1,15 @@
 import { Outlet } from 'react-router-dom';
 import SideMenu from './components/SideMenu/SideMenu';
+import { Toaster } from '@components/ui/toaster';
 
 function App() {
   return (
-    <div className="max-w-[100vw] h-screen max-h-[100vh] bg-gray-scale-800 flex">
+    <div className="flex h-screen max-h-[100vh] max-w-[100vw]">
       <SideMenu />
-      <Outlet />
+      <Toaster />
+      <div className="w-full overflow-auto">
+        <Outlet />
+      </div>
     </div>
   );
 }

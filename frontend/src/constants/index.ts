@@ -1,6 +1,8 @@
 import { nanoid } from 'nanoid';
 import type { SideMenuItemProperties } from '../components/SideMenu/types';
 
+export const CLOSE_DIALOG_DURATION = 300;
+
 export const sideMenuItems: (SideMenuItemProperties & { key: string })[] = [
   {
     key: nanoid(),

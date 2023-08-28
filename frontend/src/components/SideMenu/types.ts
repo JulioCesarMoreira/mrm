@@ -4,5 +4,4 @@ export interface SideMenuItemProperties {
   label: string;
   route: string;
   svgName: SvgName;
-  className?: string;
 }

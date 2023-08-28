@@ -1,7 +1,7 @@
 import Svg from '../Svg/Svg';
 import { useAtom } from 'jotai';
-import { twMerge } from 'tailwind-merge';
-import { isSideMenuOpenAtom } from '../../atoms';
+import { isSideMenuOpenAtom } from '../../constants/atoms';
+import { cn } from '@lib/utils';
 import Tooltip from '../Tooltip/Tooltip';
 import type { ReactElement } from 'react';
 
@@ -21,20 +21,20 @@ export default function SideMenuExpandHandler(): ReactElement {
     >
       <button
         type="button"
-        className="group w-full mt-12 flex items-center hover:bg-gray-scale-200 gap-4 duration-200 rounded p-3 pl-0 max-w-[160px] max-h-[44px]"
+        className="hover:bg-gray-scale-200 group mt-12 flex max-h-[44px] w-full max-w-[160px] items-center gap-4 rounded p-3 pl-0 duration-200"
         onClick={onToggleSideMenu}
       >
         <Svg
           name="chevron_right"
-          className={twMerge(
-            'w-8 h-8 fill-gray-scale-500 duration-300 flex-shrink-0',
+          className={cn(
+            'fill-gray-scale-500 h-8 w-8 flex-shrink-0 duration-300',
             !isOpen && 'rotate-180',
           )}
         />
         <p
-          className={twMerge(
-            'transition-all text-sm font-medium duration-200 text-gray-scale-700',
-            isOpen ? 'w-auto opacity-100' : 'pointer-events-none opacity-0 w-0',
+          className={cn(
+            'text-gray-scale-700 text-sm font-medium transition-all duration-200',
+            isOpen ? 'w-auto opacity-100' : 'pointer-events-none w-0 opacity-0',
           )}
         >
           Retrair

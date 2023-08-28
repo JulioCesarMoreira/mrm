@@ -4,13 +4,13 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import LoginPage from './pages/Login/LoginPage';
 import WellsPage from './pages/Wells/WellsPage';
+import ClientsPage from './pages/Clients/ClientsPage';
 import ServicesPage from './pages/Services/ServicesPage';
-import CustomersPage from './pages/Customers/CustomersPage';
 import ServiceItemsPage from './pages/ServiceItems/ServiceItemsPage';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import App from './App';
 
-import './index.css';
+import './global.css';
 
 const router = createBrowserRouter([
   {
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/clientes',
-        element: <CustomersPage />,
+        element: <ClientsPage />,
       },
     ],
   },
