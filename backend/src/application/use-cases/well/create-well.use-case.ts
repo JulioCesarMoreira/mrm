@@ -14,15 +14,6 @@ export class CreateWellUseCase {
     // converting date to save in RDS
     well.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
 
-    // check if proposal service exits
-    // const proposalServiceEntity = await this.proposalServiceRepository.get(
-    //   proposalServiceId,
-    // );
-
-    // if (!proposalServiceEntity) {
-    //   throw new BadRequestException('Proposal Service not found.');
-    // }
-
     const createdWell = await this.wellRepository.create(well);
 
     return createdWell;

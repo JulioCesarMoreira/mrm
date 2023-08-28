@@ -29,16 +29,18 @@ export class FetchWellUseCase {
   ): Promise<Well[]> {
     const { proposalServiceId, deliveryDate } = filters;
 
-    const proposalService = await this.proposalServiceRepository.get(
-      proposalServiceId,
-    );
+    if (proposalServiceId) {
+      const proposalService = await this.proposalServiceRepository.get(
+        proposalServiceId,
+      );
+
+      if (!proposalService) {
+        throw new BadRequestException('proposalService not found.');
+      }
+    }
 
     // converting date to save in RDS
     filters.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
-
-    if (!proposalService) {
-      throw new BadRequestException('proposalService not found.');
-    }
 
     const fetchWell = await this.wellRepository.fetch(filters);
 
