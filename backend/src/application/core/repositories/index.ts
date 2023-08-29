@@ -7,3 +7,4 @@ export * from './detection-repository.abstract';
 export * from './well-repository.abstract';
 export * from './itemProposalService-repository.abstract';
 export * from './modelProposal-repository.abstract';
+export * from './modelProposalItemService-repository.abstract';

@@ -8,3 +8,4 @@ export * from './detection.entity';
 export * from './well.entity';
 export * from './itemProposalService.entity';
 export * from './modelProposal.entity';
+export * from './modelProposalItemService.entity';

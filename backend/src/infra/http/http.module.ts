@@ -7,6 +7,7 @@ import {
   DetectionController,
   WellController,
   ModelProposalController,
+  ModelProposalItemServiceController,
 } from './controllers';
 import { GetTenantUseCase } from '@application/use-cases/tenant';
 import { DatabaseModule } from '@infra/service/database/database.module';
@@ -67,6 +68,12 @@ import {
   GetModelProposalUseCase,
   UpdateModelProposalUseCase,
 } from '@application/use-cases/modelProposal';
+import {
+  CreateModelProposalItemServiceUseCase,
+  DeleteModelProposalItemServiceUseCase,
+  FetchModelProposalItemServiceUseCase,
+  GetModelProposalItemServiceUseCase,
+} from '@application/use-cases/modelProposalItemService';
 
 @Module({
   imports: [DatabaseModule],
@@ -79,6 +86,7 @@ import {
     WellController,
     ItemProposalServiceController,
     ModelProposalController,
+    ModelProposalItemServiceController,
   ],
   providers: [
     GetTenantUseCase,
@@ -130,6 +138,11 @@ import {
     FetchModelProposalUseCase,
     UpdateModelProposalUseCase,
     DeleteModelProposalUseCase,
+
+    CreateModelProposalItemServiceUseCase,
+    DeleteModelProposalItemServiceUseCase,
+    FetchModelProposalItemServiceUseCase,
+    GetModelProposalItemServiceUseCase,
   ],
 })
 export class HttpModule {}
