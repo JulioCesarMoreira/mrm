@@ -1,7 +1,6 @@
 import FormWrapper from '@components/FormWrapper/FormWrapper';
 import { ReactElement, useState } from 'react';
 import { ClientFields } from '../types';
-import { Input } from '@components/FormFields/Input';
 import { Button } from '@components/ui/button';
 import {
   Dialog,
@@ -19,6 +18,7 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Pencil } from 'lucide-react';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { CLOSE_DIALOG_DURATION } from 'constants';
+import ClientFormFields from './ClientFormFields';
 
 interface ClientsFormProperties {
   defaultValues: ClientFields;
@@ -93,44 +93,7 @@ export default function ClientForm({
               </div>
             ) : (
               <>
-                <div className="mb-4 grid grid-flow-row grid-cols-12 gap-4">
-                  <Input.Wrapper className="col-span-full">
-                    <Input.Label label="Nome" required />
-                    <Input.Field
-                      id="name"
-                      name="name"
-                      placeholder="Insira o nome do cliente"
-                    />
-                  </Input.Wrapper>
-                  <Input.Wrapper className="col-span-full">
-                    <Input.Label label="Nome do contato" required />
-                    <Input.Field
-                      id="contactName"
-                      name="contactName"
-                      placeholder="Insira o nome do contato"
-                    />
-                  </Input.Wrapper>
-
-                  <Input.Wrapper className="col-span-6">
-                    <Input.Label label="CPF / CNPJ" required />
-                    <Input.Field
-                      id="cpfCnpj"
-                      name="cpfCnpj"
-                      placeholder="Documento do cliente"
-                      disabled={!!defaultValues.id}
-                      maskType="cpf-cnpj"
-                    />
-                  </Input.Wrapper>
-
-                  <Input.Wrapper className="col-span-6">
-                    <Input.Label label="Celular / Telefone" required />
-                    <Input.Field
-                      id="contactPhone"
-                      name="contactPhone"
-                      placeholder="Contato do cliente"
-                    />
-                  </Input.Wrapper>
-                </div>
+                <ClientFormFields defaultValues={defaultValues} />
 
                 <hr className="w-full" />
 
