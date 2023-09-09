@@ -9,10 +9,10 @@ export class CreateModelItemCategoryUseCase {
   ) {}
 
   async createModelItemCategory(
-    ModelItemCategory: Omit<ModelItemCategory, 'id'>,
+    modelItemCategory: Omit<ModelItemCategory, 'id'>,
   ): Promise<ModelItemCategory> {
     const createdModelItemCategory =
-      await this.ModelItemCategoryRepository.create(ModelItemCategory);
+      await this.ModelItemCategoryRepository.create(modelItemCategory);
 
     return createdModelItemCategory;
   }

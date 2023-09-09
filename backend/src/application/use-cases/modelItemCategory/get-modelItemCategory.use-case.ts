@@ -5,11 +5,11 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class GetModelItemCategoryUseCase {
   constructor(
-    private ModelItemCategoryRepository: ModelItemCategoryRepository,
+    private modelItemCategoryRepository: ModelItemCategoryRepository,
   ) {}
 
   async getModelItemCategory(id: number): Promise<ModelItemCategory> {
-    const getModelItemCategory = await this.ModelItemCategoryRepository.get(id);
+    const getModelItemCategory = await this.modelItemCategoryRepository.get(id);
 
     return getModelItemCategory;
   }

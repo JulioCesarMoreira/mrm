@@ -6,6 +6,8 @@ import {
   IsDateString,
   IsInt,
   IsBoolean,
+  Max,
+  Min,
 } from 'class-validator';
 
 export class CreateProposalDto {
@@ -27,6 +29,8 @@ export class CreateProposalDto {
 
   @IsInt()
   @IsOptional()
+  @Max(10000)
+  @Min(0)
   percentageEntry: number;
 
   @IsInt()
@@ -70,6 +74,8 @@ export class FetchProposalsDto {
 
   @IsInt()
   @IsOptional()
+  @Max(10000)
+  @Min(0)
   percentageEntry: number;
 
   @IsInt()
@@ -108,6 +114,8 @@ export class UpdateProposalDto {
 
   @IsInt()
   @IsOptional()
+  @Max(10000)
+  @Min(0)
   percentageEntry: number;
 
   @IsInt()

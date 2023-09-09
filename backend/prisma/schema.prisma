@@ -12,7 +12,7 @@ generator client {
 
 model User {
   id        String @id @default(uuid())
-  email     String @unique
+  email     String @unique @db.VarChar(200)
   cognitoId String @unique @default(uuid())
   tenant    Tenant @relation(fields: [tenantId], references: [id])
   tenantId  String @default(uuid())
@@ -30,10 +30,10 @@ model Tenant {
 
 model Client {
   id           Int        @id @default(autoincrement())
-  name         String
-  contactName  String?
-  contactPhone String?
-  cpfCnpj      String     @unique
+  name         String     @db.VarChar(200)
+  contactName  String?    @db.VarChar(100)
+  contactPhone String?    @db.VarChar(11)
+  cpfCnpj      String     @unique @db.VarChar(14)
   tenant       Tenant     @relation(fields: [tenantId], references: [id])
   tenantId     String     @default(uuid())
   proposal     Proposal[]
@@ -59,7 +59,7 @@ model Proposal {
 
 model CategoryService {
   id          Int           @id @default(autoincrement())
-  name        String        @unique
+  name        String        @unique @db.VarChar(100)
   subCategory SubCategory
   tenant      Tenant        @relation(fields: [tenantId], references: [id])
   tenantId    String        @default(uuid())
@@ -73,9 +73,9 @@ enum SubCategory {
 
 model ItemService {
   id                Int                 @id @default(autoincrement())
-  name              String              @unique
-  description       String
-  unit              String
+  name              String              @unique @db.VarChar(100)
+  description       String              @db.VarChar(400)
+  unit              String              @db.VarChar(3)
   status            Status
   categoryService   CategoryService     @relation(fields: [categoryServiceId], references: [id])
   categoryServiceId Int
@@ -95,7 +95,7 @@ model ItemProposal {
 
 model ModelProposal {
   id                Int                 @id @default(autoincrement())
-  name              String              @unique
+  name              String              @unique @db.VarChar(100)
   tenant            Tenant              @relation(fields: [tenantId], references: [id])
   tenantId          String              @default(uuid())
   modelItemCategory ModelItemCategory[]
@@ -128,13 +128,13 @@ model Well {
   dynamicLevel     Int?
   deliveryDate     DateTime?
   sedimentaryDepth Int?
-  distric          String?
-  zipcode          String?
-  street           String?
-  number           String?
-  longitude        String?
-  latitude         String?
-  mapLink          String?
+  distric          String?   @db.VarChar(100)
+  zipcode          String?   @db.VarChar(8)
+  street           String?   @db.VarChar(200)
+  number           String?   @db.VarChar(10)
+  longitude        String?   @db.VarChar(20)
+  latitude         String?   @db.VarChar(20)
+  mapLink          String?   @db.VarChar(2000)
   city             City      @relation(fields: [cityId], references: [id])
   cityId           Int
   proposal         Proposal  @relation(fields: [proposalId], references: [id])
@@ -144,7 +144,7 @@ model Well {
 model City {
   id   Int    @id @default(autoincrement())
   uf   Uf
-  name String
+  name String @db.VarChar(100)
   well Well[]
 
   @@unique([name, uf])

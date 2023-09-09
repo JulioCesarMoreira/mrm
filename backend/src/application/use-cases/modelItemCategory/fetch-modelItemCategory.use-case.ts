@@ -9,7 +9,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 @Injectable()
 export class FetchModelItemCategoryUseCase {
   constructor(
-    private ModelItemCategoryRepository: ModelItemCategoryRepository,
+    private modelItemCategoryRepository: ModelItemCategoryRepository,
     private modelProposalRepository: ModelProposalRepository,
     private itemServiceRepository: ItemServiceRepository,
   ) {}
@@ -37,7 +37,7 @@ export class FetchModelItemCategoryUseCase {
       }
     }
 
-    const fetchModelItemCategory = await this.ModelItemCategoryRepository.fetch(
+    const fetchModelItemCategory = await this.modelItemCategoryRepository.fetch(
       filters,
     );
 

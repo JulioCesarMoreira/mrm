@@ -10,10 +10,10 @@ export class ModelItemCategoryMapper {
   ): FetchModelItemCategorysResponseDto {
     const fetchModelItemCategorysResponseDto =
       new FetchModelItemCategorysResponseDto();
-    fetchModelItemCategorysResponseDto.ModelItemCategorys = [];
+    fetchModelItemCategorysResponseDto.modelItemCategorys = [];
 
     for (const ModelItemCategoryItemService of ModelItemCategoryItemServicesEntity) {
-      fetchModelItemCategorysResponseDto.ModelItemCategorys.push({
+      fetchModelItemCategorysResponseDto.modelItemCategorys.push({
         id: ModelItemCategoryItemService.id,
         modelProposalId: ModelItemCategoryItemService.modelProposalId,
         itemServiceId: ModelItemCategoryItemService.itemServiceId,

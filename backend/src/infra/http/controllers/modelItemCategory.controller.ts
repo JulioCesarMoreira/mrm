@@ -28,12 +28,12 @@ export class ModelItemCategoryController {
 
   @Post()
   async createModelItemCategory(
-    @Body() ModelItemCategoryDto: CreateModelItemCategoryDto,
+    @Body() modelItemCategoryDto: CreateModelItemCategoryDto,
   ): Promise<CreateModelItemCategoryResponseDto | ErrorResponseDto> {
     try {
       const createdModelItemCategory =
         await this.createModelItemCategoryUseCase.createModelItemCategory(
-          ModelItemCategoryDto,
+          modelItemCategoryDto,
         );
 
       return createdModelItemCategory;

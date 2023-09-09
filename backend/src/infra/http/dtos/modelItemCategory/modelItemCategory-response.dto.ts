@@ -15,7 +15,7 @@ export class GetModelItemCategoryResponseDto {
 }
 
 export class FetchModelItemCategorysResponseDto {
-  ModelItemCategorys: {
+  modelItemCategorys: {
     id: number;
 
     modelProposalId: number;
