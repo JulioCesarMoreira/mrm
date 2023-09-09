@@ -16,7 +16,7 @@ export class CreateDetectionDto {
   @IsInt()
   @IsNotEmpty()
   @Max(10000)
-  sality: number;
+  salinity: number;
 
   @IsNumber()
   @IsNotEmpty()
@@ -28,7 +28,7 @@ export class CreateDetectionDto {
 
   @IsInt()
   @IsNotEmpty()
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class GetDetectionIdDto {
@@ -45,7 +45,7 @@ export class FetchDetectionsDto {
   @IsInt()
   @IsOptional()
   @Max(10000)
-  sality: number;
+  salinity: number;
 
   @IsNumber()
   @IsOptional()
@@ -57,7 +57,7 @@ export class FetchDetectionsDto {
 
   @IsInt()
   @IsNotEmpty()
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class UpdateDetectionDto {
@@ -69,7 +69,7 @@ export class UpdateDetectionDto {
   @IsInt()
   @IsOptional()
   @Max(10000)
-  sality: number;
+  salinity: number;
 
   @IsNumber()
   @IsOptional()

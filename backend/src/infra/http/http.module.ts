@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import {
   ClientController,
   CategoryServiceController,
-  ProposalServiceController,
+  ProposalController,
   ItemServiceController,
   DetectionController,
   WellController,
   ModelProposalController,
-  ModelProposalItemServiceController,
+  ModelItemCategoryController,
 } from './controllers';
 import { GetTenantUseCase } from '@application/use-cases/tenant';
 import { DatabaseModule } from '@infra/service/database/database.module';
@@ -33,12 +33,12 @@ import {
   UpdateItemServiceUseCase,
 } from '@application/use-cases/itemService';
 import {
-  CreateProposalServiceUseCase,
-  DeleteProposalServiceUseCase,
-  FetchProposalServiceUseCase,
-  GetProposalServiceUseCase,
-  UpdateProposalServiceUseCase,
-} from '@application/use-cases/proposalService';
+  CreateProposalUseCase,
+  DeleteProposalUseCase,
+  FetchProposalUseCase,
+  GetProposalUseCase,
+  UpdateProposalUseCase,
+} from '@application/use-cases/proposal';
 import {
   CreateDetectionUseCase,
   DeleteDetectionUseCase,
@@ -54,13 +54,13 @@ import {
   UpdateWellUseCase,
 } from '@application/use-cases/well';
 import {
-  CreateItemProposalServiceUseCase,
-  DeleteItemProposalServiceUseCase,
-  FetchItemProposalServiceUseCase,
-  GetItemProposalServiceUseCase,
-  UpdateItemProposalServiceUseCase,
-} from '@application/use-cases/itemProposalService';
-import { ItemProposalServiceController } from './controllers/itemProposalService.controller';
+  CreateItemProposalUseCase,
+  DeleteItemProposalUseCase,
+  FetchItemProposalUseCase,
+  GetItemProposalUseCase,
+  UpdateItemProposalUseCase,
+} from '@application/use-cases/itemProposal';
+import { ItemProposalController } from './controllers/itemProposal.controller';
 import {
   CreateModelProposalUseCase,
   DeleteModelProposalUseCase,
@@ -69,11 +69,11 @@ import {
   UpdateModelProposalUseCase,
 } from '@application/use-cases/modelProposal';
 import {
-  CreateModelProposalItemServiceUseCase,
-  DeleteModelProposalItemServiceUseCase,
-  FetchModelProposalItemServiceUseCase,
-  GetModelProposalItemServiceUseCase,
-} from '@application/use-cases/modelProposalItemService';
+  CreateModelItemCategoryUseCase,
+  DeleteModelItemCategoryUseCase,
+  FetchModelItemCategoryUseCase,
+  GetModelItemCategoryUseCase,
+} from '@application/use-cases/modelItemCategory';
 
 @Module({
   imports: [DatabaseModule],
@@ -81,12 +81,12 @@ import {
     ItemServiceController,
     ClientController,
     CategoryServiceController,
-    ProposalServiceController,
+    ProposalController,
     DetectionController,
     WellController,
-    ItemProposalServiceController,
+    ItemProposalController,
     ModelProposalController,
-    ModelProposalItemServiceController,
+    ModelItemCategoryController,
   ],
   providers: [
     GetTenantUseCase,
@@ -109,11 +109,11 @@ import {
     UpdateItemServiceUseCase,
     DeleteItemServiceUseCase,
 
-    CreateProposalServiceUseCase,
-    GetProposalServiceUseCase,
-    FetchProposalServiceUseCase,
-    UpdateProposalServiceUseCase,
-    DeleteProposalServiceUseCase,
+    CreateProposalUseCase,
+    GetProposalUseCase,
+    FetchProposalUseCase,
+    UpdateProposalUseCase,
+    DeleteProposalUseCase,
 
     CreateDetectionUseCase,
     GetDetectionUseCase,
@@ -127,11 +127,11 @@ import {
     UpdateWellUseCase,
     DeleteWellUseCase,
 
-    CreateItemProposalServiceUseCase,
-    GetItemProposalServiceUseCase,
-    FetchItemProposalServiceUseCase,
-    UpdateItemProposalServiceUseCase,
-    DeleteItemProposalServiceUseCase,
+    CreateItemProposalUseCase,
+    GetItemProposalUseCase,
+    FetchItemProposalUseCase,
+    UpdateItemProposalUseCase,
+    DeleteItemProposalUseCase,
 
     CreateModelProposalUseCase,
     GetModelProposalUseCase,
@@ -139,10 +139,10 @@ import {
     UpdateModelProposalUseCase,
     DeleteModelProposalUseCase,
 
-    CreateModelProposalItemServiceUseCase,
-    DeleteModelProposalItemServiceUseCase,
-    FetchModelProposalItemServiceUseCase,
-    GetModelProposalItemServiceUseCase,
+    CreateModelItemCategoryUseCase,
+    DeleteModelItemCategoryUseCase,
+    FetchModelItemCategoryUseCase,
+    GetModelItemCategoryUseCase,
   ],
 })
 export class HttpModule {}

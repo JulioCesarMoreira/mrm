@@ -9,7 +9,7 @@ export abstract class DetectionRepository {
 
   abstract update(
     entityId: number,
-    entityFields: Omit<Detection, 'id' | 'proposalServiceId'>,
+    entityFields: Omit<Detection, 'id' | 'proposalId'>,
   ): Promise<Detection>;
 
   abstract delete(id: number): Promise<boolean>;

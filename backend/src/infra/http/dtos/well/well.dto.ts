@@ -51,7 +51,7 @@ export class CreateWellDto {
   @IsOptional()
   @IsString()
   @MaxLength(8)
-  cep: string;
+  zipcode: string;
 
   @IsOptional()
   @IsString()
@@ -84,7 +84,7 @@ export class CreateWellDto {
 
   @IsNotEmpty()
   @IsInt()
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class GetWellIdDto {
@@ -107,7 +107,7 @@ export class FetchWellsDto {
   @IsOptional()
   @IsString()
   @MaxLength(8)
-  cep: string;
+  zipcode: string;
 
   @IsOptional()
   @IsString()
@@ -120,7 +120,7 @@ export class FetchWellsDto {
 
   @IsOptional()
   @IsInt()
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class UpdateWellDto {
@@ -159,7 +159,7 @@ export class UpdateWellDto {
   @IsOptional()
   @IsString()
   @MaxLength(8)
-  cep: string;
+  zipcode: string;
 
   @IsOptional()
   @IsString()

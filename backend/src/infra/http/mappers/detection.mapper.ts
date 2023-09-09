@@ -15,10 +15,10 @@ export class DetectionMapper {
       fetchDetectionsResponseDto.detections.push({
         id: detectionEntity.id,
         accuracy: detectionEntity.accuracy,
-        sality: detectionEntity.sality,
+        salinity: detectionEntity.salinity,
         maximumDepth: detectionEntity.maximumDepth,
         minimumDepth: detectionEntity.minimumDepth,
-        proposalServiceId: detectionEntity.proposalServiceId,
+        proposalId: detectionEntity.proposalId,
       });
     }
 

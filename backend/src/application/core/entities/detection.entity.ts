@@ -3,11 +3,11 @@ export class Detection {
 
   accuracy: number;
 
-  sality: number;
+  salinity: number;
 
   maximumDepth: number;
 
   minimumDepth: number;
 
-  proposalServiceId: number;
+  proposalId: number;
 }

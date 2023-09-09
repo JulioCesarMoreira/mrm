@@ -22,48 +22,48 @@ model Tenant {
   id              String            @id @default(uuid())
   cognitoId       String            @unique @default(uuid())
   User            User[]
-  Client          Client[]
-  ProposalService ProposalService[]
-  CategoryService CategoryService[]
-  ModelProposal   ModelProposal[]
+  client          Client[]
+  proposal        Proposal[]
+  categoryService CategoryService[]
+  modelProposal   ModelProposal[]
 }
 
 model Client {
-  id              Int               @id @default(autoincrement())
-  name            String
-  contactName     String?
-  contactPhone    String?
-  cpfCnpj         String
-  tenant          Tenant            @relation(fields: [tenantId], references: [id])
-  tenantId        String            @default(uuid())
-  ProposalService ProposalService[]
+  id           Int        @id @default(autoincrement())
+  name         String
+  contactName  String?
+  contactPhone String?
+  cpfCnpj      String     @unique
+  tenant       Tenant     @relation(fields: [tenantId], references: [id])
+  tenantId     String     @default(uuid())
+  proposal     Proposal[]
 }
 
-model ProposalService {
-  id                  Int                   @id @default(autoincrement())
+model Proposal {
+  id                  Int            @id @default(autoincrement())
   sendDate            DateTime?
   installmentsBalance Int?
   periodValidity      DateTime?
   discount            Int?
   percentageEntry     Int?
   guaranteePeriod     Int?
-  approved            Boolean?              @default(false)
-  client              Client                @relation(fields: [clientId], references: [id])
+  approved            Boolean?       @default(false)
+  client              Client         @relation(fields: [clientId], references: [id])
   clientId            Int
-  tenat               Tenant                @relation(fields: [tenantId], references: [id])
-  tenantId            String                @default(uuid())
-  ItemProposalService ItemProposalService[]
-  Detection           Detection[]
-  Well                Well[]
+  tenant              Tenant         @relation(fields: [tenantId], references: [id])
+  tenantId            String         @default(uuid())
+  itemProposal        ItemProposal[]
+  detection           Detection[]
+  well                Well[]
 }
 
 model CategoryService {
   id          Int           @id @default(autoincrement())
-  name        String
+  name        String        @unique
   subCategory SubCategory
-  tenat       Tenant        @relation(fields: [tenantId], references: [id])
+  tenant      Tenant        @relation(fields: [tenantId], references: [id])
   tenantId    String        @default(uuid())
-  ItemService ItemService[]
+  itemService ItemService[]
 }
 
 enum SubCategory {
@@ -72,36 +72,36 @@ enum SubCategory {
 }
 
 model ItemService {
-  id                       Int                        @id @default(autoincrement())
-  name                     String
-  description              String
-  unit                     String
-  status                   Status
-  categoryService          CategoryService            @relation(fields: [categoryServiceId], references: [id])
-  categoryServiceId        Int
-  ItemProposalService      ItemProposalService[]
-  modelProposalItemService modelProposalItemService[]
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  description       String
+  unit              String
+  status            Status
+  categoryService   CategoryService     @relation(fields: [categoryServiceId], references: [id])
+  categoryServiceId Int
+  itemProposal      ItemProposal[]
+  modelItemCategory ModelItemCategory[]
 }
 
-model ItemProposalService {
-  id                Int             @id @default(autoincrement())
-  unitPrice         Int
-  quantity          Int
-  proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
-  proposalServiceId Int
-  itemService       ItemService     @relation(fields: [itemServiceId], references: [id])
-  itemServiceId     Int
+model ItemProposal {
+  id            Int         @id @default(autoincrement())
+  unitPrice     Int
+  quantity      Int
+  proposal      Proposal    @relation(fields: [proposalId], references: [id])
+  proposalId    Int
+  itemService   ItemService @relation(fields: [itemServiceId], references: [id])
+  itemServiceId Int
 }
 
 model ModelProposal {
-  id                       Int                        @id @default(autoincrement())
-  name                     String
-  tenat                    Tenant                     @relation(fields: [tenantId], references: [id])
-  tenantId                 String                     @default(uuid())
-  modelProposalItemService modelProposalItemService[]
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique
+  tenant            Tenant              @relation(fields: [tenantId], references: [id])
+  tenantId          String              @default(uuid())
+  modelItemCategory ModelItemCategory[]
 }
 
-model modelProposalItemService {
+model ModelItemCategory {
   id              Int           @id @default(autoincrement())
   modelProposal   ModelProposal @relation(fields: [modelProposalId], references: [id])
   modelProposalId Int
@@ -110,42 +110,44 @@ model modelProposalItemService {
 }
 
 model Detection {
-  id                Int             @id @default(autoincrement())
-  accuracy          Int
-  sality            Int
-  maximumDepth      Int
-  minimumDepth      Int
-  proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
-  proposalServiceId Int
+  id           Int      @id @default(autoincrement())
+  accuracy     Int
+  salinity     Int
+  maximumDepth Int
+  minimumDepth Int
+  proposal     Proposal @relation(fields: [proposalId], references: [id])
+  proposalId   Int
 }
 
 model Well {
-  id                Int             @id @default(autoincrement())
-  voltage           Voltage?
-  totalDepth        Int?
-  sieveDepth        Int?
-  staticLevel       Int?
-  dynamicLevel      Int?
-  deliveryDate      DateTime?
-  sedimentaryDepth  Int?
-  distric           String?
-  cep               String?
-  street            String?
-  number            String?
-  longitude         String?
-  latitude          String?
-  mapLink           String?
-  city              City            @relation(fields: [cityId], references: [id])
-  cityId            Int
-  proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
-  proposalServiceId Int
+  id               Int       @id @default(autoincrement())
+  voltage          Voltage?
+  totalDepth       Int?
+  sieveDepth       Int?
+  staticLevel      Int?
+  dynamicLevel     Int?
+  deliveryDate     DateTime?
+  sedimentaryDepth Int?
+  distric          String?
+  zipcode          String?
+  street           String?
+  number           String?
+  longitude        String?
+  latitude         String?
+  mapLink          String?
+  city             City      @relation(fields: [cityId], references: [id])
+  cityId           Int
+  proposal         Proposal  @relation(fields: [proposalId], references: [id])
+  proposalId       Int
 }
 
 model City {
   id   Int    @id @default(autoincrement())
   uf   Uf
-  nome String
-  Well Well[]
+  name String
+  well Well[]
+
+  @@unique([name, uf])
 }
 
 enum Uf {

@@ -8,7 +8,7 @@ export class UpdateWellUseCase {
 
   async updateWell(
     wellId: number,
-    wellFields: Omit<Well, 'id' | 'proposalServiceId'>,
+    wellFields: Omit<Well, 'id' | 'proposalId'>,
   ): Promise<Well> {
     const { deliveryDate } = wellFields;
 

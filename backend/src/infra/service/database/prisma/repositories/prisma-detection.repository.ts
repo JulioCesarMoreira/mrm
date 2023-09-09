@@ -12,13 +12,13 @@ export class PrismaDetectionRepository implements DetectionRepository {
       data: {
         accuracy: detection.accuracy,
 
-        sality: detection.sality,
+        salinity: detection.salinity,
 
         maximumDepth: detection.maximumDepth,
 
         minimumDepth: detection.minimumDepth,
 
-        proposalServiceId: detection.proposalServiceId,
+        proposalId: detection.proposalId,
       },
     });
 
@@ -37,18 +37,18 @@ export class PrismaDetectionRepository implements DetectionRepository {
 
   async fetch({
     accuracy,
-    sality,
+    salinity,
     maximumDepth,
     minimumDepth,
-    proposalServiceId,
+    proposalId,
   }: Omit<Detection, 'id'>): Promise<Detection[]> {
     const fetchDetection = await this.prisma.detection.findMany({
       where: {
         ...(accuracy && { accuracy }),
-        ...(sality && { sality }),
+        ...(salinity && { salinity }),
         ...(maximumDepth && { maximumDepth }),
         ...(minimumDepth && { minimumDepth }),
-        ...(proposalServiceId && { proposalServiceId }),
+        ...(proposalId && { proposalId }),
       },
     });
 
@@ -59,10 +59,10 @@ export class PrismaDetectionRepository implements DetectionRepository {
     entityId: number,
     {
       accuracy,
-      sality,
+      salinity,
       maximumDepth,
       minimumDepth,
-    }: Omit<Detection, 'id' | 'proposalServiceId'>,
+    }: Omit<Detection, 'id' | 'proposalId'>,
   ): Promise<Detection> {
     const updatedDetection = await this.prisma.detection.update({
       where: {
@@ -70,7 +70,7 @@ export class PrismaDetectionRepository implements DetectionRepository {
       },
       data: {
         ...(accuracy && { accuracy }),
-        ...(sality && { sality }),
+        ...(salinity && { salinity }),
         ...(maximumDepth && { maximumDepth }),
         ...(minimumDepth && { minimumDepth }),
       },

@@ -47,7 +47,7 @@ export class PrismaModelProposalRepository implements ModelProposalRepository {
 
   async update(
     entityId: number,
-    { name }: Omit<ModelProposal, 'id' | 'proposalServiceId'>,
+    { name }: Omit<ModelProposal, 'id' | 'proposalId'>,
   ): Promise<ModelProposal> {
     const updatedModelProposal = await this.prisma.modelProposal.update({
       where: {

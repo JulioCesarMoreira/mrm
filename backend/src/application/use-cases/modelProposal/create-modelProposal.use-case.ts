@@ -5,7 +5,7 @@ import { ModelProposal } from '@application/core/entities';
 @Injectable()
 export class CreateModelProposalUseCase {
   constructor(
-    private modelProposalRepository: ModelProposalRepository, // private proposalServiceRepository: ProposalServiceRepository,
+    private modelProposalRepository: ModelProposalRepository, // private proposalRepository: ProposalRepository,
   ) {}
 
   async createModelProposal(

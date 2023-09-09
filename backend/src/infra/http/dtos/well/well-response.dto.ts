@@ -17,7 +17,7 @@ export class CreateWellResponseDto {
 
   distric: string;
 
-  cep: string;
+  zipcode: string;
 
   street: string;
 
@@ -31,7 +31,7 @@ export class CreateWellResponseDto {
 
   cityId: number;
 
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class GetWellResponseDto {
@@ -53,7 +53,7 @@ export class GetWellResponseDto {
 
   distric: string;
 
-  cep: string;
+  zipcode: string;
 
   street: string;
 
@@ -67,7 +67,7 @@ export class GetWellResponseDto {
 
   cityId: number;
 
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class FetchWellsResponseDto {
@@ -90,7 +90,7 @@ export class FetchWellsResponseDto {
 
     distric: string;
 
-    cep: string;
+    zipcode: string;
 
     street: string;
 
@@ -104,7 +104,7 @@ export class FetchWellsResponseDto {
 
     cityId: number;
 
-    proposalServiceId: number;
+    proposalId: number;
   }[];
 }
 
@@ -131,7 +131,7 @@ export class UpdateWellResponseDto {
 
   distric: string;
 
-  cep: string;
+  zipcode: string;
 
   street: string;
 
@@ -145,5 +145,5 @@ export class UpdateWellResponseDto {
 
   cityId: number;
 
-  proposalServiceId: number;
+  proposalId: number;
 }

@@ -23,7 +23,7 @@ export abstract class WellRepository {
 
   abstract update(
     entityId: number,
-    entityFields: Omit<Well, 'id' | 'proposalServiceId'>,
+    entityFields: Omit<Well, 'id' | 'proposalId'>,
   ): Promise<Well>;
 
   abstract delete(id: number): Promise<boolean>;
