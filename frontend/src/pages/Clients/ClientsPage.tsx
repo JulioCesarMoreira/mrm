@@ -14,7 +14,12 @@ export default function ClientsPage() {
 
       <div className="w-full px-10 pb-10">
         <ClientForm
-          defaultValues={{ contactPhone: '', cpfCnpj: '', name: '' }}
+          defaultValues={{
+            contactPhone: '',
+            cpfCnpj: '',
+            name: '',
+            contactName: '',
+          }}
         />
 
         <DataTable data={data} columns={columns} isLoading={isLoading} />
