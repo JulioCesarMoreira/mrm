@@ -22,14 +22,14 @@ export class WellMapper {
         deliveryDate: well.deliveryDate,
         sedimentaryDepth: well.sedimentaryDepth,
         distric: well.distric,
-        cep: well.cep,
+        zipcode: well.zipcode,
         street: well.street,
         number: well.number,
         longitude: well.longitude,
         latitude: well.latitude,
         mapLink: well.mapLink,
         cityId: well.cityId,
-        proposalServiceId: well.proposalServiceId,
+        proposalId: well.proposalId,
       });
     }
 

@@ -18,14 +18,14 @@ export class PrismaWellRepository implements WellRepository {
         deliveryDate: well.deliveryDate,
         sedimentaryDepth: well.sedimentaryDepth,
         distric: well.distric,
-        cep: well.cep,
+        zipcode: well.zipcode,
         street: well.street,
         number: well.number,
         longitude: well.longitude,
         latitude: well.latitude,
         mapLink: well.mapLink,
         cityId: well.cityId,
-        proposalServiceId: well.proposalServiceId,
+        proposalId: well.proposalId,
       },
     });
 
@@ -51,14 +51,14 @@ export class PrismaWellRepository implements WellRepository {
     deliveryDate,
     sedimentaryDepth,
     distric,
-    cep,
+    zipcode,
     street,
     number,
     longitude,
     latitude,
     mapLink,
     cityId,
-    proposalServiceId,
+    proposalId,
   }: Omit<Well, 'id'>): Promise<Well[]> {
     const fetchWell = await this.prisma.well.findMany({
       where: {
@@ -70,14 +70,14 @@ export class PrismaWellRepository implements WellRepository {
         ...(deliveryDate && { deliveryDate }),
         ...(sedimentaryDepth && { sedimentaryDepth }),
         ...(distric && { distric }),
-        ...(cep && { cep }),
+        ...(zipcode && { zipcode }),
         ...(street && { street }),
         ...(number && { number }),
         ...(longitude && { longitude }),
         ...(latitude && { latitude }),
         ...(mapLink && { mapLink }),
         ...(cityId && { cityId }),
-        ...(proposalServiceId && { proposalServiceId }),
+        ...(proposalId && { proposalId }),
       },
     });
 
@@ -95,14 +95,14 @@ export class PrismaWellRepository implements WellRepository {
       deliveryDate,
       sedimentaryDepth,
       distric,
-      cep,
+      zipcode,
       street,
       number,
       longitude,
       latitude,
       mapLink,
       cityId,
-    }: Omit<Well, 'id' | 'proposalServiceId'>,
+    }: Omit<Well, 'id' | 'proposalId'>,
   ): Promise<Well> {
     const updatedWell = await this.prisma.well.update({
       where: {
@@ -117,7 +117,7 @@ export class PrismaWellRepository implements WellRepository {
         ...(deliveryDate && { deliveryDate }),
         ...(sedimentaryDepth && { sedimentaryDepth }),
         ...(distric && { distric }),
-        ...(cep && { cep }),
+        ...(zipcode && { zipcode }),
         ...(street && { street }),
         ...(number && { number }),
         ...(longitude && { longitude }),

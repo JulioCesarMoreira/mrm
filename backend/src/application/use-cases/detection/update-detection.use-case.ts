@@ -8,7 +8,7 @@ export class UpdateDetectionUseCase {
 
   async updateDetection(
     detectionId: number,
-    detectionFields: Omit<Detection, 'id' | 'proposalServiceId'>,
+    detectionFields: Omit<Detection, 'id' | 'proposalId'>,
   ): Promise<Detection> {
     const updatedDetection = await this.detectionRepository.update(
       detectionId,

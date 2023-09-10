@@ -3,11 +3,11 @@ import {
   CategoryServiceRepository,
   ClientRepository,
   DetectionRepository,
-  ItemProposalServiceRepository,
+  ItemProposalRepository,
   ItemServiceRepository,
-  ModelProposalItemServiceRepository,
+  ModelItemCategoryRepository,
   ModelProposalRepository,
-  ProposalServiceRepository,
+  ProposalRepository,
   TenantRepository,
   WellRepository,
 } from '@application/core/repositories';
@@ -16,12 +16,12 @@ import { PrismaTenantRepository } from './prisma/repositories/prisma-tenant.repo
 import { PrismaClientRepository } from './prisma/repositories/prisma-client.repository';
 import { PrismaCategoryServiceRepository } from './prisma/repositories/prisma-categoryService.repository';
 import { PrismaItemServiceRepository } from './prisma/repositories/prisma-itemService.repository';
-import { PrismaProposalServiceRepository } from './prisma/repositories/prisma-proposalService.repository';
+import { PrismaProposalRepository } from './prisma/repositories/prisma-proposal.repository';
 import { PrismaDetectionRepository } from './prisma/repositories/prisma-detection.repository';
 import { PrismaWellRepository } from './prisma/repositories/prisma-well.repository';
-import { PrismaItemProposalServiceRepository } from './prisma/repositories/prisma-itemProposalService.repository';
+import { PrismaItemProposalRepository } from './prisma/repositories/prisma-itemProposal.repository';
 import { PrismaModelProposalRepository } from './prisma/repositories/prisma-modelProposal.repository';
-import { PrismaModelProposalItemServiceRepository } from './prisma/repositories/prisma-modelProposal.repository copy';
+import { PrismaModelItemCategoryRepository } from './prisma/repositories/prisma-modelItemCategory.repository';
 
 @Module({
   imports: [],
@@ -44,8 +44,8 @@ import { PrismaModelProposalItemServiceRepository } from './prisma/repositories/
       useClass: PrismaItemServiceRepository,
     },
     {
-      provide: ProposalServiceRepository,
-      useClass: PrismaProposalServiceRepository,
+      provide: ProposalRepository,
+      useClass: PrismaProposalRepository,
     },
     {
       provide: DetectionRepository,
@@ -56,16 +56,16 @@ import { PrismaModelProposalItemServiceRepository } from './prisma/repositories/
       useClass: PrismaWellRepository,
     },
     {
-      provide: ItemProposalServiceRepository,
-      useClass: PrismaItemProposalServiceRepository,
+      provide: ItemProposalRepository,
+      useClass: PrismaItemProposalRepository,
     },
     {
       provide: ModelProposalRepository,
       useClass: PrismaModelProposalRepository,
     },
     {
-      provide: ModelProposalItemServiceRepository,
-      useClass: PrismaModelProposalItemServiceRepository,
+      provide: ModelItemCategoryRepository,
+      useClass: PrismaModelItemCategoryRepository,
     },
   ],
   exports: [
@@ -86,8 +86,8 @@ import { PrismaModelProposalItemServiceRepository } from './prisma/repositories/
       useClass: PrismaItemServiceRepository,
     },
     {
-      provide: ProposalServiceRepository,
-      useClass: PrismaProposalServiceRepository,
+      provide: ProposalRepository,
+      useClass: PrismaProposalRepository,
     },
     {
       provide: DetectionRepository,
@@ -98,16 +98,16 @@ import { PrismaModelProposalItemServiceRepository } from './prisma/repositories/
       useClass: PrismaWellRepository,
     },
     {
-      provide: ItemProposalServiceRepository,
-      useClass: PrismaItemProposalServiceRepository,
+      provide: ItemProposalRepository,
+      useClass: PrismaItemProposalRepository,
     },
     {
       provide: ModelProposalRepository,
       useClass: PrismaModelProposalRepository,
     },
     {
-      provide: ModelProposalItemServiceRepository,
-      useClass: PrismaModelProposalItemServiceRepository,
+      provide: ModelItemCategoryRepository,
+      useClass: PrismaModelItemCategoryRepository,
     },
   ],
 })

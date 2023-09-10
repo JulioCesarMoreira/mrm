@@ -1,3 +1,5 @@
+import { ClientRepository } from '@application/core/repositories';
+import { InMemoryClientRepository } from '@infra/service/database/inMemory/repositories/inMemory-client.repository';
 import * as request from 'supertest';
 import { bootstrap } from '__tests__/utils/bootstrap';
 import { INestApplication } from '@nestjs/common';
@@ -8,7 +10,7 @@ describe('Client routes e2e testing', () => {
   let clientId: number;
 
   beforeAll(async () => {
-    app = await bootstrap();
+    app = await bootstrap(ClientRepository, InMemoryClientRepository);
     app.init();
   });
 
@@ -56,7 +58,7 @@ describe('Client routes e2e testing', () => {
 
   it('should FETCH client with a valid playload', async () => {
     const fetchPayload = {
-      contactName: 'ente',
+      contactName: 'Cliente test',
     };
     const response = await request(app.getHttpServer())
       .get(path)

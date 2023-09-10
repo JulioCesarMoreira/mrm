@@ -3,13 +3,13 @@ export class CreateDetectionResponseDto {
 
   accuracy: number;
 
-  sality: number;
+  salinity: number;
 
   maximumDepth: number;
 
   minimumDepth: number;
 
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class GetDetectionResponseDto {
@@ -17,13 +17,13 @@ export class GetDetectionResponseDto {
 
   accuracy: number;
 
-  sality: number;
+  salinity: number;
 
   maximumDepth: number;
 
   minimumDepth: number;
 
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class FetchDetectionsResponseDto {
@@ -32,13 +32,13 @@ export class FetchDetectionsResponseDto {
 
     accuracy: number;
 
-    sality: number;
+    salinity: number;
 
     maximumDepth: number;
 
     minimumDepth: number;
 
-    proposalServiceId: number;
+    proposalId: number;
   }[];
 }
 
@@ -51,11 +51,11 @@ export class UpdateDetectionResponseDto {
 
   accuracy: number;
 
-  sality: number;
+  salinity: number;
 
   maximumDepth: number;
 
   minimumDepth: number;
 
-  proposalServiceId: number;
+  proposalId: number;
 }

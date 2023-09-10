@@ -1,6 +1,8 @@
 import * as request from 'supertest';
 import { bootstrap } from '__tests__/utils/bootstrap';
 import { INestApplication } from '@nestjs/common';
+import { CategoryServiceRepository } from '@application/core/repositories';
+import { InMemoryCategoryServiceRepository } from '@infra/service/database/inMemory/repositories/inMemory-categoryService.repository';
 
 describe('CategoryService routes e2e testing', () => {
   let app: INestApplication;
@@ -8,7 +10,10 @@ describe('CategoryService routes e2e testing', () => {
   let categoryServiceId: number;
 
   beforeAll(async () => {
-    app = await bootstrap();
+    app = await bootstrap(
+      CategoryServiceRepository,
+      InMemoryCategoryServiceRepository,
+    );
     app.init();
   });
 
@@ -54,7 +59,7 @@ describe('CategoryService routes e2e testing', () => {
 
   it('should FETCH categoryService with a valid playload', async () => {
     const fetchPayload = {
-      contactName: 'goria',
+      name: 'Caregoria Nome test 1',
     };
 
     const response = await request(app.getHttpServer())

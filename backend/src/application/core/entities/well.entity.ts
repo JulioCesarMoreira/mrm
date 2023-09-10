@@ -17,7 +17,7 @@ export class Well {
 
   distric: string;
 
-  cep: string;
+  zipcode: string;
 
   street: string;
 
@@ -31,5 +31,5 @@ export class Well {
 
   cityId: number;
 
-  proposalServiceId: number;
+  proposalId: number;
 }

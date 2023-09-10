@@ -5,18 +5,21 @@ import {
   IsInt,
   IsNumber,
   Max,
+  Min,
 } from 'class-validator';
 
 export class CreateDetectionDto {
   @IsInt()
   @IsNotEmpty()
   @Max(10000)
+  @Min(0)
   accuracy: number;
 
   @IsInt()
   @IsNotEmpty()
   @Max(10000)
-  sality: number;
+  @Min(0)
+  salinity: number;
 
   @IsNumber()
   @IsNotEmpty()
@@ -28,7 +31,7 @@ export class CreateDetectionDto {
 
   @IsInt()
   @IsNotEmpty()
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class GetDetectionIdDto {
@@ -40,12 +43,14 @@ export class FetchDetectionsDto {
   @IsInt()
   @IsOptional()
   @Max(10000)
+  @Min(0)
   accuracy: number;
 
   @IsInt()
   @IsOptional()
   @Max(10000)
-  sality: number;
+  @Min(0)
+  salinity: number;
 
   @IsNumber()
   @IsOptional()
@@ -57,19 +62,21 @@ export class FetchDetectionsDto {
 
   @IsInt()
   @IsNotEmpty()
-  proposalServiceId: number;
+  proposalId: number;
 }
 
 export class UpdateDetectionDto {
   @IsInt()
   @IsOptional()
   @Max(10000)
+  @Min(0)
   accuracy: number;
 
   @IsInt()
   @IsOptional()
   @Max(10000)
-  sality: number;
+  @Min(0)
+  salinity: number;
 
   @IsNumber()
   @IsOptional()

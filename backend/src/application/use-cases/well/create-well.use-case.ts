@@ -5,7 +5,7 @@ import { Well } from '@application/core/entities';
 @Injectable()
 export class CreateWellUseCase {
   constructor(
-    private wellRepository: WellRepository, // private proposalServiceRepository: ProposalServiceRepository,
+    private wellRepository: WellRepository, // private proposalRepository: ProposalRepository,
   ) {}
 
   async createWell(well: Omit<Well, 'id'>): Promise<Well> {
