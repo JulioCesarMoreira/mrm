@@ -45,6 +45,7 @@ export default function ClientFormFields({
           id="contactPhone"
           name="contactPhone"
           placeholder="Contato do cliente"
+          maskType="tel"
         />
       </Input.Wrapper>
     </div>

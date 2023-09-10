@@ -4,7 +4,7 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import ClientActions from '../components/ClientActions';
-import { PatternFormat } from 'react-number-format';
+import NumberFormat from 'react-number-format';
 import { CPF_LIMIT, formatPhone } from 'constants/index';
 
 export default function useClientColumns(): ColumnDef<Client>[] {
@@ -48,7 +48,7 @@ export default function useClientColumns(): ColumnDef<Client>[] {
       cell: ({ row }) => {
         return (
           <div className="text-center">
-            <PatternFormat
+            <NumberFormat
               value={row.getValue('cpfCnpj')}
               format={
                 (row.getValue('cpfCnpj') as string).length < CPF_LIMIT

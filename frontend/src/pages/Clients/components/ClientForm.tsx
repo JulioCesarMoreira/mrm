@@ -19,6 +19,7 @@ import { Pencil } from 'lucide-react';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { CLOSE_DIALOG_DURATION } from 'constants';
 import ClientFormFields from './ClientFormFields';
+import { removeSpecialCharacters } from '../utils';
 
 interface ClientsFormProperties {
   defaultValues: ClientFields;
@@ -38,15 +39,23 @@ export default function ClientForm({
   async function onSubmitClient(client: ClientFields): Promise<void> {
     setIsLoading(true);
 
+    const input: ClientFields = {
+      ...client,
+      cpfCnpj: removeSpecialCharacters(client.cpfCnpj),
+      contactPhone: removeSpecialCharacters(client.contactPhone),
+    };
+
+    console.log('input', input);
+
     try {
       if (defaultValues.id) {
         await updateClient(defaultValues.id, {
-          name: client.name,
-          contactPhone: client.contactPhone,
-          contactName: client.contactName,
+          name: input.name,
+          contactPhone: input.contactPhone,
+          contactName: input.contactName,
         });
       } else {
-        await insertClient(client);
+        await insertClient(input);
       }
     } finally {
       setOpenDialog(false);
