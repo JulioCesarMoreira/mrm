@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
   RegisterOptions,
@@ -11,10 +11,11 @@ import type {
   ReactElement,
   ReactNode,
 } from 'react';
-import { PatternFormat } from 'react-number-format';
-import { CPF_LIMIT } from 'constants/index';
-
-type MaskTypes = 'cpf-cnpj';
+import NumberFormat, {
+  NumberFormatProps,
+  NumberFormatValues,
+} from 'react-number-format';
+import generateMaskTypes, { MaskTypes } from './masks';
 
 interface InputProperties extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
@@ -38,8 +39,10 @@ export default function InputField({
   ...properties
 }: InputProperties): ReactElement {
   const { control } = useFormContext();
-  const [mask, setMask] = useState('');
   const [focus, setFocus] = useState<boolean>(false);
+  const [value, setValue] = useState(
+    (properties.value as string | undefined) ?? '',
+  );
 
   const {
     field,
@@ -66,17 +69,15 @@ export default function InputField({
     [properties],
   );
 
+  const onChangeValue = (data: NumberFormatValues): void => {
+    setValue(data.value);
+  };
+
   const onBlur = useCallback((): void => {
     setFocus(false);
   }, []);
 
-  useEffect(() => {
-    if (field.value && field.value.replace(/[^0-9]/g, '').length < CPF_LIMIT) {
-      setMask('###.###.###-#####');
-      return;
-    }
-    setMask('##.###.###/####-##');
-  }, [field.value]);
+  const maskTypes = generateMaskTypes(value);
 
   return loading ? (
     <div className="h-[40px] w-full animate-pulse rounded-md" />
@@ -94,35 +95,35 @@ export default function InputField({
         role="textbox"
         tabIndex={-1}
       >
-        {
-          // <PatternFormat
-          //   {...properties}
-          //   {...field}
-          //   defaultValue={field.value}
-          //   type="text"
-          //   disabled={disabled}
-          //   className={twMerge(
-          //     'text-body bg-gray-scale-900 h-[40px] max-h-[40px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
-          //     disabled
-          //       ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
-          //       : '',
-          //   )}
-          //   onFocus={onFocus}
-          //   format={mask}
-          // />
-        }
-        <input
-          {...properties}
-          {...field}
-          disabled={disabled}
-          className={twMerge(
-            'text-body bg-gray-scale-900 h-[40px] max-h-[40px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
-            disabled
-              ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
-              : '',
-          )}
-          onFocus={onFocus}
-        />
+        {maskType ? (
+          <NumberFormat
+            {...(properties as NumberFormatProps)}
+            {...field}
+            disabled={disabled}
+            className={twMerge(
+              'text-body bg-gray-scale-900 h-[40px] max-h-[40px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
+              disabled
+                ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
+                : '',
+            )}
+            onFocus={onFocus}
+            {...maskTypes[maskType]}
+            onValueChange={onChangeValue}
+          />
+        ) : (
+          <input
+            {...properties}
+            {...field}
+            disabled={disabled}
+            className={twMerge(
+              'text-body bg-gray-scale-900 h-[40px] max-h-[40px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
+              disabled
+                ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
+                : '',
+            )}
+            onFocus={onFocus}
+          />
+        )}
         {children}
       </div>
       {error && errorMessage && (
