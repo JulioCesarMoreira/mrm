@@ -5,5 +5,7 @@ export class CategoryService {
 
   subCategory: 'SUPLIE' | 'SERVICE';
 
+  color: string;
+
   tenantId: string;
 }

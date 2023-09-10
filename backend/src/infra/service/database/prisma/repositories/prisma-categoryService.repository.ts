@@ -18,6 +18,8 @@ export class PrismaCategoryServiceRepository
 
         subCategory: categoryService.subCategory,
 
+        color: categoryService.color,
+
         tenantId: categoryService.tenantId,
       },
     });
@@ -38,12 +40,14 @@ export class PrismaCategoryServiceRepository
   async fetch({
     name,
     subCategory,
+    color,
     tenantId,
   }: Omit<CategoryService, 'id'>): Promise<CategoryService[]> {
     const fetchCategoryService = await this.prisma.categoryService.findMany({
       where: {
-        ...(subCategory && { subCategory }),
         ...(name && { name: { contains: name } }),
+        ...(subCategory && { subCategory }),
+        ...(color && { color }),
         ...(tenantId && { tenantId }),
       },
     });
@@ -53,7 +57,7 @@ export class PrismaCategoryServiceRepository
 
   async update(
     entityId: number,
-    { subCategory, name }: Omit<CategoryService, 'id' | 'tenantId'>,
+    { subCategory, name, color }: Omit<CategoryService, 'id' | 'tenantId'>,
   ): Promise<CategoryService> {
     const updatedCategoryService = await this.prisma.categoryService.update({
       where: {
@@ -62,6 +66,7 @@ export class PrismaCategoryServiceRepository
       data: {
         ...(subCategory && { subCategory }),
         ...(name && { name }),
+        ...(color && { color }),
       },
     });
 

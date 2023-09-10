@@ -61,9 +61,12 @@ model CategoryService {
   id          Int           @id @default(autoincrement())
   name        String        @unique @db.VarChar(100)
   subCategory SubCategory
+  color       String        @db.VarChar(7)
   tenant      Tenant        @relation(fields: [tenantId], references: [id])
   tenantId    String        @default(uuid())
   itemService ItemService[]
+
+  @@unique([color, tenantId])
 }
 
 enum SubCategory {

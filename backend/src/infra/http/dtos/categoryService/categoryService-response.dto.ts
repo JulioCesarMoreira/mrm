@@ -5,6 +5,8 @@ export class CreateCategoryServiceResponseDto {
 
   subCategory: 'SUPLIE' | 'SERVICE';
 
+  color: string;
+
   tenantId: string;
 }
 
@@ -12,6 +14,8 @@ export class GetCategoryServiceResponseDto {
   id: number;
 
   subCategory: 'SUPLIE' | 'SERVICE';
+
+  color: string;
 
   name: string;
 
@@ -25,6 +29,8 @@ export class FetchCategoryServicesResponseDto {
     subCategory: 'SUPLIE' | 'SERVICE';
 
     name: string;
+
+    color: string;
 
     tenantId: string;
   }[];
@@ -40,6 +46,8 @@ export class UpdateCategoryServiceResponseDto {
   name: string;
 
   subCategory: 'SUPLIE' | 'SERVICE';
+
+  color: string;
 
   tenantId: string;
 }

@@ -6,7 +6,10 @@ import {
   MaxLength,
   IsNumberString,
   IsOptional,
+  Length,
+  Validate,
 } from 'class-validator';
+import { ColorValidation } from 'src/utils/colorValidation';
 
 enum SubCategoryType {
   SUPLIE = 'SUPLIE',
@@ -22,6 +25,11 @@ export class CreateCategoryServiceDto {
   @IsEnum(SubCategoryType)
   @IsNotEmpty()
   subCategory: SubCategoryType;
+
+  @Length(7)
+  @Validate(ColorValidation)
+  @IsNotEmpty()
+  color: string;
 
   @IsUUID()
   @IsNotEmpty()
@@ -43,6 +51,11 @@ export class FetchCategoryServicesDto {
   @IsOptional()
   subCategory: SubCategoryType;
 
+  @Length(7)
+  @Validate(ColorValidation)
+  @IsOptional()
+  color: string;
+
   @IsUUID()
   @IsOptional()
   tenantId: string;
@@ -57,4 +70,9 @@ export class UpdateCategoryServiceDto {
   @IsOptional()
   @MaxLength(191)
   name: string;
+
+  @Length(7)
+  @Validate(ColorValidation)
+  @IsOptional()
+  color: string;
 }

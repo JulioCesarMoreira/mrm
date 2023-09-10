@@ -17,6 +17,7 @@ export class CategoryServiceMapper {
         id: categoryServiceEntity.id,
         name: categoryServiceEntity.name,
         subCategory: categoryServiceEntity.subCategory,
+        color: categoryServiceEntity.color,
         tenantId: categoryServiceEntity.tenantId,
       });
     }
