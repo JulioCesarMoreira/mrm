@@ -1,12 +1,13 @@
 import { ReactElement } from 'react';
 import WellFormClientData from './WellFormClientData';
+import { Well } from '../types';
 
-export default function WellFormFields(): ReactElement {
+export default function WellFormFields({ well }: { well: Well }): ReactElement {
   return (
     <div className="mb-4">
       <hr className="w-full" />
 
-      <WellFormClientData />
+      <WellFormClientData well={well} />
 
       <hr className="w-full" />
 

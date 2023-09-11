@@ -78,7 +78,7 @@ export default function WellForm({
               </div>
             ) : (
               <>
-                <WellFormFields />
+                <WellFormFields well={defaultValues} />
 
                 <hr className="w-full" />
 
