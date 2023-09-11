@@ -4,6 +4,7 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import WellActions from '../components/WellActions';
+import { format, parseISO } from 'date-fns';
 
 export default function useWellColumns(): ColumnDef<Well>[] {
   return [
@@ -44,8 +45,11 @@ export default function useWellColumns(): ColumnDef<Well>[] {
       accessorKey: 'deliveryDate',
       header: () => <div className="text-center">Data de Entrega</div>,
       cell: ({ row }) => {
+        const deliveryDate = row.getValue('deliveryDate') as string;
+
+        const isoDate = parseISO(deliveryDate);
         return (
-          <div className="text-center">{row.getValue('deliveryDate')}</div>
+          <div className="text-center">{format(isoDate, 'dd/MM/yyyy')}</div>
         );
       },
     },
