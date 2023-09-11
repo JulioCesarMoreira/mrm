@@ -57,24 +57,26 @@ export default function useWellColumns(): ColumnDef<Well>[] {
       accessorKey: 'voltage',
       header: ({ column }) => {
         return (
-          <Tooltip
-            position="top"
-            text={
-              column.getIsSorted() === 'asc'
-                ? 'Ordenar decrescente'
-                : 'Ordenar crescente'
-            }
-          >
-            <Button
-              variant="ghost"
-              onClick={() =>
-                column.toggleSorting(column.getIsSorted() === 'asc')
+          <div className="text-center">
+            <Tooltip
+              position="top"
+              text={
+                column.getIsSorted() === 'asc'
+                  ? 'Ordenar decrescente'
+                  : 'Ordenar crescente'
               }
             >
-              Voltagem
-              <ArrowUpDown className="ml-2 h-4 w-4" />
-            </Button>
-          </Tooltip>
+              <Button
+                variant="ghost"
+                onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === 'asc')
+                }
+              >
+                Voltagem
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+              </Button>
+            </Tooltip>
+          </div>
         );
       },
       cell: ({ row }) => {
@@ -85,7 +87,12 @@ export default function useWellColumns(): ColumnDef<Well>[] {
       accessorKey: 'street',
       header: () => <div className="text-center">Endereço</div>,
       cell: ({ row }) => {
-        return <div className="text-center">{row.getValue('street')}</div>;
+        console.log('row', row);
+        return (
+          <div className="text-center">
+            {row.original.street}, {row.original.number}, {row.original.distric}
+          </div>
+        );
       },
     },
     {
