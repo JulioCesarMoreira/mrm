@@ -17,6 +17,7 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Pencil } from 'lucide-react';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { CLOSE_DIALOG_DURATION } from 'constants';
+import WellFormFields from './WellFormFields';
 
 interface WellsFormProperties {
   defaultValues: Well;
@@ -36,9 +37,7 @@ export default function WellForm({
     setIsLoading(true);
 
     try {
-      if (defaultValues.id) {
-        await updateWell(defaultValues.id, well);
-      }
+      await updateWell(defaultValues.id, well);
     } finally {
       setOpenDialog(false);
       setToggleFetchWells((previous) => !previous);
@@ -61,17 +60,12 @@ export default function WellForm({
           </DialogTrigger>
         </Tooltip>
       ) : (
-        <DataTableTitle
-          title={'Poços'}
-          addElementButtonLabel="Adicionar poço"
-        />
+        <DataTableTitle title={'Poços'} />
       )}
 
-      <DialogContent className="bg-white">
+      <DialogContent className="max-w-3xl bg-white">
         <DialogHeader>
-          <DialogTitle>
-            {defaultValues.id ? 'Editar poço' : 'Adicionar poço'}
-          </DialogTitle>
+          <DialogTitle>Poço</DialogTitle>
           <FormWrapper<Well>
             id="well-form"
             onSubmit={onSubmitWell}
@@ -84,9 +78,7 @@ export default function WellForm({
               </div>
             ) : (
               <>
-                <div className="mb-4 grid grid-flow-row grid-cols-12 gap-4">
-                  form inputs
-                </div>
+                <WellFormFields />
 
                 <hr className="w-full" />
 
