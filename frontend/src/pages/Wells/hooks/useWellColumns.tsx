@@ -86,14 +86,11 @@ export default function useWellColumns(): ColumnDef<Well>[] {
     {
       accessorKey: 'street',
       header: () => <div className="text-center">Endereço</div>,
-      cell: ({ row }) => {
-        console.log('row', row);
-        return (
-          <div className="text-center">
-            {row.original.street}, {row.original.number}, {row.original.distric}
-          </div>
-        );
-      },
+      cell: ({ row }) => (
+        <div className="text-center">
+          {row.original.street}, {row.original.number}, {row.original.distric}
+        </div>
+      ),
     },
     {
       id: 'actions',
