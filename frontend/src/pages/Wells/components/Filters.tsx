@@ -1,4 +1,4 @@
-import { Input } from '@components/FormFields/Input';
+import { Input } from '@components/Input';
 import FormWrapper from '@components/FormWrapper/FormWrapper';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
@@ -16,14 +16,24 @@ export default function Filters(): ReactElement {
 
   return (
     <div className="border-gray-scale-800 flex !h-[100px] !min-h-[100px] w-full border-b p-4 pt-2">
-      <FormWrapper<WellsFilter> id="filters-form" onSubmit={onSubmitFilters}>
+      <FormWrapper<WellsFilter>
+        id="filters-form"
+        onSubmit={onSubmitFilters}
+        className="flex items-center gap-4"
+      >
         <Input.Wrapper className="w-[300px]">
-          <Input.Label label="Nome" />
-          <Input.Field id="name" name="name" placeholder="Nome">
-            <Search className="stroke-gray-scale-500 mr-2 h-4 w-4" />
-          </Input.Field>
+          <Input.Label label="Data inicial" />
+          <Input.DatePicker id="name" name="initialDate" />
+        </Input.Wrapper>
+
+        <p className="text-gray-scale-300 mt-7 text-sm">até</p>
+
+        <Input.Wrapper className="w-[300px]">
+          <Input.Label label="Data final" />
+          <Input.DatePicker id="name" name="finalDate" />
         </Input.Wrapper>
       </FormWrapper>
+
       <div className="flex w-full flex-row-reverse items-center pt-3">
         <Tooltip position="left" text="Pesquisar">
           <Button

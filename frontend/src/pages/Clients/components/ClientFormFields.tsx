@@ -1,4 +1,4 @@
-import { Input } from '@components/FormFields/Input';
+import { Input } from '@components/Input';
 import type { ReactElement } from 'react';
 import type { ClientFields } from '../types';
 

@@ -1,4 +1,4 @@
-import { Input } from '@components/FormFields/Input';
+import { Input } from '@components/Input';
 import FormWrapper from '@components/FormWrapper/FormWrapper';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
