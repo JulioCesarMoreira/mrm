@@ -5,6 +5,7 @@ export interface Client {
   name: string;
   cpfCnpj: string;
   contactPhone: string;
+  contactName: string;
 }
 
 export interface ClientFields {
@@ -12,6 +13,7 @@ export interface ClientFields {
   name: string;
   cpfCnpj: string;
   contactPhone: string;
+  contactName: string;
 }
 
 export interface ClientProperty {
