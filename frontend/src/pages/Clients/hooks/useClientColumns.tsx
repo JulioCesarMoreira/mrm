@@ -4,8 +4,10 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import ClientActions from '../components/ClientActions';
+import NumberFormat from 'react-number-format';
+import { CPF_LIMIT, formatPhone } from 'constants/index';
 
-export default function useClientsColumns(): ColumnDef<Client>[] {
+export default function useClientColumns(): ColumnDef<Client>[] {
   return [
     {
       accessorKey: 'id',
@@ -44,7 +46,19 @@ export default function useClientsColumns(): ColumnDef<Client>[] {
       accessorKey: 'cpfCnpj',
       header: () => <div className="text-center">CPF / CNPJ</div>,
       cell: ({ row }) => {
-        return <div className="text-center">{row.getValue('cpfCnpj')}</div>;
+        return (
+          <div className="text-center">
+            <NumberFormat
+              value={row.getValue('cpfCnpj')}
+              format={
+                (row.getValue('cpfCnpj') as string).length < CPF_LIMIT
+                  ? '###.###.###-#####'
+                  : '##.###.###/####-##'
+              }
+              displayType="text"
+            />
+          </div>
+        );
       },
     },
     {
@@ -52,7 +66,9 @@ export default function useClientsColumns(): ColumnDef<Client>[] {
       header: () => <div className="text-center">Telefone</div>,
       cell: ({ row }) => {
         return (
-          <div className="text-center">{row.getValue('contactPhone')}</div>
+          <div className="text-center">
+            {formatPhone(row.getValue('contactPhone'))}
+          </div>
         );
       },
     },

@@ -12,26 +12,38 @@ import {
 import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { Trash2 } from 'lucide-react';
-import { ClientProperty } from '../types';
-import useDeleteClient from '../hooks/useDeleteClient';
-import { useSetAtom } from 'jotai';
-import { toggleFetchClients } from 'constants/atoms';
+import { PrimitiveAtom, useSetAtom } from 'jotai';
 import { CLOSE_DIALOG_DURATION } from 'constants';
+import useDeleteEntity from 'hooks/useDeleteEntity';
 
-export default function ClientDelete({ client }: ClientProperty): ReactElement {
-  const { deleteClient } = useDeleteClient();
+interface DeleteDialogProperties {
+  id: string;
+  entity: string;
+  route: string;
+  deleteMessage: string;
+  toggleFetchEntity: PrimitiveAtom<boolean>;
+}
+
+export default function DeleteDialog({
+  id,
+  entity,
+  route,
+  deleteMessage,
+  toggleFetchEntity,
+}: DeleteDialogProperties): ReactElement {
+  const { deleteEntity } = useDeleteEntity(entity, route);
   const [isLoading, setIsLoading] = useState(false);
   const [openAlert, setOpenAlert] = useState(false);
-  const setToggleFetchClients = useSetAtom(toggleFetchClients);
+  const setToggleFetchEntity = useSetAtom(toggleFetchEntity);
 
   async function onDelete(): Promise<void> {
     setIsLoading(true);
 
     try {
-      await deleteClient(client.original.id);
+      await deleteEntity(id);
     } finally {
       setOpenAlert(false);
-      setToggleFetchClients((previous) => !previous);
+      setToggleFetchEntity((previous) => !previous);
       setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
     }
   }
@@ -59,9 +71,7 @@ export default function ClientDelete({ client }: ClientProperty): ReactElement {
           <>
             <AlertDialogHeader>
               <AlertDialogDescription className="text-gray-scale-300 text-center text-base font-semibold">
-                <span>
-                  Você está prestes a excluir o cliente {client.original.name}.
-                </span>
+                <span>{deleteMessage}</span>
                 <br />
                 <span>Deseja continuar?</span>
               </AlertDialogDescription>
@@ -74,7 +84,7 @@ export default function ClientDelete({ client }: ClientProperty): ReactElement {
                 onClick={onDelete}
                 className="bg-red-auxiliary hover:bg-red-auxiliary-dark text-white transition-colors duration-200"
               >
-                Sim, excluir cliente
+                Sim, excluir
               </Button>
             </AlertDialogFooter>
           </>

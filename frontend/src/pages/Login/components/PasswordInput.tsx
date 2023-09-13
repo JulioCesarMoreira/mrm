@@ -1,4 +1,4 @@
-import { Input } from '@components/FormFields/Input';
+import { Input } from '@components/Input';
 import Svg from '@components/Svg/Svg';
 import { ReactElement, useState } from 'react';
 

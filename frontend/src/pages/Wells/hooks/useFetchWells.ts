@@ -1,29 +1,30 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { Client } from 'pages/Clients/types';
 import useAsyncEffect from 'use-async-effect';
-import { toggleFetchClients } from '../../../constants/atoms';
+import { toggleFetchWells } from '../../../constants/atoms';
 import useOnError from 'hooks/useOnError';
+import { Well } from '../types';
 
-interface FetchClientsResponse {
-  data: Client[];
+interface FetchWellsResponse {
+  data: Well[];
   isLoading: boolean;
 }
 
-export default function useFetchClients(): FetchClientsResponse {
+export default function useFetchWells(): FetchWellsResponse {
   const { handleError } = useOnError();
 
-  const [data, setData] = useState<Client[]>([]);
+  const [data, setData] = useState<Well[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const toggleFetch = useAtomValue(toggleFetchClients);
+  const toggleFetch = useAtomValue(toggleFetchWells);
 
-  const fetchData = async (): Promise<{ clients: Client[] }> => {
+  const fetchData = async (): Promise<{ wells: Well[] }> => {
     try {
-      const response = await axios.get('http://localhost:3000/client');
+      const response = await axios.get('http://localhost:3000/well');
 
       return response.data;
     } catch (error) {
+      setIsLoading(false);
       handleError(error);
 
       throw error;
@@ -35,7 +36,7 @@ export default function useFetchClients(): FetchClientsResponse {
     const data = await fetchData();
     setIsLoading(false);
 
-    setData(data.clients);
+    setData(data.wells);
   }, [toggleFetch]);
 
   return { data, isLoading };

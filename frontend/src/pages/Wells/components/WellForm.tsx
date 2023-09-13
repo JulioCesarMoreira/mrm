@@ -1,6 +1,6 @@
 import FormWrapper from '@components/FormWrapper/FormWrapper';
 import { ReactElement, useState } from 'react';
-import { ClientFields } from '../types';
+import { Well } from '../types';
 import { Button } from '@components/ui/button';
 import {
   Dialog,
@@ -10,56 +10,37 @@ import {
   DialogTrigger,
 } from '@components/ui/dialog';
 import { useSetAtom } from 'jotai';
-import { toggleFetchClients } from 'constants/atoms';
-import useUpdateClient from '../hooks/useUpdateClient';
+import { toggleFetchWells } from 'constants/atoms';
+import useUpdateWell from '../hooks/useUpdateWell';
 import Spinner from '@components/ui/spinner';
-import useInsertClient from '../hooks/useInsertClient';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { Pencil } from 'lucide-react';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { CLOSE_DIALOG_DURATION } from 'constants';
-import ClientFormFields from './ClientFormFields';
-import { removeSpecialCharacters } from '../utils';
+import WellFormFields from './WellFormFields';
 
-interface ClientsFormProperties {
-  defaultValues: ClientFields;
+interface WellsFormProperties {
+  defaultValues: Well;
 }
 
-export default function ClientForm({
+export default function WellForm({
   defaultValues,
-}: ClientsFormProperties): ReactElement {
+}: WellsFormProperties): ReactElement {
   const [isLoading, setIsLoading] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
-  const setToggleFetchClients = useSetAtom(toggleFetchClients);
+  const setToggleFetchWells = useSetAtom(toggleFetchWells);
 
-  const { updateClient } = useUpdateClient();
-  const { insertClient } = useInsertClient();
+  const { updateWell } = useUpdateWell();
 
-  async function onSubmitClient(client: ClientFields): Promise<void> {
+  async function onSubmitWell(well: Well): Promise<void> {
     setIsLoading(true);
 
-    const input: ClientFields = {
-      ...client,
-      cpfCnpj: removeSpecialCharacters(client.cpfCnpj),
-      contactPhone: removeSpecialCharacters(client.contactPhone),
-    };
-
-    console.log('input', input);
-
     try {
-      if (defaultValues.id) {
-        await updateClient(defaultValues.id, {
-          name: input.name,
-          contactPhone: input.contactPhone,
-          contactName: input.contactName,
-        });
-      } else {
-        await insertClient(input);
-      }
+      await updateWell(defaultValues.id, well);
     } finally {
       setOpenDialog(false);
-      setToggleFetchClients((previous) => !previous);
+      setToggleFetchWells((previous) => !previous);
       setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
     }
   }
@@ -79,20 +60,15 @@ export default function ClientForm({
           </DialogTrigger>
         </Tooltip>
       ) : (
-        <DataTableTitle
-          title={'Clientes'}
-          addElementButtonLabel="Adicionar cliente"
-        />
+        <DataTableTitle title={'Poços'} />
       )}
 
-      <DialogContent className="bg-white">
+      <DialogContent className="max-w-3xl bg-white">
         <DialogHeader>
-          <DialogTitle>
-            {defaultValues.id ? 'Editar cliente' : 'Adicionar cliente'}
-          </DialogTitle>
-          <FormWrapper<ClientFields>
-            id="client-form"
-            onSubmit={onSubmitClient}
+          <DialogTitle>Poço</DialogTitle>
+          <FormWrapper<Well>
+            id="well-form"
+            onSubmit={onSubmitWell}
             className="py-4"
             defaultValues={defaultValues}
           >
@@ -102,7 +78,7 @@ export default function ClientForm({
               </div>
             ) : (
               <>
-                <ClientFormFields defaultValues={defaultValues} />
+                <WellFormFields well={defaultValues} />
 
                 <hr className="w-full" />
 

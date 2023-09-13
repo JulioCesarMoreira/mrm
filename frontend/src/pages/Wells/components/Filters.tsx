@@ -5,39 +5,32 @@ import { Button } from '@components/ui/button';
 import { Search } from 'lucide-react';
 import { ReactElement } from 'react';
 
-interface ClientsFilter {
+interface WellsFilter {
   name: string;
 }
 
 export default function Filters(): ReactElement {
-  function onSubmitFilters(data: ClientsFilter): void {
+  function onSubmitFilters(data: WellsFilter): void {
     console.log('data', data);
   }
 
   return (
     <div className="border-gray-scale-800 flex !h-[100px] !min-h-[100px] w-full border-b p-4 pt-2">
-      <FormWrapper<ClientsFilter>
+      <FormWrapper<WellsFilter>
         id="filters-form"
         onSubmit={onSubmitFilters}
-        className="flex gap-4"
+        className="flex items-center gap-4"
       >
         <Input.Wrapper className="w-[300px]">
-          <Input.Label label="Nome" />
-          <Input.Field id="name" name="name" placeholder="Nome" />
+          <Input.Label label="Data inicial" />
+          <Input.DatePicker id="name" name="initialDate" />
         </Input.Wrapper>
 
-        <Input.Wrapper className="w-[300px]">
-          <Input.Label label="Contato" />
-          <Input.Field
-            id="contactName"
-            name="contactName"
-            placeholder="Busque por contato"
-          />
-        </Input.Wrapper>
+        <p className="text-gray-scale-300 mt-7 text-sm">até</p>
 
         <Input.Wrapper className="w-[300px]">
-          <Input.Label label="Telefone" />
-          <Input.Field id="contactPhone" name="contactPhone" maskType="tel" />
+          <Input.Label label="Data final" />
+          <Input.DatePicker id="name" name="finalDate" />
         </Input.Wrapper>
       </FormWrapper>
 
