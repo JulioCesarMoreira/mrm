@@ -10,7 +10,7 @@ export default function InputLabel({
   required,
 }: InputLabelProperties): ReactElement {
   return (
-    <div className="text-body text-gray-scale-300 my-1 flex">
+    <div className="text-gray-scale-300 my-1 flex text-sm">
       {label}
       {required && '*'}
     </div>

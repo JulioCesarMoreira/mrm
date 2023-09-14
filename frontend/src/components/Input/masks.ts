@@ -88,7 +88,8 @@ export default function generateMaskTypes(
       allowLeadingZeros: false,
       decimalScale: 0,
       isAllowed: ({ floatValue }: { floatValue?: number }): boolean =>
-        !floatValue || floatValue.toString().length <= NUMBER_LIMIT,
+        floatValue !== 0 &&
+        (!floatValue || floatValue.toString().length <= NUMBER_LIMIT),
     },
     intWithLeadingZeros: {
       allowNegative: false,

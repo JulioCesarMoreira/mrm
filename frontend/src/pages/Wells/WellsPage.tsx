@@ -3,7 +3,7 @@ import useWellColumns from './hooks/useWellColumns';
 import useFetchWells from './hooks/useFetchWells';
 import Filters from './components/Filters';
 import DataTable from '@components/DataTable/DataTable';
-import WellForm from './components/WellForm';
+import WellForm from './components/WellForm/WellForm';
 
 export default function WellsPage(): ReactElement {
   const columns = useWellColumns();

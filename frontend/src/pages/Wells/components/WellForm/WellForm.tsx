@@ -1,6 +1,6 @@
 import FormWrapper from '@components/FormWrapper/FormWrapper';
 import { ReactElement, useState } from 'react';
-import { Well } from '../types';
+import { Well } from '../../types';
 import { Button } from '@components/ui/button';
 import {
   Dialog,
@@ -11,13 +11,15 @@ import {
 } from '@components/ui/dialog';
 import { useSetAtom } from 'jotai';
 import { toggleFetchWells } from 'constants/atoms';
-import useUpdateWell from '../hooks/useUpdateWell';
+import useUpdateWell from '../../hooks/useUpdateWell';
 import Spinner from '@components/ui/spinner';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { Pencil } from 'lucide-react';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { CLOSE_DIALOG_DURATION } from 'constants';
 import WellFormFields from './WellFormFields';
+import WellFormClientData from './WellFormClientData';
+import WellFormAddress from './WellFormAddress';
 
 interface WellsFormProperties {
   defaultValues: Well;
@@ -37,9 +39,9 @@ export default function WellForm({
     setIsLoading(true);
 
     try {
-      await updateWell(defaultValues.id, well);
+      const result = await updateWell(defaultValues.id, well);
+      if (result) setOpenDialog(false);
     } finally {
-      setOpenDialog(false);
       setToggleFetchWells((previous) => !previous);
       setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
     }
@@ -63,7 +65,7 @@ export default function WellForm({
         <DataTableTitle title={'Poços'} />
       )}
 
-      <DialogContent className="max-w-3xl bg-white">
+      <DialogContent className="max-w-4xl bg-white">
         <DialogHeader>
           <DialogTitle>Poço</DialogTitle>
           <FormWrapper<Well>
@@ -78,7 +80,19 @@ export default function WellForm({
               </div>
             ) : (
               <>
-                <WellFormFields well={defaultValues} />
+                <div className="mb-4">
+                  <hr className="w-full" />
+
+                  <WellFormClientData well={defaultValues} />
+
+                  <hr className="w-full" />
+
+                  <WellFormFields well={defaultValues} />
+
+                  <hr className="w-full" />
+
+                  <WellFormAddress />
+                </div>
 
                 <hr className="w-full" />
 
@@ -90,14 +104,14 @@ export default function WellForm({
                   >
                     Salvar
                   </Button>
-                  <DialogTrigger>
-                    <Button
-                      variant={'secondary'}
-                      className="hover:bg-gray-scale-700 transition-colors duration-200"
-                    >
-                      Cancelar
-                    </Button>
-                  </DialogTrigger>
+                  <Button
+                    type="button"
+                    variant={'secondary'}
+                    onClick={(): void => setOpenDialog(false)}
+                    className="hover:bg-gray-scale-700 transition-colors duration-200"
+                  >
+                    Cancelar
+                  </Button>
                 </div>
               </>
             )}
