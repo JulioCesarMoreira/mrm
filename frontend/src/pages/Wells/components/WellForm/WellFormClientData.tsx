@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Well } from '../types';
+import { Well } from '../../types';
 
 export default function WellFormClientData({
   well,

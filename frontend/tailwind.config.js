@@ -15,6 +15,8 @@ module.exports = {
         'hidro-blue-500': '#4593FF',
         'dark-blue': '#1C232C',
 
+        'blue-300': '#2788B1',
+
         'gray-d9': '#D9D9D9',
 
         'gray-scale-200': '#353A41',

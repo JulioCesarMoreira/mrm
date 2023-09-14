@@ -3,7 +3,7 @@ import { Well } from '../types';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
-import WellActions from '../components/WellActions';
+import WellActions from '../components/WellForm/WellActions';
 import { format, parseISO } from 'date-fns';
 
 export default function useWellColumns(): ColumnDef<Well>[] {

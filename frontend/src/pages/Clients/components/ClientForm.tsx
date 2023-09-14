@@ -49,16 +49,17 @@ export default function ClientForm({
 
     try {
       if (defaultValues.id) {
-        await updateClient(defaultValues.id, {
+        const result = await updateClient(defaultValues.id, {
           name: input.name,
           contactPhone: input.contactPhone,
           contactName: input.contactName,
         });
+        if (result) setOpenDialog(false);
       } else {
-        await insertClient(input);
+        const result = await insertClient(input);
+        if (result) setOpenDialog(false);
       }
     } finally {
-      setOpenDialog(false);
       setToggleFetchClients((previous) => !previous);
       setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
     }

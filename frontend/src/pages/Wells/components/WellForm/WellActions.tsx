@@ -1,6 +1,6 @@
 import { Row } from '@tanstack/react-table';
 import { ReactElement } from 'react';
-import { Well } from '../types';
+import { Well } from '../../types';
 import WellForm from './WellForm';
 import DeleteDialog from '@components/ui/delete-dialog';
 import { toggleFetchWells } from 'constants/atoms';

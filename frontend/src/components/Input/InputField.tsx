@@ -101,7 +101,7 @@ export default function InputField({
             {...field}
             disabled={disabled}
             className={twMerge(
-              'text-body bg-gray-scale-900 h-[40px] max-h-[40px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
+              'bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 text-sm !shadow-none ring-0 !ring-transparent focus:outline-none',
               disabled
                 ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
                 : '',
@@ -116,7 +116,7 @@ export default function InputField({
             {...field}
             disabled={disabled}
             className={twMerge(
-              'text-body bg-gray-scale-900 h-[40px] max-h-[40px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
+              'bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 text-sm !shadow-none ring-0 !ring-transparent focus:outline-none',
               disabled
                 ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
                 : '',
