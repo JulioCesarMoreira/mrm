@@ -43,8 +43,8 @@ export default function CategoryForm({
     try {
       if (defaultValues.id) {
         const result = await updateCategory(defaultValues.id, {
-          color: input.color,
           name: input.name,
+          color: input.color,
           subCategory: input.subCategory,
         });
         if (result) onChangeOpenDialog(false);

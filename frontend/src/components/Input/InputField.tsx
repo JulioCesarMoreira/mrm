@@ -13,7 +13,6 @@ import NumberFormat, {
 import generateMaskTypes, { MaskTypes } from './masks';
 
 interface InputProperties extends InputHTMLAttributes<HTMLInputElement> {
-  id: string;
   name: string;
   disabled?: boolean;
   loading?: boolean;

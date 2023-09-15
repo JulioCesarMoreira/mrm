@@ -13,16 +13,11 @@ export default function CategoryFormFields({
     <div className="mb-8 grid grid-flow-row grid-cols-12 gap-6">
       <Input.Wrapper className="col-span-full">
         <Input.Label label="Nome" required />
-        <Input.Field
-          id="name"
-          name="name"
-          placeholder="Ex.: Ferramentas"
-          required
-        />
+        <Input.Field name="name" placeholder="Ex.: Ferramentas" required />
       </Input.Wrapper>
 
       <Input.Wrapper className="col-span-full">
-        <Input.Label label="Subcategoria" />
+        <Input.Label label="Subcategoria" required />
         <Input.Select
           name="subCategory"
           options={[
@@ -33,7 +28,7 @@ export default function CategoryFormFields({
       </Input.Wrapper>
 
       <Input.Wrapper className="col-span-full">
-        <Input.Label label="Selecione uma cor" />
+        <Input.Label label="Selecione uma cor" required />
         <Input.Select
           name="color"
           options={categoryColorOptions}

@@ -33,7 +33,7 @@ export default function Filters({
       >
         <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Nome" />
-          <Input.Field id="name" name="name" placeholder="Nome" />
+          <Input.Field name="name" placeholder="Nome" />
         </Input.Wrapper>
 
         <Input.Wrapper className="mb-2 w-[240px]">

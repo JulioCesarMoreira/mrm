@@ -13,7 +13,6 @@ export default function PasswordInput(): ReactElement {
     <Input.Wrapper className="mt-8">
       <Input.Label label="Senha" required />
       <Input.Field
-        id="password"
         name="password"
         placeholder="Digite sua senha"
         type={visible ? 'text' : 'password'}

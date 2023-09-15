@@ -20,7 +20,6 @@ import { Popover } from '@components/ui/popover';
 import { format } from 'date-fns';
 
 interface DatePickerProperties extends InputHTMLAttributes<HTMLInputElement> {
-  id: string;
   name: string;
   disabled?: boolean;
   loading?: boolean;
