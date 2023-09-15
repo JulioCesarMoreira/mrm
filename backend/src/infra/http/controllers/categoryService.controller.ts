@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   CreateCategoryServiceDto,
@@ -71,7 +72,7 @@ export class CategoryServiceController {
 
   @Get()
   async fetchCategoryService(
-    @Body() filters: FetchCategoryServicesDto,
+    @Query() filters: FetchCategoryServicesDto,
   ): Promise<FetchCategoryServicesResponseDto | ErrorResponseDto> {
     try {
       const fetchCategoryServicesList =

@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   CreateDetectionDto,
@@ -68,7 +69,7 @@ export class DetectionController {
 
   @Get()
   async fetchDetection(
-    @Body() filters: FetchDetectionsDto,
+    @Query() filters: FetchDetectionsDto,
   ): Promise<FetchDetectionsResponseDto | ErrorResponseDto> {
     try {
       const fetchDetectionsList =
