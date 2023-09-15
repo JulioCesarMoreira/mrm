@@ -17,7 +17,7 @@ export default function useInsertClient(): InsertClient {
     try {
       const response = await axios.post('http://localhost:3000/client', {
         ...insertedClient,
-        tenantId: 'e89e1c41-3d2b-44a8-b43a-ec14433892d5',
+        tenantId: '3d222283-d485-4b54-acb8-5f290c105143',
       });
 
       toast({

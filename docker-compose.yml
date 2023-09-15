@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  mrm-mysql:
+    image: mysql
+    container_name: mrm-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mrm-mysql
+      MYSQL_DATABASE: mrm-mysql
+    ports:
+      - '3306:3306'
+    networks:
+      - mrm-app
+
+  mrm-backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    environment:
+      - DATABASE_URL=mysql://root:mrm-mysql@mrm-mysql:3306/mrm-mysql?allowPublicKeyRetrieval=true&useSSL=false
+      - NODE_ENV=development
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mrm-mysql
+    networks:
+      - mrm-app
+
+  mrm-frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    ports:
+      - '5173:5173'
+    depends_on:
+      - mrm-backend
+    networks:
+      - mrm-app
+
+networks:
+  mrm-app:
+    driver: bridge
