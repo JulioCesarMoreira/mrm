@@ -4,7 +4,11 @@ import type { ReactElement } from 'react';
 import { SelectItem } from '@components/ui/select';
 import { categoryColorNames, categoryColorOptions } from 'constants/index';
 
-export default function CategoryFormFields(): ReactElement {
+export default function CategoryFormFields({
+  defaultColor,
+}: {
+  defaultColor?: string;
+}): ReactElement {
   return (
     <div className="mb-8 grid grid-flow-row grid-cols-12 gap-6">
       <Input.Wrapper className="col-span-full">
@@ -33,7 +37,7 @@ export default function CategoryFormFields(): ReactElement {
         <Input.Select
           name="color"
           options={categoryColorOptions}
-          defaultValue={categoryColorOptions[0].value}
+          defaultValue={defaultColor ?? categoryColorOptions[0].value}
           renderOption={({ value }): ReactElement => (
             <SelectItem
               value={value}

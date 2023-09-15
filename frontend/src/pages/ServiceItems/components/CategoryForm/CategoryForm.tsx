@@ -91,7 +91,11 @@ export default function CategoryForm({
               </div>
             ) : (
               <>
-                <CategoryFormFields />
+                <CategoryFormFields
+                  defaultColor={
+                    !!defaultValues.color ? defaultValues.color : undefined
+                  }
+                />
 
                 <hr className="w-full" />
 
