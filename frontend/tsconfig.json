@@ -5,6 +5,7 @@
       "@components/*": ["components/*"],
       "@lib/utils": ["lib/utils"],
       "constants/*": ["constants/*"],
+      "pages/*": ["pages/*"],
       "hooks/*": ["hooks/*"]
     },
     "target": "ESNext",

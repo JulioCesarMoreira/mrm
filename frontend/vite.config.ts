@@ -14,6 +14,7 @@ export default defineConfig({
       '@components': '/src/components',
       '@lib': '/src/lib',
       constants: '/src/constants',
+      pages: '/src/pages',
       hooks: '/src/hooks',
     },
   },
