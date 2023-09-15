@@ -31,6 +31,7 @@ export default function useClientColumns(): ColumnDef<Client>[] {
               onClick={() =>
                 column.toggleSorting(column.getIsSorted() === 'asc')
               }
+              className="px-0"
             >
               Nome
               <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -40,6 +41,35 @@ export default function useClientColumns(): ColumnDef<Client>[] {
       },
       cell: ({ row }) => (
         <div className="lowercase">{row.getValue('name')}</div>
+      ),
+    },
+    {
+      accessorKey: 'contactName',
+      header: ({ column }) => {
+        return (
+          <Tooltip
+            position="top"
+            text={
+              column.getIsSorted() === 'asc'
+                ? 'Ordenar decrescente'
+                : 'Ordenar crescente'
+            }
+          >
+            <Button
+              variant="ghost"
+              onClick={() =>
+                column.toggleSorting(column.getIsSorted() === 'asc')
+              }
+              className="px-0"
+            >
+              Contato
+              <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+          </Tooltip>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue('contactName')}</div>
       ),
     },
     {

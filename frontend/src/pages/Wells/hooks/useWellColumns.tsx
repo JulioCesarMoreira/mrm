@@ -30,6 +30,7 @@ export default function useWellColumns(): ColumnDef<Well>[] {
               onClick={() =>
                 column.toggleSorting(column.getIsSorted() === 'asc')
               }
+              className="px-0"
             >
               Cliente
               <ArrowUpDown className="ml-2 h-4 w-4" />
