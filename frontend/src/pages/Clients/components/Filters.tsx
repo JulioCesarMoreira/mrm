@@ -31,21 +31,17 @@ export default function Filters({ fetch }: FilterProperties): ReactElement {
       >
         <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Nome" />
-          <Input.Field id="name" name="name" placeholder="Nome" />
+          <Input.Field name="name" placeholder="Nome" />
         </Input.Wrapper>
 
         <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Contato" />
-          <Input.Field
-            id="contactName"
-            name="contactName"
-            placeholder="Busque por contato"
-          />
+          <Input.Field name="contactName" placeholder="Busque por contato" />
         </Input.Wrapper>
 
         <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Telefone" />
-          <Input.Field id="contactPhone" name="contactPhone" maskType="tel" />
+          <Input.Field name="contactPhone" maskType="tel" />
         </Input.Wrapper>
 
         <div className="flex w-full flex-row-reverse items-center pt-3">
