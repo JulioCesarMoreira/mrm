@@ -1,4 +1,5 @@
 import { Input } from '@components/Input';
+import { SelectItem } from '@components/ui/select';
 import {
   CategoryService,
   ItemServiceFields,
@@ -44,6 +45,21 @@ export default function ItemFormFields({
             name,
             value: String(id),
           }))}
+          renderOption={({ name, value }): ReactElement => (
+            <SelectItem value={value} className="my-1 h-[30px] cursor-pointer">
+              <div className="flex w-full items-center gap-4">
+                <div
+                  className="h-5 w-5 rounded-full"
+                  style={{
+                    backgroundColor: categories.find(
+                      (category) => String(category.id) === value,
+                    )?.color,
+                  }}
+                />
+                <span>{name}</span>
+              </div>
+            </SelectItem>
+          )}
         />
       </Input.Wrapper>
 

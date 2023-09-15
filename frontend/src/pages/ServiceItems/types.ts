@@ -39,3 +39,9 @@ export interface ItemServiceFields {
   status: Status;
   categoryServiceId: string;
 }
+
+export interface ItemFilter {
+  name?: string;
+  status?: Status;
+  categoryServiceId?: number;
+}

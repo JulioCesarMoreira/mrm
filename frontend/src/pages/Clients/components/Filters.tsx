@@ -5,9 +5,12 @@ import { Button } from '@components/ui/button';
 import { Search } from 'lucide-react';
 import { ReactElement } from 'react';
 import { Client } from '../types';
+import { removeSpecialCharacters } from '@lib/utils';
 
 interface ClientsFilter {
   name: string;
+  contactName: string;
+  contactPhone: string;
 }
 
 interface FilterProperties {
@@ -16,7 +19,12 @@ interface FilterProperties {
 
 export default function Filters({ fetch }: FilterProperties): ReactElement {
   function onSubmitFilters(data: ClientsFilter): void {
-    void fetch(data);
+    void fetch({
+      ...data,
+      contactPhone: data.contactPhone
+        ? removeSpecialCharacters(data.contactPhone)
+        : '',
+    });
   }
 
   return (
@@ -24,10 +32,10 @@ export default function Filters({ fetch }: FilterProperties): ReactElement {
       <FormWrapper<ClientsFilter>
         id="filters-form"
         onSubmit={onSubmitFilters}
-        className="flex gap-4"
+        className="flex w-full gap-6"
         defaultValues={{ name: '' }}
       >
-        <Input.Wrapper className="mb-2 w-[240px]">
+        <Input.Wrapper className="mb-2 ml-6 w-[240px]">
           <Input.Label label="Nome" />
           <Input.Field name="name" placeholder="Nome" />
         </Input.Wrapper>
@@ -42,12 +50,12 @@ export default function Filters({ fetch }: FilterProperties): ReactElement {
           <Input.Field name="contactPhone" maskType="tel" />
         </Input.Wrapper>
 
-        <div className="flex w-full flex-row-reverse items-center pt-3">
+        <div className="flex w-fit flex-row-reverse items-center pt-3">
           <Tooltip position="left" text="Pesquisar">
             <Button
               type="submit"
               variant="ghost"
-              className="bg-gray-scale-800 hover:bg-gray-scale-700"
+              className="bg-gray-scale-800 hover:bg-gray-scale-700 h-[48px]"
             >
               <Search className="stroke-dark-blue h-5 w-5" />
             </Button>
