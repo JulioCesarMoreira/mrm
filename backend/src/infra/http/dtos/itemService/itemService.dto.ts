@@ -55,7 +55,7 @@ export class FetchItemServicesDto {
 
   @IsString()
   @IsOptional()
-  @MaxLength(4)
+  @MaxLength(3)
   unit: string;
 
   @IsEnum(Status)
@@ -79,7 +79,7 @@ export class UpdateItemServiceDto {
   description: string;
 
   @IsString()
-  @MaxLength(4)
+  @MaxLength(3)
   @IsOptional()
   unit: string;
 
