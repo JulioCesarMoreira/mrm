@@ -5,8 +5,10 @@ export interface TableProperty<T> {
 }
 
 export interface DataTableTitleProperties {
-  title: string;
+  title?: string;
   addElementButtonLabel?: string;
+  disabledAdd?: boolean;
+  disabledMessage?: string;
 }
 
 export interface DataTableProperties<T> {
