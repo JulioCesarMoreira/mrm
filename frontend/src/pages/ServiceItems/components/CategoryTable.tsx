@@ -20,11 +20,11 @@ import CategoryForm from './CategoryForm/CategoryForm';
 const columns: ColumnDef<CategoryService>[] = [
   {
     accessorKey: 'name',
-    header: () => <div className="w-[125%] text-left">Categorias</div>,
+    header: () => <div className="w-[140%] text-left">Categorias</div>,
     cell: ({ row }) => {
       return (
         <div
-          className="flex-center w-[125%] rounded-[2px] px-2 py-1 text-left"
+          className="flex-center text-gray-scale-200 w-[140%] rounded-[2px] px-2 py-1 text-left"
           style={{
             backgroundColor: row.original.color,
           }}
@@ -84,7 +84,8 @@ export default function CategoryDataTable({
         className="overflow-hidden rounded-lg border"
         style={{
           overflow: 'hidden',
-          maxHeight: 'calc(100vh - 80px)',
+          maxHeight: 'calc(100vh - 200px)',
+          height: 'calc(100vh - 200px)',
         }}
       >
         <Table.Wrapper>
@@ -110,7 +111,10 @@ export default function CategoryDataTable({
 
         <div
           className="w-full overflow-auto"
-          style={{ maxHeight: 'calc(100vh - 325px)' }}
+          style={{
+            maxHeight: 'calc(100vh - 325px)',
+            height: 'calc(100vh - 325px)',
+          }}
         >
           <Table.Wrapper>
             <Table.Body>

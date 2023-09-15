@@ -9,41 +9,37 @@ export default function WellFormAddress(): ReactElement {
       <div className="grid grid-flow-row grid-cols-12 gap-4">
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Logradouro" required />
-          <Input.Field id="street" name="street" />
+          <Input.Field name="street" />
         </Input.Wrapper>
 
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Número" />
-          <Input.Field
-            id="number"
-            name="number"
-            maskType="numberWithoutDecimals"
-          />
+          <Input.Field name="number" maskType="numberWithoutDecimals" />
         </Input.Wrapper>
 
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Bairro" />
-          <Input.Field id="district" name="district" />
+          <Input.Field name="district" />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="CEP" />
-          <Input.Field id="zipcode" name="zipcode" maskType="cep" />
+          <Input.Field name="zipcode" maskType="cep" />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Estado" />
-          <Input.Field id="uf" name="uf" />
+          <Input.Field name="uf" />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Cidade" />
-          <Input.Field id="city" name="city" />
+          <Input.Field name="city" />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Latitude" />
-          <Input.Field id="latitude" name="latitude" />
+          <Input.Field name="latitude" />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Longitude" />
-          <Input.Field id="longitude" name="longitude" />
+          <Input.Field name="longitude" />
         </Input.Wrapper>
 
         {/* TODO */}

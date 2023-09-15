@@ -4,8 +4,8 @@ export enum SubCategory {
 }
 
 export enum Status {
-  AVAILABLE = 'available',
-  UNAVAILABLE = 'unavailable',
+  AVAILABLE = 'AVAILABLE',
+  UNAVAILABLE = 'UNAVAILABLE',
 }
 
 export interface CategoryService {
@@ -15,9 +15,27 @@ export interface CategoryService {
   subCategory: SubCategory;
 }
 
+export interface ItemService {
+  id: string;
+  name: string;
+  description: string;
+  unit: string;
+  status: Status;
+  categoryServiceId: string;
+}
+
 export interface CategoryFields {
   id?: string;
   name: string;
   subCategory: SubCategory;
   color: string;
+}
+
+export interface ItemServiceFields {
+  id?: string;
+  name: string;
+  description: string;
+  unit: string;
+  status: Status;
+  categoryServiceId: string;
 }
