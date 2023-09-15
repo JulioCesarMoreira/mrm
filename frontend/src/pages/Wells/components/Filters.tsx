@@ -10,6 +10,7 @@ interface WellsFilter {
 }
 
 export default function Filters(): ReactElement {
+  // TODO
   function onSubmitFilters(data: WellsFilter): void {
     console.log('data', data);
   }
@@ -21,14 +22,14 @@ export default function Filters(): ReactElement {
         onSubmit={onSubmitFilters}
         className="flex items-center gap-4"
       >
-        <Input.Wrapper className="w-[300px]">
+        <Input.Wrapper className="w-[240px]">
           <Input.Label label="Data inicial" />
           <Input.DatePicker id="name" name="initialDate" />
         </Input.Wrapper>
 
         <p className="text-gray-scale-300 mt-7 text-sm">até</p>
 
-        <Input.Wrapper className="w-[300px]">
+        <Input.Wrapper className="w-[240px]">
           <Input.Label label="Data final" />
           <Input.DatePicker id="name" name="finalDate" />
         </Input.Wrapper>

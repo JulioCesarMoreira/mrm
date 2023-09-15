@@ -83,6 +83,7 @@ export default function WellForm({
                 <div className="mb-4">
                   <hr className="w-full" />
 
+                  {/* TODO working form values */}
                   <WellFormClientData well={defaultValues} />
 
                   <hr className="w-full" />
@@ -104,14 +105,15 @@ export default function WellForm({
                   >
                     Salvar
                   </Button>
-                  <Button
-                    type="button"
-                    variant={'secondary'}
-                    onClick={(): void => setOpenDialog(false)}
-                    className="hover:bg-gray-scale-700 transition-colors duration-200"
-                  >
-                    Cancelar
-                  </Button>
+                  <DialogTrigger>
+                    <Button
+                      type="button"
+                      variant={'secondary'}
+                      className="hover:bg-gray-scale-700 transition-colors duration-200"
+                    >
+                      Cancelar
+                    </Button>
+                  </DialogTrigger>
                 </div>
               </>
             )}

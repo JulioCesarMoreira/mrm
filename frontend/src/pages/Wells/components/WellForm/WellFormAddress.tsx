@@ -46,9 +46,16 @@ export default function WellFormAddress(): ReactElement {
           <Input.Field id="longitude" name="longitude" />
         </Input.Wrapper>
 
+        {/* TODO */}
         <div>
           <p className="text-gray-scale-500 text-sm">URL</p>
-          <p className="text-sm text-blue-300 underline">url aqui</p>
+          <a
+            target="_blank"
+            href="https://www.google.com"
+            className="text-sm text-blue-300 underline"
+          >
+            https://www.google.com
+          </a>
         </div>
       </div>
     </div>
