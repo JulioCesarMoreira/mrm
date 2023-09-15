@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   CreateProposalDto,
@@ -69,7 +70,7 @@ export class ProposalController {
 
   @Get()
   async fetchProposal(
-    @Body() filters: FetchProposalsDto,
+    @Query() filters: FetchProposalsDto,
   ): Promise<FetchProposalsResponseDto | ErrorResponseDto> {
     try {
       const fetchProposalsList = await this.fetchProposalsUseCase.fetchProposal(

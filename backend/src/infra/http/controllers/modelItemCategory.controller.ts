@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+} from '@nestjs/common';
 import {
   CreateModelItemCategoryDto,
   CreateModelItemCategoryResponseDto,
@@ -59,7 +67,7 @@ export class ModelItemCategoryController {
 
   @Get()
   async fetchModelItemCategory(
-    @Body() filters: FetchModelItemCategorysDto,
+    @Query() filters: FetchModelItemCategorysDto,
   ): Promise<FetchModelItemCategorysResponseDto | ErrorResponseDto> {
     try {
       const fetchModelItemCategorysList =

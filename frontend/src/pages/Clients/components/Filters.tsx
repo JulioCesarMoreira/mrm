@@ -11,9 +11,7 @@ interface ClientsFilter {
 }
 
 interface FilterProperties {
-  fetch: (filters?: ClientsFilter | undefined) => Promise<{
-    clients: Client[];
-  }>;
+  fetch: (filters: ClientsFilter) => Promise<void>;
 }
 
 export default function Filters({ fetch }: FilterProperties): ReactElement {

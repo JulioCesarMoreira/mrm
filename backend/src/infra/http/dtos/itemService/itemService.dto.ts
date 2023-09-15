@@ -20,7 +20,7 @@ export class CreateItemServiceDto {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @MaxLength(500)
   description: string;
 
@@ -55,7 +55,7 @@ export class FetchItemServicesDto {
 
   @IsString()
   @IsOptional()
-  @MaxLength(4)
+  @MaxLength(3)
   unit: string;
 
   @IsEnum(Status)
@@ -72,13 +72,14 @@ export class UpdateItemServiceDto {
   @MaxLength(191)
   @IsOptional()
   name: string;
+
   @IsString()
   @MaxLength(191)
   @IsOptional()
   description: string;
 
   @IsString()
-  @MaxLength(4)
+  @MaxLength(3)
   @IsOptional()
   unit: string;
 

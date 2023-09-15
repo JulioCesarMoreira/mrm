@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   CreateClientDto,
@@ -72,7 +73,7 @@ export class ClientController {
 
   @Get()
   async fetchClient(
-    @Body() filters: FetchClientsDto,
+    @Query() filters: FetchClientsDto,
   ): Promise<FetchClientsResponseDto | ErrorResponseDto> {
     try {
       const fetchClientsList = await this.fetchClientsUseCase.fetchClient(
