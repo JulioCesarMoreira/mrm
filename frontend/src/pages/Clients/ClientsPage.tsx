@@ -6,11 +6,11 @@ import useClientColumns from './hooks/useClientColumns';
 
 export default function ClientsPage() {
   const columns = useClientColumns();
-  const { data, isLoading } = useFetchClients();
+  const { data, isLoading, fetch } = useFetchClients();
 
   return (
     <div className="flex w-full flex-col">
-      <Filters />
+      <Filters fetch={fetch} />
 
       <div className="w-full px-10 pb-10">
         <ClientForm

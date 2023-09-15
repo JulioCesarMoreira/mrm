@@ -4,15 +4,21 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { Search } from 'lucide-react';
 import { ReactElement } from 'react';
+import { Client } from '../types';
 
 interface ClientsFilter {
   name: string;
 }
 
-export default function Filters(): ReactElement {
-  // TODO
+interface FilterProperties {
+  fetch: (filters?: ClientsFilter | undefined) => Promise<{
+    clients: Client[];
+  }>;
+}
+
+export default function Filters({ fetch }: FilterProperties): ReactElement {
   function onSubmitFilters(data: ClientsFilter): void {
-    console.log('data', data);
+    void fetch(data);
   }
 
   return (
@@ -21,6 +27,7 @@ export default function Filters(): ReactElement {
         id="filters-form"
         onSubmit={onSubmitFilters}
         className="flex gap-4"
+        defaultValues={{ name: '' }}
       >
         <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Nome" />
@@ -40,18 +47,19 @@ export default function Filters(): ReactElement {
           <Input.Label label="Telefone" />
           <Input.Field id="contactPhone" name="contactPhone" maskType="tel" />
         </Input.Wrapper>
-      </FormWrapper>
 
-      <div className="flex w-full flex-row-reverse items-center pt-3">
-        <Tooltip position="left" text="Pesquisar">
-          <Button
-            variant="ghost"
-            className="bg-gray-scale-800 hover:bg-gray-scale-700"
-          >
-            <Search className="stroke-dark-blue h-5 w-5" />
-          </Button>
-        </Tooltip>
-      </div>
+        <div className="flex w-full flex-row-reverse items-center pt-3">
+          <Tooltip position="left" text="Pesquisar">
+            <Button
+              type="submit"
+              variant="ghost"
+              className="bg-gray-scale-800 hover:bg-gray-scale-700"
+            >
+              <Search className="stroke-dark-blue h-5 w-5" />
+            </Button>
+          </Tooltip>
+        </div>
+      </FormWrapper>
     </div>
   );
 }

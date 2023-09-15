@@ -9,6 +9,15 @@ import useOnError from 'hooks/useOnError';
 interface FetchClientsResponse {
   data: Client[];
   isLoading: boolean;
+  fetch: (filters?: ClientFilter) => Promise<{
+    clients: Client[];
+  }>;
+}
+
+interface ClientFilter {
+  name?: string;
+  contactName?: string;
+  contactPhone?: string;
 }
 
 export default function useFetchClients(): FetchClientsResponse {
@@ -18,9 +27,14 @@ export default function useFetchClients(): FetchClientsResponse {
   const [isLoading, setIsLoading] = useState(false);
   const toggleFetch = useAtomValue(toggleFetchClients);
 
-  const fetchData = async (): Promise<{ clients: Client[] }> => {
+  const fetchData = async (
+    filters?: ClientFilter,
+  ): Promise<{ clients: Client[] }> => {
     try {
-      const response = await axios.get('http://localhost:3000/client');
+      const response = await axios.get(
+        'http://localhost:3000/client',
+        filters ? { params: filters } : undefined,
+      );
 
       return response.data;
     } catch (error) {
@@ -38,5 +52,5 @@ export default function useFetchClients(): FetchClientsResponse {
     setData(data.clients);
   }, [toggleFetch]);
 
-  return { data, isLoading };
+  return { data, isLoading, fetch: fetchData };
 }
