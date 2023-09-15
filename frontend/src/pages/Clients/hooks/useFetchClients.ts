@@ -9,9 +9,7 @@ import useOnError from 'hooks/useOnError';
 interface FetchClientsResponse {
   data: Client[];
   isLoading: boolean;
-  fetch: (filters?: ClientFilter) => Promise<{
-    clients: Client[];
-  }>;
+  fetch: (filters: ClientFilter) => Promise<void>;
 }
 
 interface ClientFilter {
@@ -44,6 +42,14 @@ export default function useFetchClients(): FetchClientsResponse {
     }
   };
 
+  const fetchWithFilters = async (filters: ClientFilter): Promise<void> => {
+    setIsLoading(true);
+    const data = await fetchData(filters);
+    setIsLoading(false);
+
+    setData(data.clients);
+  };
+
   useAsyncEffect(async () => {
     setIsLoading(true);
     const data = await fetchData();
@@ -52,5 +58,5 @@ export default function useFetchClients(): FetchClientsResponse {
     setData(data.clients);
   }, [toggleFetch]);
 
-  return { data, isLoading, fetch: fetchData };
+  return { data, isLoading, fetch: fetchWithFilters };
 }
