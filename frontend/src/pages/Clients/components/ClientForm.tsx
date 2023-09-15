@@ -45,8 +45,6 @@ export default function ClientForm({
       contactPhone: removeSpecialCharacters(client.contactPhone),
     };
 
-    console.log('input', input);
-
     try {
       if (defaultValues.id) {
         const result = await updateClient(defaultValues.id, {
@@ -117,6 +115,7 @@ export default function ClientForm({
                   </Button>
                   <DialogTrigger>
                     <Button
+                      type="button"
                       variant={'secondary'}
                       className="hover:bg-gray-scale-700 transition-colors duration-200"
                     >

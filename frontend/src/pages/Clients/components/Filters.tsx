@@ -10,6 +10,7 @@ interface ClientsFilter {
 }
 
 export default function Filters(): ReactElement {
+  // TODO
   function onSubmitFilters(data: ClientsFilter): void {
     console.log('data', data);
   }
@@ -21,12 +22,12 @@ export default function Filters(): ReactElement {
         onSubmit={onSubmitFilters}
         className="flex gap-4"
       >
-        <Input.Wrapper className="w-[300px]">
+        <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Nome" />
           <Input.Field id="name" name="name" placeholder="Nome" />
         </Input.Wrapper>
 
-        <Input.Wrapper className="w-[300px]">
+        <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Contato" />
           <Input.Field
             id="contactName"
@@ -35,7 +36,7 @@ export default function Filters(): ReactElement {
           />
         </Input.Wrapper>
 
-        <Input.Wrapper className="w-[300px]">
+        <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Telefone" />
           <Input.Field id="contactPhone" name="contactPhone" maskType="tel" />
         </Input.Wrapper>

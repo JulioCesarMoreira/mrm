@@ -17,6 +17,7 @@ export default function ClientFormFields({
           id="name"
           name="name"
           placeholder="Insira o nome do cliente"
+          required
         />
       </Input.Wrapper>
       <Input.Wrapper className="col-span-full">
@@ -25,6 +26,7 @@ export default function ClientFormFields({
           id="contactName"
           name="contactName"
           placeholder="Insira o nome do contato"
+          required
         />
       </Input.Wrapper>
 
@@ -36,6 +38,7 @@ export default function ClientFormFields({
           placeholder="Documento do cliente"
           disabled={!!defaultValues.id}
           maskType="cpf-cnpj"
+          required
         />
       </Input.Wrapper>
 
@@ -46,6 +49,7 @@ export default function ClientFormFields({
           name="contactPhone"
           placeholder="Contato do cliente"
           maskType="tel"
+          required
         />
       </Input.Wrapper>
     </div>
