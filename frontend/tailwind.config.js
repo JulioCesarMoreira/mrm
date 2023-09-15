@@ -19,6 +19,12 @@ module.exports = {
 
         'gray-d9': '#D9D9D9',
 
+        'category-blue': '#3A9ED4',
+        'category-purple': '#E3C5FF',
+        'category-yellow': '#F3F5A1',
+        'category-red': '#FFD0CC',
+        'category-orange': '#FFD1A1',
+
         'gray-scale-200': '#353A41',
         'gray-scale-300': '#52575F',
         'gray-scale-400': '#676C73',
