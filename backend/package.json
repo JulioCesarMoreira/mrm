@@ -12,6 +12,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "prisma:migrate": "pnpm dlx prisma migrate dev --schema=./prisma/schema.prisma",
+    "prisma:seed": "pnpm dlx prisma db seed",
     "test": "jest",
     "test:api": "pnpm test -- ./__tests__/*.api.spec.ts"
   },

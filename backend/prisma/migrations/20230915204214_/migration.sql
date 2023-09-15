@@ -65,7 +65,7 @@ CREATE TABLE `CategoryService` (
 CREATE TABLE `ItemService` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
-    `description` VARCHAR(400) NOT NULL,
+    `description` VARCHAR(400) NULL,
     `unit` VARCHAR(3) NOT NULL,
     `status` ENUM('AVAILABLE', 'UNAVAILABLE') NOT NULL,
     `categoryServiceId` INTEGER NOT NULL,

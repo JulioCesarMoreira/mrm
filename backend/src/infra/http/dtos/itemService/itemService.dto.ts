@@ -20,7 +20,7 @@ export class CreateItemServiceDto {
   name: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   @MaxLength(500)
   description: string;
 
@@ -72,6 +72,7 @@ export class UpdateItemServiceDto {
   @MaxLength(191)
   @IsOptional()
   name: string;
+
   @IsString()
   @MaxLength(191)
   @IsOptional()

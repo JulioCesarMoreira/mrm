@@ -77,7 +77,7 @@ enum SubCategory {
 model ItemService {
   id                Int                 @id @default(autoincrement())
   name              String              @unique @db.VarChar(100)
-  description       String              @db.VarChar(400)
+  description       String?             @db.VarChar(400)
   unit              String              @db.VarChar(3)
   status            Status
   categoryService   CategoryService     @relation(fields: [categoryServiceId], references: [id])
