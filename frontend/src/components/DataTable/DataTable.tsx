@@ -55,14 +55,10 @@ export default function DataTable<T>({
               </Table.Row>
             ))}
           </Table.Header>
-
           <Table.Body>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <Table.Row
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
+                <Table.Row key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <Table.Cell key={cell.id}>
                       {flexRender(

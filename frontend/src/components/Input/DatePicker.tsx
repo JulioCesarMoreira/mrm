@@ -1,16 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
   RegisterOptions,
   useController,
   useFormContext,
 } from 'react-hook-form';
-import type {
-  FocusEvent,
-  InputHTMLAttributes,
-  ReactElement,
-  ReactNode,
-} from 'react';
+import type { InputHTMLAttributes, ReactElement } from 'react';
 import NumberFormat, {
   NumberFormatProps,
   NumberFormatValues,
@@ -22,10 +17,9 @@ import { Calendar } from '@components/ui/calendar';
 import { Button } from '@components/ui/button';
 import { PopoverTrigger } from '@components/ui/popover';
 import { Popover } from '@components/ui/popover';
-import { cn } from '@lib/utils';
 import { format } from 'date-fns';
 
-interface InputProperties extends InputHTMLAttributes<HTMLInputElement> {
+interface DatePickerProperties extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   name: string;
   disabled?: boolean;
@@ -41,7 +35,7 @@ export default function DatePicker({
   className,
   rules,
   ...properties
-}: InputProperties): ReactElement {
+}: DatePickerProperties): ReactElement {
   const { control } = useFormContext();
   const [focus, setFocus] = useState<boolean>(false);
   const [date, setDate] = useState(
@@ -65,24 +59,12 @@ export default function DatePicker({
       ? 'Campo obrigatório'
       : (error?.message as string);
 
-  const onFocus = useCallback(
-    (event: FocusEvent<HTMLInputElement>): void => {
-      if (properties.onFocus) {
-        properties.onFocus(event);
-      }
-      setFocus(true);
-    },
-    [properties],
-  );
-
   const onChangeValue = (data: NumberFormatValues): void => {
-    console.log('data.value', data.value);
     setDate(data.value);
   };
 
-  const onBlur = useCallback((): void => {
-    setFocus(false);
-  }, []);
+  const onFocus = (): void => setFocus(true);
+  const onBlur = (): void => setFocus(false);
 
   const onSelectDate = (_: Date | undefined, selectedDay: Date): void => {
     const formattedDate = format(selectedDay, 'ddMMyyyy');
@@ -93,12 +75,12 @@ export default function DatePicker({
   const mask = generateMaskTypes(date);
 
   return loading ? (
-    <div className="h-[40px] w-full animate-pulse rounded-md" />
+    <div className="h-[30px] w-full animate-pulse rounded-md" />
   ) : (
     <div className="relative">
       <div
         className={twMerge(
-          'bg-gray-scale-900 ring-gray-scale-800 relative flex max-h-[40px] w-full cursor-text items-center rounded-md p-[2px] ring-1 duration-200',
+          'bg-gray-scale-900 ring-gray-scale-800 relative flex max-h-[30px] w-full cursor-text items-center rounded-md p-[2px] ring-1 duration-200',
           disabled ? 'bg-gray-scale-800 !cursor-not-allowed shadow-none' : '',
           focus && !error ? 'ring-hidro-blue-500' : '',
           className ?? '',
@@ -113,7 +95,7 @@ export default function DatePicker({
           {...field}
           disabled={disabled}
           className={twMerge(
-            'text-body bg-gray-scale-900 h-[40px] max-h-[40px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
+            'text-body bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
             disabled
               ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
               : '',
