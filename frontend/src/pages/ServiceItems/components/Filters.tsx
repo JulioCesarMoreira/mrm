@@ -40,9 +40,13 @@ export default function Filters({
           <Input.Label label="Categoria" />
           <Input.Select
             name="categoryServiceId"
+            disabled={!categories || categories.length === 0}
             options={
               categories
-                ? categories.map(({ id, name }) => ({ name, value: id }))
+                ? categories.map(({ id, name }) => ({
+                    name,
+                    value: String(id),
+                  }))
                 : []
             }
           />

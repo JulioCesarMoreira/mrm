@@ -59,7 +59,10 @@ export default function Select({
       >
         <SelectValue
           placeholder={
-            renderValue ? undefined : field.value ?? defaultValue ?? 'Selecione'
+            renderValue
+              ? undefined
+              : options.find((option) => option.value === field.value)?.name ??
+                'Selecione'
           }
         >
           {renderValue && renderValue(field.value)}
