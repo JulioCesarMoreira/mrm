@@ -16,36 +16,41 @@ import { Pencil } from 'lucide-react';
 import { CLOSE_DIALOG_DURATION } from 'constants';
 import CategoryFormFields from './CategoryFormFields';
 import { CategoryFields } from 'pages/ServiceItems/types';
+import useInsertCategory from 'pages/ServiceItems/hooks/useInsertCategory';
+import useUpdateCategory from 'pages/ServiceItems/hooks/useUpdateCategory';
 
 interface CategoryFormProperties {
   defaultValues: CategoryFields;
+  openDialog: boolean;
+  onChangeOpenDialog: (open: boolean) => void;
 }
 
 export default function CategoryForm({
   defaultValues,
+  onChangeOpenDialog,
+  openDialog,
 }: CategoryFormProperties): ReactElement {
   const [isLoading, setIsLoading] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
 
   const setToggleFetchCategories = useSetAtom(toggleFetchCategories);
 
+  const { insertCategory } = useInsertCategory();
+  const { updateCategory } = useUpdateCategory();
+
   async function onSubmitCategory(input: CategoryFields): Promise<void> {
     setIsLoading(true);
-    console.log('input', input);
 
     try {
       if (defaultValues.id) {
-        let result;
-        // const result = await updateClient(defaultValues.id, {
-        //   name: input.name,
-        //   contactPhone: input.contactPhone,
-        //   contactName: input.contactName,
-        // });
-        if (result) setOpenDialog(false);
+        const result = await updateCategory(defaultValues.id, {
+          color: input.color,
+          name: input.name,
+          subCategory: input.subCategory,
+        });
+        if (result) onChangeOpenDialog(false);
       } else {
-        let result;
-        // const result = await insertClient(input);
-        if (result) setOpenDialog(false);
+        const result = await insertCategory(input);
+        if (result) onChangeOpenDialog(false);
       }
     } finally {
       setToggleFetchCategories((previous) => !previous);
@@ -54,18 +59,20 @@ export default function CategoryForm({
   }
 
   return (
-    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      <Tooltip position="bottom" text="Editar">
-        <DialogTrigger>
-          <Button variant="ghost" className="group hover:bg-transparent">
-            <Pencil
-              size={18}
-              color="#797E86"
-              className="group-hover:stroke-hidro-blue-300 duration-200"
-            />
-          </Button>
-        </DialogTrigger>
-      </Tooltip>
+    <Dialog open={openDialog} onOpenChange={onChangeOpenDialog}>
+      {defaultValues.id && (
+        <Tooltip position="bottom" text="Editar">
+          <DialogTrigger>
+            <Button variant="ghost" className="group hover:bg-transparent">
+              <Pencil
+                size={18}
+                color="#797E86"
+                className="group-hover:stroke-hidro-blue-300 duration-200"
+              />
+            </Button>
+          </DialogTrigger>
+        </Tooltip>
+      )}
 
       <DialogContent className="bg-white">
         <DialogHeader>

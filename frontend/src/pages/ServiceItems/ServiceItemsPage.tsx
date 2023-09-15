@@ -20,22 +20,7 @@ export default function ServiceItemsPage() {
           <DataTableTitle title={'Itens de serviço'} />
 
           <CategoryDataTable
-            data={[
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-              ...categories,
-            ]}
+            data={categories}
             isLoading={isLoadingCategories}
           />
         </div>

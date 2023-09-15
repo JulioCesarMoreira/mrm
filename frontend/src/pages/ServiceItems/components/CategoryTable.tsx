@@ -11,19 +11,20 @@ import {
 import { ReactElement, useEffect, useState } from 'react';
 import Spinner from '@components/ui/spinner';
 import { DataTableProperties } from '@components/DataTable/types';
-import { CategoryService } from '../types';
+import { CategoryService, SubCategory } from '../types';
 import CategoryActions from './CategoryActions';
 import { Button } from '@components/ui/button';
 import { Plus } from 'lucide-react';
+import CategoryForm from './CategoryForm/CategoryForm';
 
 const columns: ColumnDef<CategoryService>[] = [
   {
     accessorKey: 'name',
-    header: () => <div className="w-[150%] text-left">Categorias</div>,
+    header: () => <div className="w-[125%] text-left">Categorias</div>,
     cell: ({ row }) => {
       return (
         <div
-          className="flex-center w-[150%] rounded-[2px] px-2 py-1 text-left"
+          className="flex-center w-[125%] rounded-[2px] px-2 py-1 text-left"
           style={{
             backgroundColor: row.original.color,
           }}
@@ -46,6 +47,7 @@ export default function CategoryDataTable({
   isLoading,
 }: Omit<DataTableProperties<CategoryService>, 'columns'>): ReactElement {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [openAddCategoryDialog, setOpenAddCategoryDialog] = useState(false);
 
   const table = useReactTable({
     data,
@@ -59,12 +61,25 @@ export default function CategoryDataTable({
     },
   });
 
+  const onChangeOpenDialog = (open: boolean): void =>
+    setOpenAddCategoryDialog(open);
+
   useEffect(() => {
     table.setPageSize(Number.POSITIVE_INFINITY);
   }, []);
 
   return (
     <>
+      <CategoryForm
+        openDialog={openAddCategoryDialog}
+        onChangeOpenDialog={onChangeOpenDialog}
+        defaultValues={{
+          color: '#3A9ED4',
+          name: '',
+          subCategory: SubCategory.SUPLIE,
+        }}
+      />
+
       <div
         className="overflow-hidden rounded-lg border"
         style={{
@@ -136,6 +151,7 @@ export default function CategoryDataTable({
           <Button
             type="button"
             variant={'secondary'}
+            onClick={(): void => setOpenAddCategoryDialog(true)}
             className="flex-center bg-gray-scale-800 hover:bg-gray-scale-700 w-full -translate-y-3 transition-colors duration-200"
           >
             <Plus size={18} />

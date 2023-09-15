@@ -1,5 +1,5 @@
 import { Row } from '@tanstack/react-table';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import DeleteDialog from '@components/ui/delete-dialog';
 import { CategoryService } from '../types';
 import { toggleFetchCategories } from 'constants/atoms';
@@ -12,9 +12,14 @@ interface CategoryActionsProperties {
 export default function CategoryActions({
   row: category,
 }: CategoryActionsProperties): ReactElement {
+  const [openDialog, setOpenDialog] = useState(false);
+
+  const onChangeOpenDialog = (open: boolean): void => setOpenDialog(open)
+  
+
   return (
     <div className="ml-auto flex w-fit">
-      <CategoryForm defaultValues={category.original} />
+      <CategoryForm openDialog={openDialog} onChangeOpenDialog={onChangeOpenDialog} defaultValues={category.original} />
 
       <DeleteDialog
         deleteMessage={`Você está prestes a excluir a categoria ${category.original.name}.`}

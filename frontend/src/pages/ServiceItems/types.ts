@@ -1,6 +1,6 @@
 export enum SubCategory {
-  SUPLIE = 'suplie',
-  SERVICE = 'service',
+  SUPLIE = 'SUPLIE',
+  SERVICE = 'SERVICE',
 }
 
 export enum Status {
