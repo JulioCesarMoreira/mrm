@@ -5,7 +5,7 @@ import {
   SelectItem,
 } from '@components/ui/select';
 import { SelectValue } from '@radix-ui/react-select';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
@@ -33,12 +33,17 @@ export default function Select({
   renderOption,
   renderValue,
 }: SelectProperties): ReactElement {
-  const { control } = useFormContext();
+  const { control, setValue } = useFormContext();
 
   const { field } = useController({
     name,
     control,
+    defaultValue,
   });
+
+  useEffect(() => {
+    if (defaultValue) setValue(name, defaultValue);
+  }, []);
 
   return loading ? (
     <div className="h-[30px] w-full animate-pulse rounded-md" />
