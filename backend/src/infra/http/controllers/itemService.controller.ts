@@ -74,7 +74,12 @@ export class ItemServiceController {
   ): Promise<FetchItemServicesResponseDto | ErrorResponseDto> {
     try {
       const fetchItemServicesList =
-        await this.fetchItemServicesUseCase.fetchItemService(filters);
+        await this.fetchItemServicesUseCase.fetchItemService({
+          ...filters,
+          categoryServiceId: filters.categoryServiceId
+            ? Number(filters.categoryServiceId)
+            : undefined,
+        });
 
       return ItemServiceMapper.fetchItemServiceToController(
         fetchItemServicesList,

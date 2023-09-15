@@ -4,9 +4,9 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { Search } from 'lucide-react';
 import { ReactElement } from 'react';
-import { CategoryService, Status } from '../types';
+import { CategoryService, ItemFilter, Status } from '../types';
 
-interface ItemsFilter {
+interface ItemsFilterFields {
   name: string;
   status: Status;
   categoryServiceId: string;
@@ -14,24 +14,30 @@ interface ItemsFilter {
 
 interface FilterProperties {
   categories: CategoryService[] | undefined;
+  fetch: (filters: ItemFilter) => Promise<void>;
 }
 
 export default function Filters({
+  fetch,
   categories,
 }: FilterProperties): ReactElement {
-  // TODO
-  function onSubmitFilters(data: ItemsFilter): void {
-    console.log('data', data);
+  function onSubmitFilters(data: ItemsFilterFields): void {
+    void fetch({
+      ...data,
+      categoryServiceId: data.categoryServiceId
+        ? Number.parseInt(data.categoryServiceId, 10)
+        : undefined,
+    });
   }
 
   return (
     <div className="border-gray-scale-800 flex !h-[100px] !min-h-[100px] w-full border-b p-4 pt-2">
-      <FormWrapper<ItemsFilter>
+      <FormWrapper<ItemsFilterFields>
         id="filters-form"
         onSubmit={onSubmitFilters}
-        className="flex gap-4"
+        className="flex gap-6"
       >
-        <Input.Wrapper className="mb-2 w-[240px]">
+        <Input.Wrapper className="mb-2 ml-6 w-[240px]">
           <Input.Label label="Nome" />
           <Input.Field name="name" placeholder="Nome" />
         </Input.Wrapper>
@@ -43,10 +49,13 @@ export default function Filters({
             disabled={!categories || categories.length === 0}
             options={
               categories
-                ? categories.map(({ id, name }) => ({
-                    name,
-                    value: String(id),
-                  }))
+                ? [
+                    { name: 'Todas', value: '' },
+                    ...categories.map(({ id, name }) => ({
+                      name,
+                      value: String(id),
+                    })),
+                  ]
                 : []
             }
           />
@@ -57,23 +66,24 @@ export default function Filters({
           <Input.Select
             name="status"
             options={[
+              { name: 'Todos', value: '' },
               { name: 'Disponível', value: Status.AVAILABLE },
               { name: 'Indisponível', value: Status.UNAVAILABLE },
             ]}
           />
         </Input.Wrapper>
-      </FormWrapper>
 
-      <div className="flex w-full flex-row-reverse items-center pt-3">
-        <Tooltip position="left" text="Pesquisar">
-          <Button
-            variant="ghost"
-            className="bg-gray-scale-800 hover:bg-gray-scale-700"
-          >
-            <Search className="stroke-dark-blue h-5 w-5" />
-          </Button>
-        </Tooltip>
-      </div>
+        <div className="flex w-fit flex-row-reverse items-center pt-3">
+          <Tooltip position="left" text="Pesquisar">
+            <Button
+              variant="ghost"
+              className="bg-gray-scale-800 hover:bg-gray-scale-700 h-[48px]"
+            >
+              <Search className="stroke-dark-blue h-5 w-5" />
+            </Button>
+          </Tooltip>
+        </div>
+      </FormWrapper>
     </div>
   );
 }

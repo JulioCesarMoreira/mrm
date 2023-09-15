@@ -19,7 +19,7 @@ import { Pencil } from 'lucide-react';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { CLOSE_DIALOG_DURATION } from 'constants';
 import ClientFormFields from './ClientFormFields';
-import { removeSpecialCharacters } from '../utils';
+import { removeSpecialCharacters } from '@lib/utils';
 
 interface ClientsFormProperties {
   defaultValues: ClientFields;

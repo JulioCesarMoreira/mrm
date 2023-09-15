@@ -20,31 +20,31 @@ export default function Filters(): ReactElement {
       <FormWrapper<WellsFilter>
         id="filters-form"
         onSubmit={onSubmitFilters}
-        className="flex items-center gap-4"
+        className="flex w-full gap-6"
       >
-        <Input.Wrapper className="w-[240px]">
+        <Input.Wrapper className="mb-2 ml-6 w-[240px]">
           <Input.Label label="Data inicial" />
           <Input.DatePicker id="name" name="initialDate" />
         </Input.Wrapper>
 
-        <p className="text-gray-scale-300 mt-7 text-sm">até</p>
+        <p className="text-gray-scale-300 mt-10 text-sm">até</p>
 
-        <Input.Wrapper className="w-[240px]">
+        <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Data final" />
           <Input.DatePicker id="name" name="finalDate" />
         </Input.Wrapper>
-      </FormWrapper>
 
-      <div className="flex w-full flex-row-reverse items-center pt-3">
-        <Tooltip position="left" text="Pesquisar">
-          <Button
-            variant="ghost"
-            className="bg-gray-scale-800 hover:bg-gray-scale-700"
-          >
-            <Search className="stroke-dark-blue h-5 w-5" />
-          </Button>
-        </Tooltip>
-      </div>
+        <div className="flex w-fit flex-row-reverse items-center pt-3">
+          <Tooltip position="left" text="Pesquisar">
+            <Button
+              variant="ghost"
+              className="bg-gray-scale-800 hover:bg-gray-scale-700 h-[48px]"
+            >
+              <Search className="stroke-dark-blue h-5 w-5" />
+            </Button>
+          </Tooltip>
+        </div>
+      </FormWrapper>
     </div>
   );
 }

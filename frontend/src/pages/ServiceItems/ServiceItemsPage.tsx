@@ -9,7 +9,7 @@ import ItemForm from './components/ItemForm/ItemForm';
 import { Status } from './types';
 
 export default function ServiceItemsPage() {
-  const { data: items, isLoading: isLoadingItems } = useFetchItems();
+  const { data: items, isLoading: isLoadingItems, fetch } = useFetchItems();
   const { data: categories, isLoading: isLoadingCategories } =
     useFetchCategories();
 
@@ -17,7 +17,7 @@ export default function ServiceItemsPage() {
 
   return (
     <div className="flex h-screen max-h-[100vh] w-full flex-col overflow-hidden">
-      <Filters categories={categories} />
+      <Filters categories={categories} fetch={fetch} />
 
       <div className="flex w-full gap-7 px-10 pb-10">
         <div className="w-4/12 overflow-hidden 2xl:w-3/12">

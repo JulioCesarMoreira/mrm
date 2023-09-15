@@ -62,7 +62,7 @@ export class FetchItemServicesDto {
   @IsOptional()
   status: Status;
 
-  @IsInt()
+  @IsNumberString()
   @IsOptional()
   categoryServiceId: number;
 }
