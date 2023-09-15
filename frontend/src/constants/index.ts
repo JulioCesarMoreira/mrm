@@ -38,3 +38,24 @@ export const sideMenuItems: (SideMenuItemProperties & { key: string })[] = [
     route: '/clientes',
   },
 ];
+
+export const categoryColors = [
+  '#3A9ED4',
+  '#E3C5FF',
+  '#F3F5A1',
+  '#FFD0CC',
+  '#FFD1A1',
+];
+
+export const categoryColorNames = new Map([
+  [categoryColors[0], 'Azul'],
+  [categoryColors[1], 'Roxo'],
+  [categoryColors[2], 'Amarelo'],
+  [categoryColors[3], 'Vermelho'],
+  [categoryColors[4], 'Laranja'],
+]);
+
+export const categoryColorOptions = categoryColors.map((color) => ({
+  name: '',
+  value: color,
+}));
