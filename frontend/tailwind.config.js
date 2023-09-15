@@ -34,6 +34,9 @@ module.exports = {
         'gray-scale-800': '#E8EAED',
         'gray-scale-900': '#F3F5F6',
 
+        'green-auxiliary': '#B1F1CF',
+        'orange-auxiliary': '#FDDDAC',
+
         'red-auxiliary': '#CB0000',
         'red-auxiliary-dark': '#A20000',
 
