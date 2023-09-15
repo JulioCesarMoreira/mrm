@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   CreateWellDto,
@@ -67,7 +68,7 @@ export class WellController {
 
   @Get()
   async fetchWell(
-    @Body() filters: FetchWellsDto,
+    @Query() filters: FetchWellsDto,
   ): Promise<FetchWellsResponseDto | ErrorResponseDto> {
     try {
       const fetchWellsList = await this.fetchWellsUseCase.fetchWell(filters);
