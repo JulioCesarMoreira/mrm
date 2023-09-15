@@ -27,8 +27,8 @@ export default function SideMenuExpandHandler(): ReactElement {
         <Svg
           name="chevron_right"
           className={cn(
-            'fill-gray-scale-500 h-8 w-8 flex-shrink-0 duration-300',
-            !isOpen && 'rotate-180',
+            'fill-gray-scale-500 h-8 w-8 flex-shrink-0 rotate-180 duration-300',
+            !isOpen && 'rotate-0',
           )}
         />
         <p
