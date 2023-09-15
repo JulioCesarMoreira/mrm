@@ -2,34 +2,40 @@ import {
   DeleteWellResponseDto,
   FetchWellsResponseDto,
 } from '@infra/http/dtos/well';
-import { Well } from '@application/core/entities';
+import { City, Client, Well } from '@application/core/entities';
 
+class FetchedWell {
+  well: Well;
+  city: City;
+  client: Client;
+}
 export class WellMapper {
   public static fetchWellToController(
-    wellsEntity: Well[],
+    wellsEntity: FetchedWell[],
   ): FetchWellsResponseDto {
     const fetchWellsResponseDto = new FetchWellsResponseDto();
     fetchWellsResponseDto.wells = [];
 
     for (const well of wellsEntity) {
       fetchWellsResponseDto.wells.push({
-        id: well.id,
-        voltage: well.voltage,
-        totalDepth: well.totalDepth,
-        sieveDepth: well.sieveDepth,
-        staticLevel: well.staticLevel,
-        dynamicLevel: well.dynamicLevel,
-        deliveryDate: well.deliveryDate,
-        sedimentaryDepth: well.sedimentaryDepth,
-        distric: well.distric,
-        zipcode: well.zipcode,
-        street: well.street,
-        number: well.number,
-        longitude: well.longitude,
-        latitude: well.latitude,
-        mapLink: well.mapLink,
-        cityId: well.cityId,
-        proposalId: well.proposalId,
+        id: well.well.id,
+        voltage: well.well.voltage,
+        totalDepth: well.well.totalDepth,
+        sieveDepth: well.well.sieveDepth,
+        staticLevel: well.well.staticLevel,
+        dynamicLevel: well.well.dynamicLevel,
+        deliveryDate: well.well.deliveryDate,
+        sedimentaryDepth: well.well.sedimentaryDepth,
+        distric: well.well.distric,
+        zipcode: well.well.zipcode,
+        street: well.well.street,
+        number: well.well.number,
+        longitude: well.well.longitude,
+        latitude: well.well.latitude,
+        mapLink: well.well.mapLink,
+        city: well.city,
+        client: well.client,
+        proposalId: well.well.proposalId,
       });
     }
 

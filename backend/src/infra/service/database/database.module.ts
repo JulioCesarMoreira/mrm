@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import {
   CategoryServiceRepository,
+  CityRepository,
   ClientRepository,
   DetectionRepository,
   ItemProposalRepository,
@@ -22,6 +23,7 @@ import { PrismaWellRepository } from './prisma/repositories/prisma-well.reposito
 import { PrismaItemProposalRepository } from './prisma/repositories/prisma-itemProposal.repository';
 import { PrismaModelProposalRepository } from './prisma/repositories/prisma-modelProposal.repository';
 import { PrismaModelItemCategoryRepository } from './prisma/repositories/prisma-modelItemCategory.repository';
+import { PrismaCityRepository } from './prisma/repositories/prisma-city.repository';
 
 @Module({
   imports: [],
@@ -67,6 +69,10 @@ import { PrismaModelItemCategoryRepository } from './prisma/repositories/prisma-
       provide: ModelItemCategoryRepository,
       useClass: PrismaModelItemCategoryRepository,
     },
+    {
+      provide: CityRepository,
+      useClass: PrismaCityRepository,
+    },
   ],
   exports: [
     {
@@ -108,6 +114,10 @@ import { PrismaModelItemCategoryRepository } from './prisma/repositories/prisma-
     {
       provide: ModelItemCategoryRepository,
       useClass: PrismaModelItemCategoryRepository,
+    },
+    {
+      provide: CityRepository,
+      useClass: PrismaCityRepository,
     },
   ],
 })

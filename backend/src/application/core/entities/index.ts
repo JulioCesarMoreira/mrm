@@ -9,3 +9,4 @@ export * from './well.entity';
 export * from './itemProposal.entity';
 export * from './modelProposal.entity';
 export * from './modelItemCategory.entity';
+export * from './city.entity';

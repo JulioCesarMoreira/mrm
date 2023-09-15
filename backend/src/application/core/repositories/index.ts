@@ -8,3 +8,4 @@ export * from './well-repository.abstract';
 export * from './itemProposal-repository.abstract';
 export * from './modelProposal-repository.abstract';
 export * from './modelItemCategory-repository.abstract';
+export * from './city-repository.abstract';
