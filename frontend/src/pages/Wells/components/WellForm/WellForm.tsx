@@ -20,6 +20,8 @@ import { CLOSE_DIALOG_DURATION } from 'constants';
 import WellFormFields from './WellFormFields';
 import WellFormClientData from './WellFormClientData';
 import WellFormAddress from './WellFormAddress';
+import { format, isValid, parse } from 'date-fns';
+import { removeSpecialCharacters } from '@lib/utils';
 
 interface WellsFormProperties {
   defaultValues: Well;
@@ -38,8 +40,38 @@ export default function WellForm({
   async function onSubmitWell(well: Well): Promise<void> {
     setIsLoading(true);
 
+    const parsedDate = parse(
+      removeSpecialCharacters(well.deliveryDate),
+      'ddMMyyyy',
+      new Date(),
+    );
+
+    const formattedDate = isValid(parsedDate)
+      ? format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+      : undefined;
+
+    const updatedWell = {
+      voltage: well.voltage,
+      totalDepth: well.totalDepth ? Number(well.totalDepth) : undefined,
+      sieveDepth: well.sieveDepth ? Number(well.sieveDepth) : undefined,
+      staticLevel: well.staticLevel ? Number(well.staticLevel) : undefined,
+      dynamicLevel: well.dynamicLevel ? Number(well.dynamicLevel) : undefined,
+      deliveryDate: isValid(parsedDate) ? formattedDate : undefined,
+      sedimentaryDepth: well.sedimentaryDepth
+        ? Number(well.sedimentaryDepth)
+        : undefined,
+      street: well.street,
+      number: well.number,
+      distric: well.distric,
+      zipcode: well.zipcode ? removeSpecialCharacters(well.zipcode) : undefined,
+      longitude: well.longitude,
+      latitude: well.latitude,
+    };
+
+    console.log('updatedWell', updatedWell);
+
     try {
-      const result = await updateWell(defaultValues.id, well);
+      const result = await updateWell(defaultValues.id, updatedWell);
       if (result) setOpenDialog(false);
     } finally {
       setToggleFetchWells((previous) => !previous);

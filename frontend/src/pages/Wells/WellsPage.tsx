@@ -3,7 +3,7 @@ import useWellColumns from './hooks/useWellColumns';
 import useFetchWells from './hooks/useFetchWells';
 import Filters from './components/Filters';
 import DataTable from '@components/DataTable/DataTable';
-import WellForm from './components/WellForm/WellForm';
+import DataTableTitle from '@components/DataTable/DataTableTitle';
 
 export default function WellsPage(): ReactElement {
   const columns = useWellColumns();
@@ -14,29 +14,7 @@ export default function WellsPage(): ReactElement {
       <Filters />
 
       <div className="w-full px-10 pb-10">
-        <WellForm
-          defaultValues={{
-            cep: '',
-            cityId: '',
-            clientName: '',
-            deliveryDate: '',
-            distric: '',
-            dynamicLevel: '',
-            id: '',
-            latitude: '',
-            longitude: '',
-            mapLink: '',
-            number: '',
-            proposalServiceId: '',
-            sedimentaryDepth: '',
-            sieveDepth: '',
-            staticLevel: '',
-            street: '',
-            totalDepth: '',
-            voltage: '',
-          }}
-        />
-
+        <DataTableTitle title="Poços" />
         <DataTable data={data} columns={columns} isLoading={isLoading} />
       </div>
     </div>

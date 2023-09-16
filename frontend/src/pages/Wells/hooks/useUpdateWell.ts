@@ -1,10 +1,13 @@
 import axios from 'axios';
-import { Well } from '../types';
+import { Well, WellFields } from '../types';
 import useOnError from 'hooks/useOnError';
 import { useToast } from '@components/ui/use-toast';
 
 interface UpdateWell {
-  updateWell: (wellId: string, updatedWell: Omit<Well, 'id'>) => Promise<Well>;
+  updateWell: (
+    wellId: string,
+    updatedWell: Omit<WellFields, 'id'>,
+  ) => Promise<Well>;
 }
 
 export default function useUpdateWell(): UpdateWell {
@@ -13,7 +16,7 @@ export default function useUpdateWell(): UpdateWell {
 
   const updateWell = async (
     wellId: string,
-    updatedWell: Omit<Well, 'id'>,
+    updatedWell: Omit<WellFields, 'id'>,
   ): Promise<Well> => {
     try {
       const response = await axios.patch(

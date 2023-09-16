@@ -19,7 +19,7 @@ export default function WellFormAddress(): ReactElement {
 
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Bairro" />
-          <Input.Field name="district" />
+          <Input.Field name="distric" />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="CEP" />
@@ -27,19 +27,19 @@ export default function WellFormAddress(): ReactElement {
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Estado" />
-          <Input.Field name="uf" />
+          <Input.Field name="city.uf" />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Cidade" />
-          <Input.Field name="city" />
+          <Input.Field name="city.name" />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Latitude" />
-          <Input.Field name="latitude" />
+          <Input.Field name="latitude" maxLength={20} />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Longitude" />
-          <Input.Field name="longitude" />
+          <Input.Field name="longitude" maxLength={20} />
         </Input.Wrapper>
 
         {/* TODO */}

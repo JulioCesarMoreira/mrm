@@ -1,5 +1,7 @@
 import { ReactElement } from 'react';
 import { Well } from '../../types';
+import NumberFormat from 'react-number-format';
+import { CPF_LIMIT, formatPhone } from 'constants/index';
 
 export default function WellFormClientData({
   well,
@@ -15,28 +17,27 @@ export default function WellFormClientData({
       <div className="flex w-full gap-10">
         <div>
           <p className="text-gray-scale-500 text-sm">Cliente</p>
-          <p className="text-gray-scale-200 text-sm">
-            {well.clientName ?? 'nome do cliente aqui'}
-          </p>
+          <p className="text-gray-scale-200 text-sm">{well.client.name}</p>
         </div>
         <div>
           <p className="text-gray-scale-500 text-sm">CPF ou CNPJ</p>
-          <p className="text-gray-scale-200 text-sm">
-            {
-              // well.cpfCnpj ??
-              'documento do cliente aqui'
+          <NumberFormat
+            displayType="text"
+            value={well.client.cpfCnpj}
+            className="text-gray-scale-200 text-sm"
+            format={
+              well.client.cpfCnpj.length < CPF_LIMIT
+                ? '###.###.###-#####'
+                : '##.###.###/####-##'
             }
-          </p>
+          />
         </div>
 
         <div>
           <p className="text-gray-scale-500 text-sm">Telefone do responsável</p>
-          <p className="text-gray-scale-200 text-sm">
-            {
-              // well.contactPhone ??
-              'telefone do cliente aqui'
-            }
-          </p>
+          <div className="text-gray-scale-200 text-sm">
+            {formatPhone(well.client.contactPhone)}
+          </div>
         </div>
       </div>
     </div>

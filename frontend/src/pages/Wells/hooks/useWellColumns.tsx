@@ -4,7 +4,7 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import WellActions from '../components/WellForm/WellActions';
-import { format, parseISO } from 'date-fns';
+import { addDays, format, parseISO } from 'date-fns';
 
 export default function useWellColumns(): ColumnDef<Well>[] {
   return [
@@ -14,7 +14,7 @@ export default function useWellColumns(): ColumnDef<Well>[] {
       cell: ({ row }) => <div className="capitalize">{row.getValue('id')}</div>,
     },
     {
-      accessorKey: 'clientName',
+      accessorKey: 'client.name',
       header: ({ column }) => {
         return (
           <Tooltip
@@ -40,7 +40,7 @@ export default function useWellColumns(): ColumnDef<Well>[] {
         );
       },
       cell: ({ row }) => (
-        <div className="lowercase">{row.getValue('clientName')}</div>
+        <div className="lowercase">{row.original.client.name}</div>
       ),
     },
     {
@@ -49,7 +49,7 @@ export default function useWellColumns(): ColumnDef<Well>[] {
       cell: ({ row }) => {
         const deliveryDate = row.getValue('deliveryDate') as string;
 
-        const isoDate = parseISO(deliveryDate);
+        const isoDate = addDays(parseISO(deliveryDate), 1);
         return (
           <div className="text-center">{format(isoDate, 'dd/MM/yyyy')}</div>
         );
@@ -90,7 +90,8 @@ export default function useWellColumns(): ColumnDef<Well>[] {
       header: () => <div className="text-center">Endereço</div>,
       cell: ({ row }) => (
         <div className="text-center">
-          {row.original.street}, {row.original.number}, {row.original.distric}
+          {row.original.street}, {row.original.number}, {row.original.distric},{' '}
+          {row.original.city.name}, {row.original.city.uf}
         </div>
       ),
     },
