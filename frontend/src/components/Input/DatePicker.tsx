@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
   RegisterOptions,
@@ -6,10 +6,7 @@ import {
   useFormContext,
 } from 'react-hook-form';
 import type { InputHTMLAttributes, ReactElement } from 'react';
-import NumberFormat, {
-  NumberFormatProps,
-  NumberFormatValues,
-} from 'react-number-format';
+import NumberFormat, { NumberFormatProps } from 'react-number-format';
 import generateMaskTypes from './masks';
 import { Calendar as CalendarIcon } from 'lucide-react';
 import { PopoverContent } from '@components/ui/popover';
@@ -17,7 +14,8 @@ import { Calendar } from '@components/ui/calendar';
 import { Button } from '@components/ui/button';
 import { PopoverTrigger } from '@components/ui/popover';
 import { Popover } from '@components/ui/popover';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
+import { removeSpecialCharacters } from '@lib/utils';
 
 interface DatePickerProperties extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
@@ -58,10 +56,6 @@ export default function DatePicker({
       ? 'Campo obrigatório'
       : (error?.message as string);
 
-  const onChangeValue = (data: NumberFormatValues): void => {
-    setDate(data.value);
-  };
-
   const onFocus = (): void => setFocus(true);
   const onBlur = (): void => setFocus(false);
 
@@ -70,6 +64,21 @@ export default function DatePicker({
     setValue(name, formattedDate);
     setOpenCalendar(false);
   };
+
+  useEffect(() => {
+    const formattedFieldValue = removeSpecialCharacters(field.value ?? '');
+    if (formattedFieldValue.length === 8) {
+      setDate(formattedFieldValue);
+    }
+  }, [field.value]);
+
+  const newDateValue = new Date(
+    parseInt(date.substring(4, 8), 10),
+    parseInt(date.substring(2, 4), 10) - 1,
+    parseInt(date.substring(0, 2), 10),
+  );
+
+  const selected = isValid(newDateValue) ? newDateValue : new Date();
 
   const mask = generateMaskTypes(date);
 
@@ -101,7 +110,6 @@ export default function DatePicker({
           )}
           onFocus={onFocus}
           {...mask['date']}
-          onValueChange={onChangeValue}
         />
 
         <Popover open={openCalendar} onOpenChange={setOpenCalendar}>
@@ -118,9 +126,9 @@ export default function DatePicker({
           <PopoverContent className="w-auto p-0">
             <Calendar
               mode="single"
-              selected={new Date(date)}
+              selected={selected}
+              defaultMonth={selected}
               onSelect={onSelectDate}
-              initialFocus
             />
           </PopoverContent>
         </Popover>
