@@ -169,5 +169,5 @@ class CityDto {
 
   name: string;
 
-  uf: string;
+  state: string;
 }

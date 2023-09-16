@@ -145,15 +145,15 @@ model Well {
 }
 
 model City {
-  id   Int    @id @default(autoincrement())
-  uf   Uf
-  name String @db.VarChar(100)
-  well Well[]
+  id    Int    @id @default(autoincrement())
+  state State
+  name  String @db.VarChar(100)
+  well  Well[]
 
-  @@unique([name, uf])
+  @@unique([name, state])
 }
 
-enum Uf {
+enum State {
   PR
   SP
 }

@@ -142,10 +142,10 @@ CREATE TABLE `Well` (
 -- CreateTable
 CREATE TABLE `City` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `uf` ENUM('PR', 'SP') NOT NULL,
+    `state` ENUM('PR', 'SP') NOT NULL,
     `name` VARCHAR(100) NOT NULL,
 
-    UNIQUE INDEX `City_name_uf_key`(`name`, `uf`),
+    UNIQUE INDEX `City_name_state_key`(`name`, `state`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
