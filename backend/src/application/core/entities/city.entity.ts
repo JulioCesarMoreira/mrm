@@ -3,5 +3,5 @@ export class City {
 
   name: string;
 
-  uf: string;
+  state: string;
 }
