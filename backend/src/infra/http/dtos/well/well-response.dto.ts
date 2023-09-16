@@ -1,3 +1,5 @@
+import { City } from '@application/core/entities';
+
 export class CreateWellResponseDto {
   id: number;
 
@@ -29,7 +31,7 @@ export class CreateWellResponseDto {
 
   mapLink: string;
 
-  cityId: number;
+  city: CityDto;
 
   proposalId: number;
 }
@@ -65,7 +67,7 @@ export class GetWellResponseDto {
 
   mapLink: string;
 
-  cityId: number;
+  city: CityDto;
 
   proposalId: number;
 }
@@ -145,7 +147,7 @@ export class UpdateWellResponseDto {
 
   mapLink: string;
 
-  cityId: number;
+  city: CityDto;
 
   proposalId: number;
 }
@@ -165,8 +167,6 @@ class ClientDto {
 }
 
 class CityDto {
-  id: number;
-
   name: string;
 
   state: string;

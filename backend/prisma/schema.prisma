@@ -155,6 +155,7 @@ model City {
 
 enum State {
   PR
+  SC
   SP
 }
 

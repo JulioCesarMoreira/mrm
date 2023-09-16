@@ -9,12 +9,12 @@ import {
 import { CpfCnpjValidation } from 'src/utils/documentValidation';
 
 export class CreateClientDto {
-  @IsNumberString()
+  @IsString()
   @IsOptional()
   @MaxLength(191)
   contactName?: string;
 
-  @IsString()
+  @IsNumberString()
   @IsOptional()
   @MaxLength(11)
   contactPhone?: string;
@@ -43,12 +43,12 @@ export class FetchClientsDto {
   @MaxLength(191)
   name: string;
 
-  @IsNumberString()
+  @IsString()
   @IsOptional()
   @MaxLength(191)
   contactName: string;
 
-  @IsString()
+  @IsNumberString()
   @IsOptional()
   @MaxLength(11)
   contactPhone: string;
@@ -64,12 +64,12 @@ export class UpdateClientDto {
   @MaxLength(191)
   name: string;
 
-  @IsNumberString()
+  @IsString()
   @IsOptional()
   @MaxLength(191)
   contactName: string;
 
-  @IsString()
+  @IsNumberString()
   @IsOptional()
   @MaxLength(11)
   contactPhone: string;

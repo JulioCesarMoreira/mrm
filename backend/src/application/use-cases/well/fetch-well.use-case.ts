@@ -7,12 +7,6 @@ import {
 } from '@application/core/repositories';
 import { Injectable } from '@nestjs/common';
 
-class FetchedWell {
-  well: Well;
-  city: City;
-  client: Client;
-}
-
 @Injectable()
 export class FetchWellUseCase {
   constructor(
@@ -36,9 +30,9 @@ export class FetchWellUseCase {
       | 'latitude'
       | 'mapLink'
     >,
-  ): Promise<FetchedWell[]> {
+  ): Promise<{ well: Well; city: City; client: Client }[]> {
     const { deliveryDate } = filters;
-    const fetchWell = [] as FetchedWell[];
+    const fetchWell = [] as { well: Well; client: Client; city: City }[];
 
     // converting date to use in RDS
     filters.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
@@ -46,17 +40,16 @@ export class FetchWellUseCase {
     const wells = await this.wellRepository.fetch(filters);
 
     for (const well of wells) {
-      const [city, proposal] = await Promise.all([
-        this.cityRepository.get(well.cityId),
-        this.proposalRepository.get(well.proposalId),
-      ]);
+      const city = await this.cityRepository.get(well.cityId);
+
+      const proposal = await this.proposalRepository.get(well.proposalId);
 
       const client = await this.clientRepository.get(proposal.clientId);
 
       fetchWell.push({
-        well: well,
-        city: city,
-        client: client,
+        well,
+        client,
+        city,
       });
     }
 

@@ -29,7 +29,11 @@ export class PrismaWellRepository implements WellRepository {
       },
     });
 
-    return createdWell;
+    const wellEntity = {
+      ...createdWell,
+    };
+
+    return wellEntity;
   }
 
   async get(id: number): Promise<Well> {
@@ -39,7 +43,13 @@ export class PrismaWellRepository implements WellRepository {
       },
     });
 
-    return getWell;
+    const getCity = await this.prisma.city.findUnique({
+      where: { id: getWell.cityId },
+    });
+
+    const wellEntity = { ...getWell, city: getCity };
+
+    return wellEntity;
   }
 
   async fetch({

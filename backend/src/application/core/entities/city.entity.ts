@@ -3,5 +3,5 @@ export class City {
 
   name: string;
 
-  state: string;
+  state: 'PR' | 'SC' | 'SP';
 }

@@ -1,21 +1,32 @@
-import { Injectable } from '@nestjs/common';
-import { WellRepository } from '@application/core/repositories';
-import { Well } from '@application/core/entities';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { CityRepository, WellRepository } from '@application/core/repositories';
+import { City, Well } from '@application/core/entities';
+
+interface WellResponse {
+  well: Well;
+  city: City;
+}
 
 @Injectable()
 export class CreateWellUseCase {
   constructor(
-    private wellRepository: WellRepository, // private proposalRepository: ProposalRepository,
+    private wellRepository: WellRepository,
+    private cityRepository: CityRepository,
   ) {}
-
-  async createWell(well: Omit<Well, 'id'>): Promise<Well> {
-    const { deliveryDate } = well;
+  async createWell(wellDto: Omit<Well, 'id'>): Promise<WellResponse> {
+    const { deliveryDate } = wellDto;
 
     // converting date to save in RDS
-    well.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
+    wellDto.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
 
-    const createdWell = await this.wellRepository.create(well);
+    const city = await this.cityRepository.get(wellDto.cityId);
 
-    return createdWell;
+    if (!city) {
+      new BadRequestException('City not found!');
+    }
+
+    const well = await this.wellRepository.create(wellDto);
+
+    return { well, city };
   }
 }

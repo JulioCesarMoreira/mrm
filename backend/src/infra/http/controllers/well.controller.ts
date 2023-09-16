@@ -46,7 +46,7 @@ export class WellController {
     try {
       const createdWell = await this.createWellUseCase.createWell(wellDto);
 
-      return createdWell;
+      return WellMapper.createWellToController(createdWell);
     } catch (error) {
       return new ErrorResponseDto(error);
     }
@@ -60,7 +60,8 @@ export class WellController {
       const wellEntity = await this.getWellUsecase.getWell(
         Number(parameters.id),
       );
-      return wellEntity;
+
+      return WellMapper.updateWellToController(wellEntity);
     } catch (error) {
       return new ErrorResponseDto(error);
     }
@@ -90,7 +91,7 @@ export class WellController {
         body,
       );
 
-      return updateWell;
+      return WellMapper.updateWellToController(updateWell);
     } catch (error) {
       return new ErrorResponseDto(error);
     }

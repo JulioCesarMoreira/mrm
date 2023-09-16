@@ -16,4 +16,18 @@ export class PrismaCityRepository implements CityRepository {
 
     return getCity;
   }
+
+  async getByNameAndState(
+    name: string,
+    state: 'PR' | 'SC' | 'SP',
+  ): Promise<City> {
+    const getCity = await this.prisma.city.findFirst({
+      where: {
+        name: name,
+        state: state,
+      },
+    });
+
+    return getCity;
+  }
 }
