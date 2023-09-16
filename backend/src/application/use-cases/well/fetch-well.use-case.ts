@@ -39,6 +39,7 @@ export class FetchWellUseCase {
   ): Promise<FetchedWell[]> {
     const { deliveryDate } = filters;
     const fetchWell = [] as FetchedWell[];
+
     // converting date to use in RDS
     filters.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
 

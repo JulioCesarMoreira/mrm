@@ -9,7 +9,7 @@ import {
 import { CpfCnpjValidation } from 'src/utils/documentValidation';
 
 export class CreateClientDto {
-  @IsString()
+  @IsNumberString()
   @IsOptional()
   @MaxLength(191)
   contactName?: string;
@@ -43,7 +43,7 @@ export class FetchClientsDto {
   @MaxLength(191)
   name: string;
 
-  @IsString()
+  @IsNumberString()
   @IsOptional()
   @MaxLength(191)
   contactName: string;
@@ -64,7 +64,7 @@ export class UpdateClientDto {
   @MaxLength(191)
   name: string;
 
-  @IsString()
+  @IsNumberString()
   @IsOptional()
   @MaxLength(191)
   contactName: string;

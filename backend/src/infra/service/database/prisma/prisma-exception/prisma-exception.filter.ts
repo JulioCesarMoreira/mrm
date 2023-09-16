@@ -1,6 +1,7 @@
 import { ArgumentsHost, HttpStatus } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { Response } from 'express';
+import { GlobalError } from 'src/infra/types/error.type';
 
 export function prismaClientValidationExceptionFilter(
   exception: Prisma.PrismaClientValidationError,
@@ -9,10 +10,12 @@ export function prismaClientValidationExceptionFilter(
   const ctx = host.switchToHttp();
   const response = ctx.getResponse<Response>();
 
-  response.status(400).json({
-    message: 'One or more fields are incompatible with the schema database',
-    stackError: exception.stack,
-  });
+  const error: GlobalError = {
+    errorType: exception.name,
+    message: exception.message,
+  };
+
+  response.status(400).json(error);
 }
 
 export function prismaClientKnowExceptionFilter(
@@ -24,10 +27,12 @@ export function prismaClientKnowExceptionFilter(
 
   const status = getHttpStatusForPrismaError(exception.code);
 
-  response.status(status).json({
-    mysqlError: exception.code,
-    field: exception.meta,
-  });
+  const error: GlobalError = {
+    errorType: `Prisma Error - ${exception.code}`,
+    message: JSON.stringify(exception.meta),
+  };
+
+  response.status(status).json(error);
 }
 
 function getHttpStatusForPrismaError(exceptionCode: string): number {
