@@ -22,6 +22,7 @@ export default function DataTableTitle({
         (disabledAdd ? (
           <Tooltip text={disabledMessage as string} position="bottom">
             <Button
+              ref={undefined}
               className={twMerge(
                 '!bg-gray-scale-800 text-gray-scale-500 flex !cursor-not-allowed select-none gap-4 rounded-md',
                 !title ? 'ml-auto' : '',

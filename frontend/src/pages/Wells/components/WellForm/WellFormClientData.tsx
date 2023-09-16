@@ -30,14 +30,12 @@ export default function WellFormClientData({
         </div>
 
         <div>
-          <p className="text-gray-scale-500 text-sm">
-            Telefone do responsável
-            <p className="text-gray-scale-200 text-sm">
-              {
-                // well.contactPhone ??
-                'telefone do cliente aqui'
-              }
-            </p>
+          <p className="text-gray-scale-500 text-sm">Telefone do responsável</p>
+          <p className="text-gray-scale-200 text-sm">
+            {
+              // well.contactPhone ??
+              'telefone do cliente aqui'
+            }
           </p>
         </div>
       </div>

@@ -25,8 +25,6 @@ export default function useFetchItems(): FetchItemsResponse {
     itemServices: ItemService[];
   }> => {
     try {
-      console.log('filters', filters);
-
       const response = await axios.get(
         'http://localhost:3000/itemService',
         filters ? { params: filters } : undefined,

@@ -21,6 +21,7 @@ export default function SideMenuExpandHandler(): ReactElement {
     >
       <button
         type="button"
+        ref={undefined}
         className="hover:bg-gray-scale-200 group mt-12 flex max-h-[44px] w-full max-w-[160px] items-center gap-4 rounded p-3 pl-0 duration-200"
         onClick={onToggleSideMenu}
       >

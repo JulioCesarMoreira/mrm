@@ -51,8 +51,12 @@ export default function DeleteDialog({
   return (
     <AlertDialog open={openAlert} onOpenChange={setOpenAlert}>
       <Tooltip position="bottom" text="Excluir">
-        <AlertDialogTrigger>
-          <Button variant="ghost" className="group hover:bg-transparent">
+        <AlertDialogTrigger asChild ref={undefined}>
+          <Button
+            ref={undefined}
+            variant="ghost"
+            className="group hover:bg-transparent"
+          >
             <Trash2
               size={18}
               color="#797E86"

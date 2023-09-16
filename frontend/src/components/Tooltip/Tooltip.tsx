@@ -20,7 +20,8 @@ export default function Tooltip({
       disabled={disabled}
       hideOnClick
       className={cn(
-        'break-words rounded-md p-2 text-center text-xs text-white after:border-dark-blue bg-dark-blue shadow-lg after:absolute after:border-4 after:border-solid',
+        'bg-dark-blue break-words rounded-md p-2 text-center text-xs text-white shadow-lg',
+        'after:border-dark-blue after:absolute after:border-4 after:border-solid',
         getArrowPosition(position),
         className,
       )}

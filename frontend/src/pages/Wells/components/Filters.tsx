@@ -38,6 +38,7 @@ export default function Filters(): ReactElement {
           <Tooltip position="left" text="Pesquisar">
             <Button
               variant="ghost"
+              ref={undefined}
               className="bg-gray-scale-800 hover:bg-gray-scale-700 h-[48px]"
             >
               <Search className="stroke-dark-blue h-5 w-5" />

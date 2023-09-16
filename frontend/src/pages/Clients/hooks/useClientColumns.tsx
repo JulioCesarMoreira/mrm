@@ -27,6 +27,7 @@ export default function useClientColumns(): ColumnDef<Client>[] {
             }
           >
             <Button
+              ref={undefined}
               variant="ghost"
               onClick={() =>
                 column.toggleSorting(column.getIsSorted() === 'asc')

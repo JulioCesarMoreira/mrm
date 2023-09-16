@@ -76,6 +76,7 @@ export default function Filters({
         <div className="flex w-fit flex-row-reverse items-center pt-3">
           <Tooltip position="left" text="Pesquisar">
             <Button
+              ref={undefined}
               variant="ghost"
               className="bg-gray-scale-800 hover:bg-gray-scale-700 h-[48px]"
             >

@@ -27,6 +27,7 @@ export default function useWellColumns(): ColumnDef<Well>[] {
           >
             <Button
               variant="ghost"
+              ref={undefined}
               onClick={() =>
                 column.toggleSorting(column.getIsSorted() === 'asc')
               }

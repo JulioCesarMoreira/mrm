@@ -35,6 +35,7 @@ export default function useItemColumns(
           >
             <Button
               variant="ghost"
+              ref={undefined}
               onClick={() =>
                 column.toggleSorting(column.getIsSorted() === 'asc')
               }

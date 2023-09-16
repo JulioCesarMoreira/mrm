@@ -5,7 +5,7 @@ import {
   SelectItem,
 } from '@components/ui/select';
 import { SelectValue } from '@radix-ui/react-select';
-import { ReactElement, useEffect } from 'react';
+import { Fragment, ReactElement, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
@@ -76,9 +76,13 @@ export default function Select({
       <SelectContent>
         {options.map(({ name, value }) =>
           renderOption ? (
-            renderOption({ name, value })
+            <Fragment key={value}>{renderOption({ name, value })}</Fragment>
           ) : (
-            <SelectItem value={value} className="h-[30px] cursor-pointer">
+            <SelectItem
+              key={value}
+              value={value}
+              className="h-[30px] cursor-pointer"
+            >
               {name}
             </SelectItem>
           ),

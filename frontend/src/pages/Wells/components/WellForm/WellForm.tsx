@@ -51,8 +51,12 @@ export default function WellForm({
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       {defaultValues.id ? (
         <Tooltip position="bottom" text="Editar">
-          <DialogTrigger>
-            <Button variant="ghost" className="group hover:bg-transparent">
+          <DialogTrigger asChild ref={undefined}>
+            <Button
+              ref={undefined}
+              variant="ghost"
+              className="group hover:bg-transparent"
+            >
               <Pencil
                 size={18}
                 color="#797E86"
@@ -105,7 +109,7 @@ export default function WellForm({
                   >
                     Salvar
                   </Button>
-                  <DialogTrigger>
+                  <DialogTrigger asChild>
                     <Button
                       type="button"
                       variant={'secondary'}

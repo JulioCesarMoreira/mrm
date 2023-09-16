@@ -26,6 +26,7 @@ export default function SideMenuItem({
     >
       <Link
         to={route}
+        ref={undefined}
         className={cn(
           'hover:bg-gray-scale-200 group mt-4 flex max-h-[44px] w-full max-w-[160px] items-center gap-6 rounded py-3 px-[7px] duration-200',
           routeIsCurrentPath && '!bg-hidro-blue-300',
