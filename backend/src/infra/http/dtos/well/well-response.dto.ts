@@ -102,7 +102,9 @@ export class FetchWellsResponseDto {
 
     mapLink: string;
 
-    cityId: number;
+    city: CityDto;
+
+    client: ClientDto;
 
     proposalId: number;
   }[];
@@ -146,4 +148,26 @@ export class UpdateWellResponseDto {
   cityId: number;
 
   proposalId: number;
+}
+
+class ClientDto {
+  id: number;
+
+  contactName: string;
+
+  contactPhone: string;
+
+  cpfCnpj: string;
+
+  name: string;
+
+  tenantId: string;
+}
+
+class CityDto {
+  id: number;
+
+  name: string;
+
+  uf: string;
 }

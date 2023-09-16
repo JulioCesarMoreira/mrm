@@ -1,10 +1,26 @@
-import { Well } from '@application/core/entities';
-import { WellRepository } from '@application/core/repositories';
+import { City, Client, Well } from '@application/core/entities';
+import {
+  CityRepository,
+  ClientRepository,
+  ProposalRepository,
+  WellRepository,
+} from '@application/core/repositories';
 import { Injectable } from '@nestjs/common';
+
+class FetchedWell {
+  well: Well;
+  city: City;
+  client: Client;
+}
 
 @Injectable()
 export class FetchWellUseCase {
-  constructor(private wellRepository: WellRepository) {}
+  constructor(
+    private wellRepository: WellRepository,
+    private cityRepository: CityRepository,
+    private clientRepository: ClientRepository,
+    private proposalRepository: ProposalRepository,
+  ) {}
 
   async fetchWell(
     filters: Omit<
@@ -20,13 +36,28 @@ export class FetchWellUseCase {
       | 'latitude'
       | 'mapLink'
     >,
-  ): Promise<Well[]> {
+  ): Promise<FetchedWell[]> {
     const { deliveryDate } = filters;
-
-    // converting datvscode-file://vscode-app/snap/code/137/usr/share/code/resources/app/out/vs/code/electron-sandbox/workbench/workbench.htmle to save in RDS
+    const fetchWell = [] as FetchedWell[];
+    // converting date to use in RDS
     filters.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
 
-    const fetchWell = await this.wellRepository.fetch(filters);
+    const wells = await this.wellRepository.fetch(filters);
+
+    for (const well of wells) {
+      const [city, proposal] = await Promise.all([
+        this.cityRepository.get(well.cityId),
+        this.proposalRepository.get(well.proposalId),
+      ]);
+
+      const client = await this.clientRepository.get(proposal.clientId);
+
+      fetchWell.push({
+        well: well,
+        city: city,
+        client: client,
+      });
+    }
 
     return fetchWell;
   }
