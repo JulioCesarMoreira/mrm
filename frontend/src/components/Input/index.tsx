@@ -4,6 +4,7 @@ import InputWrapper from './InputWrapper';
 import DatePicker from './DatePicker';
 import Select from './Select';
 import Search from './Search';
+import FileDrop from './FileDrop';
 
 export const Input = {
   Wrapper: InputWrapper,
@@ -12,4 +13,5 @@ export const Input = {
   DatePicker: DatePicker,
   Select: Select,
   Search: Search,
+  FileDrop: FileDrop,
 };
