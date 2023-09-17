@@ -11,9 +11,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
-import { cn } from '@lib/utils';
+import { cn, normalizeString } from '@lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
-import { useState, type ReactElement, useEffect } from 'react';
+import { useState, type ReactElement, useEffect, ChangeEvent } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import { Option } from 'types';
@@ -106,7 +106,6 @@ export default function Search({
               <CommandItem
                 onSelect={(currentValue): void => onSelectOption(currentValue)}
                 key={value}
-                value={value}
               >
                 <Check
                   className={cn(
