@@ -109,6 +109,9 @@ model ProposalService {
   categoryServiceId Int
   CategoryService   CategoryService @relation(fields: [categoryServiceId], references: [id])
   ItemProposal      ItemProposal[]
+
+  @@unique([side, order, proposalId])
+  @@unique([categoryServiceId, proposalId])
 }
 
 model ModelProposal {
