@@ -3,6 +3,7 @@ import { SelectedCategory } from 'pages/Services/types';
 import { ReactElement, useState } from 'react';
 import ItemTable from './ItemTable';
 import { twMerge } from 'tailwind-merge';
+import Tooltip from '@components/Tooltip/Tooltip';
 
 interface CategoryProperties {
   category: SelectedCategory;
@@ -25,13 +26,20 @@ function CategoryHeader({
         collapsed ? 'rounded-[8px]' : 'rounded-t-[8px]',
       )}
     >
-      <button
-        type="button"
-        onClick={(): void => onRemoveCategory(category.key)}
-        className="opacity-0 duration-200 group-hover:opacity-100"
+      <Tooltip
+        text="Remover categoria da proposta"
+        position="top"
+        className="-translate-y-2"
       >
-        <X size={18} color="white" />
-      </button>
+        <button
+          type="button"
+          onClick={(): void => onRemoveCategory(category.key)}
+          className="opacity-0 duration-200 group-hover:opacity-100"
+        >
+          <X size={18} color="white" />
+        </button>
+      </Tooltip>
+
       <div
         className="border-gray-scale-300 h-5 w-5 rounded-full border"
         style={{
@@ -40,14 +48,20 @@ function CategoryHeader({
       />
       <span>oi</span>
 
-      <button type="button" className="ml-auto" onClick={onToggleCollapse}>
-        <ChevronDown
-          className={twMerge(
-            'duration-200',
-            collapsed ? 'rotate-0' : 'rotate-180',
-          )}
-        />
-      </button>
+      <Tooltip
+        text={collapsed ? 'Expandir' : 'Retrair'}
+        position="top"
+        className="-translate-y-2"
+      >
+        <button type="button" className="ml-auto" onClick={onToggleCollapse}>
+          <ChevronDown
+            className={twMerge(
+              'duration-200',
+              collapsed ? 'rotate-0' : 'rotate-180',
+            )}
+          />
+        </button>
+      </Tooltip>
     </div>
   );
 }
