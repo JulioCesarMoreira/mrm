@@ -5,7 +5,7 @@ export class CreateItemProposalResponseDto {
 
   quantity: number;
 
-  proposalId: number;
+  proposalServiceId: number;
 
   itemServiceId: number;
 }
@@ -17,7 +17,7 @@ export class GetItemProposalResponseDto {
 
   quantity: number;
 
-  proposalId: number;
+  proposalServiceId: number;
 
   itemServiceId: number;
 }
@@ -30,7 +30,7 @@ export class FetchItemProposalsResponseDto {
 
     quantity: number;
 
-    proposalId: number;
+    proposalServiceId: number;
 
     itemServiceId: number;
   }[];
@@ -47,7 +47,7 @@ export class UpdateItemProposalResponseDto {
 
   quantity: number;
 
-  proposalId: number;
+  proposalServiceId: number;
 
   itemServiceId: number;
 }

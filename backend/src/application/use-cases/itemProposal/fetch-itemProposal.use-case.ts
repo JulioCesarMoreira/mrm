@@ -1,7 +1,7 @@
 import { ItemProposal } from '@application/core/entities';
 import {
   ItemProposalRepository,
-  ProposalRepository,
+  ProposalServiceRepository,
 } from '@application/core/repositories';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
@@ -9,19 +9,21 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 export class FetchItemProposalUseCase {
   constructor(
     private itemProposalRepository: ItemProposalRepository,
-    private proposalRepository: ProposalRepository,
+    private proposalServiceRepository: ProposalServiceRepository,
   ) {}
 
   async fetchItemProposal(
     filters: Omit<ItemProposal, 'id'>,
   ): Promise<ItemProposal[]> {
-    const { proposalId } = filters;
+    const { proposalServiceId } = filters;
 
-    if (proposalId) {
-      const proposal = await this.proposalRepository.get(proposalId);
+    if (proposalServiceId) {
+      const proposal = await this.proposalServiceRepository.get(
+        proposalServiceId,
+      );
 
       if (!proposal) {
-        throw new BadRequestException('proposal not found.');
+        throw new BadRequestException('proposal service not found.');
       }
     }
 

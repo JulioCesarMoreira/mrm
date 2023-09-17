@@ -3,6 +3,7 @@ export * from './client-repository.abstract';
 export * from './categoryService-repository.abstract';
 export * from './itemService-repository.abstract';
 export * from './proposal-repository.abstract';
+export * from './proposalService-repository.abstract';
 export * from './detection-repository.abstract';
 export * from './well-repository.abstract';
 export * from './itemProposal-repository.abstract';

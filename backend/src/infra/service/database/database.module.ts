@@ -9,6 +9,7 @@ import {
   ModelItemCategoryRepository,
   ModelProposalRepository,
   ProposalRepository,
+  ProposalServiceRepository,
   TenantRepository,
   WellRepository,
 } from '@application/core/repositories';
@@ -24,6 +25,7 @@ import { PrismaItemProposalRepository } from './prisma/repositories/prisma-itemP
 import { PrismaModelProposalRepository } from './prisma/repositories/prisma-modelProposal.repository';
 import { PrismaModelItemCategoryRepository } from './prisma/repositories/prisma-modelItemCategory.repository';
 import { PrismaCityRepository } from './prisma/repositories/prisma-city.repository';
+import { PrismaProposalServiceRepository } from './prisma/repositories/prisma-proposalService.repository';
 
 @Module({
   imports: [],
@@ -73,6 +75,10 @@ import { PrismaCityRepository } from './prisma/repositories/prisma-city.reposito
       provide: CityRepository,
       useClass: PrismaCityRepository,
     },
+    {
+      provide: ProposalServiceRepository,
+      useClass: PrismaProposalServiceRepository,
+    },
   ],
   exports: [
     {
@@ -118,6 +124,10 @@ import { PrismaCityRepository } from './prisma/repositories/prisma-city.reposito
     {
       provide: CityRepository,
       useClass: PrismaCityRepository,
+    },
+    {
+      provide: ProposalServiceRepository,
+      useClass: PrismaProposalServiceRepository,
     },
   ],
 })

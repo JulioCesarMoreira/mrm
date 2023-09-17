@@ -8,7 +8,7 @@ export class UpdateItemProposalUseCase {
 
   async updateItemProposal(
     itemProposalId: number,
-    itemProposalFields: Omit<ItemProposal, 'id' | 'proposalId'>,
+    itemProposalFields: Omit<ItemProposal, 'id' | 'proposalServiceId'>,
   ): Promise<ItemProposal> {
     const updatedItemProposal = await this.itemProposalRepository.update(
       itemProposalId,
