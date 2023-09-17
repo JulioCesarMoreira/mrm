@@ -7,6 +7,7 @@ import DataTable from '@components/DataTable/DataTable';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { Button } from '@components/ui/button';
 import { Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function ServicesPage(): ReactElement {
   const { data: clients, isLoading: isLoadingClients } = useFetchClients();
@@ -25,12 +26,14 @@ export default function ServicesPage(): ReactElement {
       <div className="w-full px-10 pb-10">
         <div className="flex w-full items-center justify-between">
           <DataTableTitle title="Propostas de serviço" />
-          <Button
-            type="button"
-            className="bg-hidro-blue-300 hover:bg-main-blue flex gap-4 rounded-md text-white"
-          >
-            <Plus size={18} /> Adicionar proposta
-          </Button>
+          <Link to="/servicos/novo">
+            <Button
+              type="button"
+              className="bg-hidro-blue-300 hover:bg-main-blue flex gap-4 rounded-md text-white"
+            >
+              <Plus size={18} /> Adicionar proposta
+            </Button>
+          </Link>
         </div>
 
         <DataTable
