@@ -74,6 +74,14 @@ import {
   FetchModelItemCategoryUseCase,
   GetModelItemCategoryUseCase,
 } from '@application/use-cases/modelItemCategory';
+import {
+  CreateProposalServiceUseCase,
+  DeleteProposalServiceUseCase,
+  FetchProposalServiceUseCase,
+  GetProposalServiceUseCase,
+  UpdateProposalServiceUseCase,
+} from '@application/use-cases/proposalService';
+import { ProposalServiceController } from './controllers/proposalService.controller';
 
 @Module({
   imports: [DatabaseModule],
@@ -87,6 +95,7 @@ import {
     ItemProposalController,
     ModelProposalController,
     ModelItemCategoryController,
+    ProposalServiceController,
   ],
   providers: [
     GetTenantUseCase,
@@ -143,6 +152,12 @@ import {
     DeleteModelItemCategoryUseCase,
     FetchModelItemCategoryUseCase,
     GetModelItemCategoryUseCase,
+
+    CreateProposalServiceUseCase,
+    UpdateProposalServiceUseCase,
+    DeleteProposalServiceUseCase,
+    FetchProposalServiceUseCase,
+    GetProposalServiceUseCase,
   ],
 })
 export class HttpModule {}

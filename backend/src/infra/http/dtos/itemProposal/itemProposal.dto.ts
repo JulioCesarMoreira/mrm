@@ -11,7 +11,7 @@ export class CreateItemProposalDto {
 
   @IsNotEmpty()
   @IsInt()
-  proposalId: number;
+  proposalServiceId: number;
 
   @IsNotEmpty()
   @IsInt()
@@ -34,7 +34,7 @@ export class FetchItemProposalsDto {
 
   @IsOptional()
   @IsInt()
-  proposalId: number;
+  proposalServiceId: number;
 
   @IsOptional()
   @IsInt()

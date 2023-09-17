@@ -5,7 +5,7 @@ export class ItemProposal {
 
   quantity: number;
 
-  proposalId: number;
+  proposalServiceId: number;
 
   itemServiceId: number;
 }

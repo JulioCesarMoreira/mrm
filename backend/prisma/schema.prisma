@@ -40,31 +40,33 @@ model Client {
 }
 
 model Proposal {
-  id                  Int            @id @default(autoincrement())
+  id                  Int               @id @default(autoincrement())
   sendDate            DateTime?
   installmentsBalance Int?
   periodValidity      DateTime?
   discount            Int?
   percentageEntry     Int?
   guaranteePeriod     Int?
-  approved            Boolean?       @default(false)
-  client              Client         @relation(fields: [clientId], references: [id])
+  approved            Boolean?          @default(false)
+  client              Client            @relation(fields: [clientId], references: [id])
   clientId            Int
-  tenant              Tenant         @relation(fields: [tenantId], references: [id])
-  tenantId            String         @default(uuid())
-  itemProposal        ItemProposal[]
+  tenant              Tenant            @relation(fields: [tenantId], references: [id])
+  tenantId            String            @default(uuid())
   detection           Detection[]
   well                Well[]
+  ProposalService     ProposalService[]
+  ItemProposal        ItemProposal[]
 }
 
 model CategoryService {
-  id          Int           @id @default(autoincrement())
-  name        String        @unique @db.VarChar(100)
-  subCategory SubCategory
-  color       String        @db.VarChar(7)
-  tenant      Tenant        @relation(fields: [tenantId], references: [id])
-  tenantId    String        @default(uuid())
-  itemService ItemService[]
+  id              Int               @id @default(autoincrement())
+  name            String            @unique @db.VarChar(100)
+  subCategory     SubCategory
+  color           String            @db.VarChar(7)
+  tenant          Tenant            @relation(fields: [tenantId], references: [id])
+  tenantId        String            @default(uuid())
+  itemService     ItemService[]
+  ProposalService ProposalService[]
 
   @@unique([color, tenantId])
 }
@@ -87,13 +89,26 @@ model ItemService {
 }
 
 model ItemProposal {
-  id            Int         @id @default(autoincrement())
-  unitPrice     Int
-  quantity      Int
-  proposal      Proposal    @relation(fields: [proposalId], references: [id])
-  proposalId    Int
-  itemService   ItemService @relation(fields: [itemServiceId], references: [id])
-  itemServiceId Int
+  id                Int             @id @default(autoincrement())
+  unitPrice         Int
+  quantity          Int
+  proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
+  proposalServiceId Int
+  itemService       ItemService     @relation(fields: [itemServiceId], references: [id])
+  itemServiceId     Int
+  Proposal          Proposal?       @relation(fields: [proposalId], references: [id])
+  proposalId        Int?
+}
+
+model ProposalService {
+  id                Int             @id @default(autoincrement())
+  order             Int
+  side              Side
+  proposalId        Int
+  proposal          Proposal        @relation(fields: [proposalId], references: [id])
+  categoryServiceId Int
+  CategoryService   CategoryService @relation(fields: [categoryServiceId], references: [id])
+  ItemProposal      ItemProposal[]
 }
 
 model ModelProposal {
@@ -167,4 +182,9 @@ enum Status {
 enum Voltage {
   V110
   V220
+}
+
+enum Side {
+  LEFT
+  RIGHT
 }

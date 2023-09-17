@@ -12,7 +12,7 @@ export class PrismaItemProposalRepository implements ItemProposalRepository {
       data: {
         unitPrice: itemProposal.unitPrice,
         quantity: itemProposal.quantity,
-        proposalId: itemProposal.proposalId,
+        proposalServiceId: itemProposal.proposalServiceId,
         itemServiceId: itemProposal.itemServiceId,
       },
     });
@@ -33,14 +33,14 @@ export class PrismaItemProposalRepository implements ItemProposalRepository {
   async fetch({
     unitPrice,
     quantity,
-    proposalId,
+    proposalServiceId,
     itemServiceId,
   }: Omit<ItemProposal, 'id'>): Promise<ItemProposal[]> {
     const fetchItemProposal = await this.prisma.itemProposal.findMany({
       where: {
         ...(unitPrice && { unitPrice }),
         ...(quantity && { quantity }),
-        ...(proposalId && { proposalId }),
+        ...(proposalServiceId && { proposalServiceId }),
         ...(itemServiceId && { itemServiceId }),
       },
     });
@@ -54,7 +54,7 @@ export class PrismaItemProposalRepository implements ItemProposalRepository {
       unitPrice,
       quantity,
       itemServiceId,
-    }: Omit<ItemProposal, 'id' | 'proposalId'>,
+    }: Omit<ItemProposal, 'id' | 'proposalServiceId'>,
   ): Promise<ItemProposal> {
     const updatedItemProposal = await this.prisma.itemProposal.update({
       where: {

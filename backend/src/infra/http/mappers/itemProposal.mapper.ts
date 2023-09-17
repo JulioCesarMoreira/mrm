@@ -16,7 +16,7 @@ export class ItemProposalMapper {
         id: itemProposal.id,
         unitPrice: itemProposal.unitPrice,
         quantity: itemProposal.quantity,
-        proposalId: itemProposal.proposalId,
+        proposalServiceId: itemProposal.proposalServiceId,
         itemServiceId: itemProposal.itemServiceId,
       });
     }
