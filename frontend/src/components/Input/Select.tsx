@@ -8,11 +8,7 @@ import { SelectValue } from '@radix-ui/react-select';
 import { Fragment, ReactElement, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
-
-interface Option {
-  name: string;
-  value: string;
-}
+import { Option } from 'types';
 
 interface SelectProperties {
   name: string;
