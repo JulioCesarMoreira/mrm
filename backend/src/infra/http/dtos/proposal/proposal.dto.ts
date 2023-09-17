@@ -86,7 +86,7 @@ export class FetchProposalsDto {
   @IsOptional()
   approved: boolean;
 
-  @IsInt()
+  @IsNumberString()
   @IsOptional()
   clientId: number;
 
