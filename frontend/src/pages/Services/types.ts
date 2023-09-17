@@ -13,3 +13,21 @@ export interface ServiceProposal {
 export interface ServiceFilter {
   clientId?: number;
 }
+
+export type directions = 'RIGHT' | 'LEFT';
+
+export interface CategoryItem {
+  key: string;
+  name: string;
+  unity: string;
+  unitPrice: string;
+  quantity: string;
+}
+
+export interface SelectedCategory {
+  key: string;
+  direction: directions;
+  name: string;
+  color: string;
+  items: CategoryItem[];
+}
