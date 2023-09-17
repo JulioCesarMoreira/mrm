@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import type { SideMenuItemProperties } from '../components/SideMenu/types';
+import { Option } from 'types';
 
 export const CPF_LIMIT = 15;
 export const CLOSE_DIALOG_DURATION = 300;
@@ -55,7 +56,7 @@ export const categoryColorNames = new Map([
   [categoryColors[4], 'Laranja'],
 ]);
 
-export const categoryColorOptions = categoryColors.map((color) => ({
+export const categoryColorOptions: Option[] = categoryColors.map((color) => ({
   name: '',
   value: color,
 }));

@@ -11,6 +11,7 @@ import PageNotFound from './pages/PageNotFound/PageNotFound';
 import App from './App';
 
 import './global.css';
+import ServicesFormPage from 'pages/Services/ServicesFormPage';
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
       {
         path: '/servicos',
         element: <ServicesPage />,
+      },
+      {
+        path: '/servicos/editar/:proposalId',
+        element: <ServicesFormPage />,
+      },
+      {
+        path: '/servicos/novo',
+        element: <ServicesFormPage />,
       },
       {
         path: '/pocos',

@@ -3,6 +3,7 @@ import InputLabel from './InputLabel';
 import InputWrapper from './InputWrapper';
 import DatePicker from './DatePicker';
 import Select from './Select';
+import Search from './Search';
 
 export const Input = {
   Wrapper: InputWrapper,
@@ -10,4 +11,5 @@ export const Input = {
   Field: InputField,
   DatePicker: DatePicker,
   Select: Select,
+  Search: Search,
 };
