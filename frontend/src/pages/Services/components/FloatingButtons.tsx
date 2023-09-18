@@ -1,6 +1,7 @@
 import { Button } from '@components/ui/button';
 import AttachmentsDialog from './Attachments/AttachmentsDialog';
 import type { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function FloatingButtons(): ReactElement {
   return (
@@ -10,13 +11,15 @@ export default function FloatingButtons(): ReactElement {
       </div>
 
       <div className="flex-center absolute bottom-0 right-0 mb-6 mr-6 gap-4">
-        <Button
-          type="button"
-          variant={'secondary'}
-          className="hover:bg-gray-scale-700 bg-gray-scale-800 border-gray-scale-700 w-28 rounded-full border px-4 py-2 transition-colors duration-200"
-        >
-          Cancelar
-        </Button>
+        <Link to="/servicos">
+          <Button
+            type="button"
+            variant={'secondary'}
+            className="hover:bg-gray-scale-700 bg-gray-scale-800 border-gray-scale-700 w-28 rounded-full border px-4 py-2 transition-colors duration-200"
+          >
+            Cancelar
+          </Button>
+        </Link>
         <Button
           type="button"
           className="bg-hidro-blue-300 hover:bg-main-blue w-28 rounded-full px-4 py-2 text-white"

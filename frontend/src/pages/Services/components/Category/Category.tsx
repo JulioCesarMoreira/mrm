@@ -1,12 +1,14 @@
-import { ChevronDown, ChevronUp, X } from 'lucide-react';
+import { ChevronDown, X } from 'lucide-react';
 import { SelectedCategory } from 'pages/Services/types';
 import { ReactElement, useState } from 'react';
 import ItemTable from './ItemTable';
 import { twMerge } from 'tailwind-merge';
 import Tooltip from '@components/Tooltip/Tooltip';
+import { ItemService } from 'pages/ServiceItems/types';
 
 interface CategoryProperties {
   category: SelectedCategory;
+  categoryItems: ItemService[] | undefined;
   onRemoveCategory: (key: string) => void;
 }
 
@@ -15,7 +17,7 @@ function CategoryHeader({
   onRemoveCategory,
   collapsed,
   onToggleCollapse,
-}: CategoryProperties & {
+}: Omit<CategoryProperties, 'categoryItems'> & {
   collapsed: boolean;
   onToggleCollapse: () => void;
 }): ReactElement {
@@ -33,7 +35,7 @@ function CategoryHeader({
       >
         <button
           type="button"
-          onClick={(): void => onRemoveCategory(category.key)}
+          onClick={(): void => onRemoveCategory(category.id)}
           className="opacity-0 duration-200 group-hover:opacity-100"
         >
           <X size={18} color="white" />
@@ -69,6 +71,7 @@ function CategoryHeader({
 export default function Category({
   category,
   onRemoveCategory,
+  categoryItems,
 }: CategoryProperties): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
 
@@ -96,7 +99,7 @@ export default function Category({
             : 'pointer-events-auto opacity-100',
         )}
       >
-        <ItemTable data={category.items} />
+        <ItemTable data={category.items} categoryItems={categoryItems} />
       </div>
     </div>
   );

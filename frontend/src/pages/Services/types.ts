@@ -25,7 +25,7 @@ export interface CategoryItem {
 }
 
 export interface SelectedCategory {
-  key: string;
+  id: string;
   direction: directions;
   name: string;
   color: string;

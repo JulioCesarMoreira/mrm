@@ -5,9 +5,11 @@ import { Button } from '@components/ui/button';
 import useFetchClients from 'pages/Clients/hooks/useFetchClients';
 import { ReactElement } from 'react';
 import { useParams } from 'react-router-dom';
-import CategoryList from './components/CategoryList';
+import CategoryList from './components/Category/CategoryList';
 import FloatingButtons from './components/FloatingButtons';
 import ServiceProvider from './context/ServiceProvider';
+import useFetchCategories from 'pages/ServiceItems/hooks/useFetchCategories';
+import useFetchItems from 'pages/ServiceItems/hooks/useFetchItems';
 
 interface ServiceFields {
   clientId: string;
@@ -16,6 +18,8 @@ interface ServiceFields {
 export default function ServicesFormPage(): ReactElement {
   const { proposalId } = useParams<{ proposalId?: string }>();
   const { data: clients, isLoading: isLoadingClients } = useFetchClients();
+  const { data: items } = useFetchItems();
+  const { data: categories } = useFetchCategories();
 
   // TODO: get when accessed directly from the edit route
 
@@ -67,8 +71,16 @@ export default function ServicesFormPage(): ReactElement {
         </div>
 
         <div className="flex h-full w-full divide-x-[1px]">
-          <CategoryList direction="LEFT" />
-          <CategoryList direction="RIGHT" />
+          <CategoryList
+            direction="LEFT"
+            categories={categories}
+            items={items}
+          />
+          <CategoryList
+            direction="RIGHT"
+            categories={categories}
+            items={items}
+          />
         </div>
 
         <FloatingButtons />

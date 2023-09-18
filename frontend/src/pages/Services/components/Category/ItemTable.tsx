@@ -7,11 +7,14 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { DataTableProperties } from '@components/DataTable/types';
 import { Button } from '@components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
 import { CategoryItem } from 'pages/Services/types';
+import SelectOptionDialog from '../SelectOptionDialog';
+import { Option } from 'types';
+import { ItemService } from 'pages/ServiceItems/types';
 
 const columns: ColumnDef<CategoryItem>[] = [
   {
@@ -83,7 +86,12 @@ const columns: ColumnDef<CategoryItem>[] = [
 
 export default function ItemTable({
   data,
-}: Omit<DataTableProperties<CategoryItem>, 'columns'>): ReactElement {
+  categoryItems,
+}: Omit<DataTableProperties<CategoryItem>, 'columns'> & {
+  categoryItems: ItemService[] | undefined;
+}): ReactElement {
+  const [openItems, setOpenItems] = useState(false);
+
   const table = useReactTable({
     data,
     columns,
@@ -92,12 +100,34 @@ export default function ItemTable({
     getFilteredRowModel: getFilteredRowModel(),
   });
 
+  const onToggleOpen = (open: boolean) => setOpenItems(open);
+
+  function onSelectOption(option: Option): void {
+    console.log('option', option);
+    setOpenItems(false);
+  }
+
   useEffect(() => {
     table.setPageSize(Number.POSITIVE_INFINITY);
   }, []);
 
   return (
     <>
+      <SelectOptionDialog
+        label="Items"
+        placeholder="Selecione um item desta categoria"
+        options={
+          categoryItems
+            ? categoryItems.map((item) => ({
+                name: item.name,
+                value: item.id,
+              }))
+            : []
+        }
+        onSelectOption={onSelectOption}
+        onToggleOpen={onToggleOpen}
+        open={openItems}
+      />
       <div
         className="overflow-hidden rounded-lg"
         style={{
@@ -154,6 +184,7 @@ export default function ItemTable({
           <Button
             type="button"
             variant={'secondary'}
+            onClick={(): void => setOpenItems(true)}
             className="flex-center bg-gray-scale-800 hover:bg-gray-scale-700 w-full -translate-y-3 transition-colors duration-200"
           >
             <Plus size={18} />

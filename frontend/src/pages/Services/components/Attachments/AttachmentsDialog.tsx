@@ -15,8 +15,6 @@ import useServiceContext from 'pages/Services/context/useServiceContext';
 export default function AttachmentsDialog(): ReactElement {
   const { attachments, onSetAttachments } = useServiceContext();
 
-  console.log('attachments', attachments);
-
   return (
     <Dialog>
       <DialogTrigger className="flex-center bg-dark-blue w-28 gap-2 rounded-full px-4 py-2 text-white">
