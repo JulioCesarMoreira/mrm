@@ -12,7 +12,9 @@ interface FetchItemsResponse {
   fetch: (filters: ItemFilter) => Promise<void>;
 }
 
-export default function useFetchItems(): FetchItemsResponse {
+export default function useFetchItems(
+  onlyAvailable?: boolean,
+): FetchItemsResponse {
   const { handleError } = useOnError();
 
   const [data, setData] = useState<ItemService[]>([]);
@@ -26,7 +28,9 @@ export default function useFetchItems(): FetchItemsResponse {
   }> => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/itemService',
+        onlyAvailable
+          ? 'http://localhost:3000/proposal/item-service/'
+          : 'http://localhost:3000/itemService',
         filters ? { params: filters } : undefined,
       );
 

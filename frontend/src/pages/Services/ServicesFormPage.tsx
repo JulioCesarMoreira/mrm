@@ -17,7 +17,7 @@ interface ServiceFields {
 function ServicesFormPage(): ReactElement {
   const { proposalId } = useParams<{ proposalId?: string }>();
   const { data: clients, isLoading: isLoadingClients } = useFetchClients();
-  const { data: items } = useFetchItems();
+  const { data: items } = useFetchItems(true);
   const { data: categories } = useFetchCategories();
 
   // TODO: get when accessed directly from the edit route
