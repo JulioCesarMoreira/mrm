@@ -82,6 +82,7 @@ import {
   UpdateProposalServiceUseCase,
 } from '@application/use-cases/proposalService';
 import { ProposalServiceController } from './controllers/proposalService.controller';
+import { FetchItemServiceToProposalUseCase } from '@application/use-cases/itemService/fetchToProposal-itemService.use-case';
 
 @Module({
   imports: [DatabaseModule],
@@ -141,6 +142,7 @@ import { ProposalServiceController } from './controllers/proposalService.control
     FetchItemProposalUseCase,
     UpdateItemProposalUseCase,
     DeleteItemProposalUseCase,
+    FetchItemServiceToProposalUseCase,
 
     CreateModelProposalUseCase,
     GetModelProposalUseCase,

@@ -18,6 +18,7 @@ import {
   UpdateProposalDto,
   UpdateProposalResponseDto,
   DeleteProposalResponseDto,
+  FetchItemServicesToProposalResponseDto,
 } from '@infra/http/dtos/proposal';
 import { ProposalMapper } from '@infra/http/mappers/proposal.mapper';
 import {
@@ -28,6 +29,8 @@ import {
   DeleteProposalUseCase,
 } from '@application/use-cases/proposal';
 import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
+import { FetchItemServiceToProposalUseCase } from '@application/use-cases/itemService/fetchToProposal-itemService.use-case';
+import { ItemServiceMapper } from '../mappers/itemService.mapper';
 
 @Controller('/proposal')
 export class ProposalController {
@@ -37,6 +40,7 @@ export class ProposalController {
     private fetchProposalsUseCase: FetchProposalUseCase,
     private updateProposalUseCase: UpdateProposalUseCase,
     private deleteProposalUseCase: DeleteProposalUseCase,
+    private itemsServiceFetchUseCase: FetchItemServiceToProposalUseCase,
   ) {}
 
   @Post()
@@ -54,7 +58,7 @@ export class ProposalController {
     }
   }
 
-  @Get(':id')
+  @Get('get/:id')
   async getProposal(
     @Param() parameters: GetProposalIdDto,
   ): Promise<GetProposalResponseDto | ErrorResponseDto> {
@@ -110,6 +114,20 @@ export class ProposalController {
       );
 
       return ProposalMapper.deleteProposalToController(deleteProposal);
+    } catch (error) {
+      return new ErrorResponseDto(error);
+    }
+  }
+
+  @Get('item-service/')
+  async getItemServiceToProposal(): Promise<
+    FetchItemServicesToProposalResponseDto | ErrorResponseDto
+  > {
+    try {
+      const fetchItemsServices =
+        await this.itemsServiceFetchUseCase.fetchItemService();
+
+      return ItemServiceMapper.fetchItemServiceToController(fetchItemsServices);
     } catch (error) {
       return new ErrorResponseDto(error);
     }

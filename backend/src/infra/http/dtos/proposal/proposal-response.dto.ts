@@ -91,3 +91,17 @@ export class UpdateProposalResponseDto {
 
   tenantId: string;
 }
+
+export class FetchItemServicesToProposalResponseDto {
+  itemServices: {
+    id: number;
+
+    name: string;
+
+    description: string;
+
+    unit: string;
+
+    categoryServiceId: number;
+  }[];
+}
