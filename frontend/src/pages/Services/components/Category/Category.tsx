@@ -42,13 +42,14 @@ function CategoryHeader({
         </button>
       </Tooltip>
 
+      <span>{category.name}</span>
+
       <div
         className="border-gray-scale-300 h-5 w-5 rounded-full border"
         style={{
           backgroundColor: category.color,
         }}
       />
-      <span>{category.name}</span>
 
       <Tooltip
         text={collapsed ? 'Expandir' : 'Retrair'}

@@ -16,7 +16,9 @@ import SelectOptionDialog from '../SelectOptionDialog';
 import { Option } from 'types';
 import { ItemService } from 'pages/ServiceItems/types';
 
-const columns: ColumnDef<CategoryItem>[] = [
+const getColumns = (
+  onRemoveRow: (rowId: string) => void,
+): ColumnDef<CategoryItem>[] => [
   {
     accessorKey: 'name',
     header: () => <div className="text-left">Nome</div>,
@@ -70,6 +72,7 @@ const columns: ColumnDef<CategoryItem>[] = [
           <Button
             type="button"
             variant="ghost"
+            onClick={(): void => onRemoveRow(row.original.key)}
             className="group hover:bg-transparent"
           >
             <Trash2
@@ -91,21 +94,34 @@ export default function ItemTable({
   categoryItems: ItemService[] | undefined;
 }): ReactElement {
   const [openItems, setOpenItems] = useState(false);
+  const [tableData, setTableData] = useState<CategoryItem[]>(data);
+
+  const onToggleOpen = (open: boolean) => setOpenItems(open);
+
+  const onRemoveRow = (rowId: string): void =>
+    setTableData((previous) => previous.filter((row) => row.key !== rowId));
+
+  function onSelectOption(option: Option): void {
+    setOpenItems(false);
+    setTableData((previous) => [
+      ...previous,
+      {
+        key: option.value,
+        name: option.name,
+        quantity: '',
+        unitPrice: '',
+        unity: '',
+      },
+    ]);
+  }
 
   const table = useReactTable({
-    data,
-    columns,
+    data: tableData,
+    columns: getColumns(onRemoveRow),
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
-
-  const onToggleOpen = (open: boolean) => setOpenItems(open);
-
-  function onSelectOption(option: Option): void {
-    console.log('option', option);
-    setOpenItems(false);
-  }
 
   useEffect(() => {
     table.setPageSize(Number.POSITIVE_INFINITY);
@@ -185,7 +201,7 @@ export default function ItemTable({
             type="button"
             variant={'secondary'}
             onClick={(): void => setOpenItems(true)}
-            className="flex-center bg-gray-scale-800 hover:bg-gray-scale-700 w-full -translate-y-3 transition-colors duration-200"
+            className="flex-center bg-gray-scale-800 hover:bg-gray-scale-700 w-full -translate-y-3 gap-4 transition-colors duration-200"
           >
             <Plus size={18} />
             Adicionar
