@@ -11,11 +11,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
-import { cn, normalizeString } from '@lib/utils';
+import { cn } from '@lib/utils';
 import { Check, ChevronsUpDown } from 'lucide-react';
-import { useState, type ReactElement, useEffect, ChangeEvent } from 'react';
+import { useState, type ReactElement, useEffect } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
-import { twMerge } from 'tailwind-merge';
 import { Option } from 'types';
 
 interface SearchProperties {
@@ -51,7 +50,6 @@ export default function Search({
   });
 
   function onSelectOption(value: string): void {
-    console.log('value', value);
     setValue(name, value);
     setOpenOptions(false);
   }
@@ -104,8 +102,10 @@ export default function Search({
             <CommandEmpty>Nada encontrado.</CommandEmpty>
             {options.map(({ name, value }) => (
               <CommandItem
-                onSelect={(currentValue): void => onSelectOption(currentValue)}
                 key={value}
+                onSelect={(): void => {
+                  onSelectOption(value);
+                }}
               >
                 <Check
                   className={cn(
