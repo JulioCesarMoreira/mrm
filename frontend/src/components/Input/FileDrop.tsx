@@ -11,8 +11,6 @@ interface FileDropProperties {
 
 export default function FileDrop({ files, onSetFiles }: FileDropProperties) {
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log('acceptedFiles', acceptedFiles);
-
     onSetFiles(
       acceptedFiles.map((file) => ({
         ...file,
