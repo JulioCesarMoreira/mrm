@@ -22,13 +22,77 @@ import WellFormClientData from './WellFormClientData';
 import WellFormAddress from './WellFormAddress';
 import { format, isValid, parse } from 'date-fns';
 import { removeSpecialCharacters } from '@lib/utils';
+import Svg from '@components/Svg/Svg';
 
 interface WellsFormProperties {
   defaultValues: Well;
+  isAdding?: boolean;
+}
+
+function WellFormBody({
+  defaultValues,
+  isLoading,
+  isAdding,
+  onAdd,
+}: WellsFormProperties & {
+  isLoading: boolean;
+  onAdd?: () => void;
+}): ReactElement {
+  return (
+    <>
+      {isLoading ? (
+        <div className="flex-center h-40 w-full">
+          <Spinner />
+        </div>
+      ) : (
+        <>
+          <div className="mb-4">
+            <hr className="w-full" />
+
+            {!isAdding && (
+              <>
+                <WellFormClientData well={defaultValues} />
+                <hr className="w-full" />
+              </>
+            )}
+
+            <WellFormFields well={defaultValues} />
+
+            <hr className="w-full" />
+
+            <WellFormAddress />
+          </div>
+
+          <hr className="w-full" />
+
+          <div className="-mb-4 flex w-full flex-row-reverse gap-4 pt-4">
+            <Button
+              type={isAdding ? 'button' : 'submit'}
+              onClick={isAdding ? onAdd : undefined}
+              variant="default"
+              className="bg-hidro-blue-300 hover:bg-main-blue text-white"
+            >
+              Salvar
+            </Button>
+            <DialogTrigger asChild>
+              <Button
+                type="button"
+                variant="secondary"
+                className="hover:bg-gray-scale-700 transition-colors duration-200"
+              >
+                Cancelar
+              </Button>
+            </DialogTrigger>
+          </div>
+        </>
+      )}
+    </>
+  );
 }
 
 export default function WellForm({
   defaultValues,
+  isAdding,
 }: WellsFormProperties): ReactElement {
   const [isLoading, setIsLoading] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -36,6 +100,10 @@ export default function WellForm({
   const setToggleFetchWells = useSetAtom(toggleFetchWells);
 
   const { updateWell } = useUpdateWell();
+
+  function onAdd(): void {
+    setOpenDialog(false);
+  }
 
   async function onSubmitWell(well: Well): Promise<void> {
     setIsLoading(true);
@@ -68,8 +136,6 @@ export default function WellForm({
       latitude: well.latitude,
     };
 
-    console.log('updatedWell', updatedWell);
-
     try {
       const result = await updateWell(defaultValues.id, updatedWell);
       if (result) setOpenDialog(false);
@@ -97,6 +163,18 @@ export default function WellForm({
             </Button>
           </DialogTrigger>
         </Tooltip>
+      ) : isAdding ? (
+        <DialogTrigger asChild ref={undefined}>
+          <Button
+            type="button"
+            ref={undefined}
+            variant={'default'}
+            className="bg-hidro-blue-300 hover:bg-main-blue mt-3.5 flex w-32 items-center justify-start gap-5 text-white"
+          >
+            <Svg name="well" className="fill-white" />
+            Poço
+          </Button>
+        </DialogTrigger>
       ) : (
         <DataTableTitle title={'Poços'} />
       )}
@@ -104,56 +182,26 @@ export default function WellForm({
       <DialogContent className="max-w-4xl bg-white">
         <DialogHeader>
           <DialogTitle>Poço</DialogTitle>
-          <FormWrapper<Well>
-            id="well-form"
-            onSubmit={onSubmitWell}
-            className="py-4"
-            defaultValues={defaultValues}
-          >
-            {isLoading ? (
-              <div className="flex-center h-40 w-full">
-                <Spinner />
-              </div>
-            ) : (
-              <>
-                <div className="mb-4">
-                  <hr className="w-full" />
-
-                  {/* TODO working form values */}
-                  <WellFormClientData well={defaultValues} />
-
-                  <hr className="w-full" />
-
-                  <WellFormFields well={defaultValues} />
-
-                  <hr className="w-full" />
-
-                  <WellFormAddress />
-                </div>
-
-                <hr className="w-full" />
-
-                <div className="-mb-4 flex w-full flex-row-reverse gap-4 pt-4">
-                  <Button
-                    type="submit"
-                    variant={'default'}
-                    className="bg-hidro-blue-300 hover:bg-main-blue text-white"
-                  >
-                    Salvar
-                  </Button>
-                  <DialogTrigger asChild>
-                    <Button
-                      type="button"
-                      variant={'secondary'}
-                      className="hover:bg-gray-scale-700 transition-colors duration-200"
-                    >
-                      Cancelar
-                    </Button>
-                  </DialogTrigger>
-                </div>
-              </>
-            )}
-          </FormWrapper>
+          {isAdding ? (
+            <WellFormBody
+              defaultValues={defaultValues}
+              isLoading={false}
+              onAdd={onAdd}
+              isAdding
+            />
+          ) : (
+            <FormWrapper<Well>
+              id="well-form"
+              onSubmit={onSubmitWell}
+              className="py-4"
+              defaultValues={defaultValues}
+            >
+              <WellFormBody
+                isLoading={isLoading}
+                defaultValues={defaultValues}
+              />
+            </FormWrapper>
+          )}
         </DialogHeader>
       </DialogContent>
     </Dialog>

@@ -9,6 +9,7 @@ import type { ReactElement } from 'react';
 
 export default function LoginPage(): ReactElement {
   function onLogin(data: LoginFields): void {
+    // TODO
     console.log('data', data);
   }
 

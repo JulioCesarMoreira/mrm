@@ -15,6 +15,8 @@ import { CategoryItem } from 'pages/Services/types';
 import SelectOptionDialog from '../SelectOptionDialog';
 import { Option } from 'types';
 import { ItemService } from 'pages/ServiceItems/types';
+import Tooltip from '@components/Tooltip/Tooltip';
+import { twMerge } from 'tailwind-merge';
 
 const getColumns = (
   onRemoveRow: (rowId: string) => void,
@@ -69,18 +71,20 @@ const getColumns = (
     cell: ({ row }) => {
       return (
         <div className="text-right">
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={(): void => onRemoveRow(row.original.key)}
-            className="group hover:bg-transparent"
-          >
-            <Trash2
-              size={18}
-              color="#797E86"
-              className="group-hover:stroke-hidro-blue-300 duration-200"
-            />
-          </Button>
+          <Tooltip text="Remover item" position="left">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={(): void => onRemoveRow(row.original.key)}
+              className="group hover:bg-transparent"
+            >
+              <Trash2
+                size={18}
+                color="#797E86"
+                className="group-hover:stroke-hidro-blue-300 duration-200"
+              />
+            </Button>
+          </Tooltip>
         </div>
       );
     },
@@ -134,10 +138,17 @@ export default function ItemTable({
         placeholder="Selecione um item desta categoria"
         options={
           categoryItems
-            ? categoryItems.map((item) => ({
-                name: item.name,
-                value: item.id,
-              }))
+            ? categoryItems
+                .filter(
+                  (item) =>
+                    !tableData.some(
+                      (selectedItem) => selectedItem.key === item.id,
+                    ),
+                )
+                .map((item) => ({
+                  name: item.name,
+                  value: item.id,
+                }))
             : []
         }
         onSelectOption={onSelectOption}
@@ -197,15 +208,30 @@ export default function ItemTable({
         </div>
 
         <div className="flex-center mx-auto w-full px-5 pt-6">
-          <Button
-            type="button"
-            variant={'secondary'}
-            onClick={(): void => setOpenItems(true)}
-            className="flex-center bg-gray-scale-800 hover:bg-gray-scale-700 w-full -translate-y-3 gap-4 transition-colors duration-200"
+          <Tooltip
+            text="Todos os itens desta categoria já estão sendo usados."
+            position="top"
+            disabled={categoryItems && tableData.length < categoryItems?.length}
           >
-            <Plus size={18} />
-            Adicionar
-          </Button>
+            <Button
+              type="button"
+              variant={'secondary'}
+              onClick={
+                categoryItems?.length === tableData.length
+                  ? undefined
+                  : (): void => setOpenItems(true)
+              }
+              className={twMerge(
+                'flex-center bg-gray-scale-800 hover:bg-gray-scale-700 w-full -translate-y-3 gap-4 transition-colors duration-200',
+                categoryItems?.length === tableData.length
+                  ? '!bg-gray-scale-700 text-gray-scale-400 cursor-not-allowed'
+                  : '',
+              )}
+            >
+              <Plus size={18} />
+              Adicionar
+            </Button>
+          </Tooltip>
         </div>
       </div>
     </>

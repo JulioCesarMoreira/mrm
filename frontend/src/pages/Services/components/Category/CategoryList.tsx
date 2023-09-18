@@ -1,7 +1,7 @@
 import { Button } from '@components/ui/button';
 import { Plus } from 'lucide-react';
 import { ReactElement, useState } from 'react';
-import { SelectedCategory, directions } from '../../types';
+import { directions } from '../../types';
 import Category from './Category';
 import { ScrollArea } from '@components/ui/scroll-area';
 import { CategoryService, ItemService } from 'pages/ServiceItems/types';
@@ -9,6 +9,7 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { twMerge } from 'tailwind-merge';
 import SelectOptionDialog from '../SelectOptionDialog';
 import { Option } from 'types';
+import useServiceContext from 'pages/Services/context/useServiceContext';
 
 interface CategoryListProperties {
   direction: directions;
@@ -22,9 +23,10 @@ export default function CategoryList({
   items,
 }: CategoryListProperties): ReactElement {
   const [openCategories, setOpenCategories] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState<
-    SelectedCategory[]
-  >([]);
+  const { selectedCategories, setSelectedCategories } = useServiceContext();
+  const thisSideCategories = selectedCategories.filter(
+    (category) => category.direction === direction,
+  );
 
   function onAddCategory(categoryOption: Option): void {
     setSelectedCategories((previous) => [
@@ -55,10 +57,17 @@ export default function CategoryList({
         placeholder="Selecione uma categoria"
         options={
           categories
-            ? categories.map((category) => ({
-                name: category.name,
-                value: category.id,
-              }))
+            ? categories
+                .filter(
+                  (category) =>
+                    !selectedCategories.some(
+                      (selectedCategory) => selectedCategory.id === category.id,
+                    ),
+                )
+                .map((category) => ({
+                  name: category.name,
+                  value: category.id,
+                }))
             : []
         }
         onSelectOption={onAddCategory}
@@ -69,7 +78,7 @@ export default function CategoryList({
         className="h-full w-1/2 p-4"
         style={{ height: 'calc(100vh - 100px)' }}
       >
-        {selectedCategories.map((category) => (
+        {thisSideCategories.map((category) => (
           <Category
             key={category.id}
             category={category}
@@ -81,21 +90,36 @@ export default function CategoryList({
         ))}
 
         <Tooltip
-          text="É necessário ter categorias e itens cadastrados para prosseguir"
-          position="bottom"
-          disabled={items && items.length > 0}
+          text={
+            (items && items.length === 0) ||
+            (categories && categories.length === 0)
+              ? 'É necessário ter categorias e itens cadastrados para prosseguir.'
+              : 'Todas as categorias já estão sendo usadas.'
+          }
+          position="top"
+          disabled={
+            categories &&
+            selectedCategories.length < categories?.length &&
+            items &&
+            items.length > 0
+          }
         >
           <Button
             type="button"
             onClick={
-              items && items.length > 0
+              items &&
+              items.length > 0 &&
+              categories &&
+              selectedCategories.length < categories?.length
                 ? (): void => setOpenCategories(true)
                 : undefined
             }
             variant={'secondary'}
             className={twMerge(
               'flex-center bg-gray-scale-800 hover:bg-gray-scale-700 mt-8 w-full -translate-y-3 gap-4 transition-colors duration-200',
-              !items || items.length === 0
+              !items ||
+                items.length === 0 ||
+                selectedCategories.length === categories?.length
                 ? '!bg-gray-scale-700 text-gray-scale-400 cursor-not-allowed'
                 : '',
             )}

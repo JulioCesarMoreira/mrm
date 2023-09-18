@@ -18,6 +18,7 @@ export default function SideMenuLogOut(): ReactElement {
   const isOpen = useAtomValue(isSideMenuOpenAtom);
 
   function onLogOut(): void {
+    // TODO
     console.log('log out');
   }
 
