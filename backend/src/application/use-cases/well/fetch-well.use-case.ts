@@ -5,7 +5,7 @@ import {
   ProposalRepository,
   WellRepository,
 } from '@application/core/repositories';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class FetchWellUseCase {
@@ -31,11 +31,18 @@ export class FetchWellUseCase {
       | 'mapLink'
     >,
   ): Promise<{ well: Well; city: City; client: Client }[]> {
-    const { deliveryDate } = filters;
+    const { deliveryDate, startDate } = filters;
     const fetchWell = [] as { well: Well; client: Client; city: City }[];
 
     // converting date to use in RDS
     filters.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
+    filters.startDate = startDate ? new Date(startDate) : startDate;
+
+    if (filters.startDate.getTime() > filters.deliveryDate.getTime()) {
+      throw new BadRequestException(
+        'The start date have to be bigger then delivery date.',
+      );
+    }
 
     const wells = await this.wellRepository.fetch(filters);
 

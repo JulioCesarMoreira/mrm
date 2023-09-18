@@ -30,6 +30,7 @@ export class WellMapper {
         sieveDepth: wellEntity.well.sieveDepth,
         staticLevel: wellEntity.well.staticLevel,
         dynamicLevel: wellEntity.well.dynamicLevel,
+        startDate: wellEntity.well.startDate,
         deliveryDate: wellEntity.well.deliveryDate,
         sedimentaryDepth: wellEntity.well.sedimentaryDepth,
         distric: wellEntity.well.distric,
@@ -69,6 +70,7 @@ export class WellMapper {
     createWellResponseDto.sieveDepth = wellResponse.well.sieveDepth;
     createWellResponseDto.staticLevel = wellResponse.well.staticLevel;
     createWellResponseDto.dynamicLevel = wellResponse.well.dynamicLevel;
+    createWellResponseDto.startDate = wellResponse.well.startDate;
     createWellResponseDto.deliveryDate = wellResponse.well.deliveryDate;
     createWellResponseDto.sedimentaryDepth = wellResponse.well.sedimentaryDepth;
     createWellResponseDto.distric = wellResponse.well.distric;
@@ -95,6 +97,7 @@ export class WellMapper {
     createWellResponseDto.sieveDepth = wellResponse.well.sieveDepth;
     createWellResponseDto.staticLevel = wellResponse.well.staticLevel;
     createWellResponseDto.dynamicLevel = wellResponse.well.dynamicLevel;
+    createWellResponseDto.startDate = wellResponse.well.startDate;
     createWellResponseDto.deliveryDate = wellResponse.well.deliveryDate;
     createWellResponseDto.sedimentaryDepth = wellResponse.well.sedimentaryDepth;
     createWellResponseDto.distric = wellResponse.well.distric;

@@ -37,6 +37,10 @@ export class CreateWellDto {
 
   @IsOptional()
   @IsDateString()
+  startDate: Date;
+
+  @IsOptional()
+  @IsDateString()
   deliveryDate: Date;
 
   @IsOptional()
@@ -102,6 +106,11 @@ export class FetchWellsDto {
   totalDepth: number;
 
   @IsOptional()
+  @IsDateString()
+  startDate: Date;
+
+  @IsOptional()
+  @IsDateString()
   deliveryDate: Date;
 
   @IsOptional()
@@ -145,6 +154,11 @@ export class UpdateWellDto {
   dynamicLevel: number;
 
   @IsOptional()
+  @IsDateString()
+  startDate: Date;
+
+  @IsOptional()
+  @IsDateString()
   deliveryDate: Date;
 
   @IsOptional()

@@ -14,15 +14,22 @@ export class CreateWellUseCase {
     private cityRepository: CityRepository,
   ) {}
   async createWell(wellDto: Omit<Well, 'id'>): Promise<WellResponse> {
-    const { deliveryDate } = wellDto;
+    const { deliveryDate, startDate } = wellDto;
 
     // converting date to save in RDS
     wellDto.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
+    wellDto.startDate = startDate ? new Date(startDate) : startDate;
+
+    if (wellDto.startDate.getTime() > wellDto.deliveryDate.getTime()) {
+      throw new BadRequestException(
+        'The start date have to be bigger then delivery date.',
+      );
+    }
 
     const city = await this.cityRepository.get(wellDto.cityId);
 
     if (!city) {
-      new BadRequestException('City not found!');
+      throw new BadRequestException('City not found!');
     }
 
     const well = await this.wellRepository.create(wellDto);

@@ -13,6 +13,8 @@ export class CreateWellResponseDto {
 
   dynamicLevel: number;
 
+  startDate: Date;
+
   deliveryDate: Date;
 
   sedimentaryDepth: number;
@@ -48,6 +50,8 @@ export class GetWellResponseDto {
   staticLevel: number;
 
   dynamicLevel: number;
+
+  startDate: Date;
 
   deliveryDate: Date;
 
@@ -85,6 +89,8 @@ export class FetchWellsResponseDto {
     staticLevel: number;
 
     dynamicLevel: number;
+
+    startDate: Date;
 
     deliveryDate: Date;
 
@@ -128,6 +134,8 @@ export class UpdateWellResponseDto {
   staticLevel: number;
 
   dynamicLevel: number;
+
+  startDate: Date;
 
   deliveryDate: Date;
 

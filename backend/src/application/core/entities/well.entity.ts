@@ -11,6 +11,8 @@ export class Well {
 
   dynamicLevel: number;
 
+  startDate: Date;
+
   deliveryDate: Date;
 
   sedimentaryDepth: number;

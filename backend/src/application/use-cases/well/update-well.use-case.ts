@@ -17,19 +17,26 @@ export class UpdateWellUseCase {
     wellId: number,
     wellFields: Omit<Well, 'id' | 'proposalId'>,
   ): Promise<WellResponse> {
-    const { deliveryDate } = wellFields;
+    const { deliveryDate, startDate } = wellFields;
 
     let city: City;
     // converting date to save in RDS
     wellFields.deliveryDate = deliveryDate
       ? new Date(deliveryDate)
       : deliveryDate;
+    wellFields.startDate = startDate ? new Date(startDate) : startDate;
+
+    if (wellFields.startDate.getTime() > wellFields.deliveryDate.getTime()) {
+      throw new BadRequestException(
+        'The start date have to be bigger then delivery date.',
+      );
+    }
 
     if (wellFields.cityId) {
       city = await this.cityRepository.get(wellFields.cityId);
 
       if (!city) {
-        new BadRequestException('City not found!');
+        throw new BadRequestException('City not found!');
       }
     }
     const well = await this.wellRepository.update(wellId, wellFields);
