@@ -12,6 +12,7 @@ export type MaskTypes =
   | 'minutes'
   | 'number'
   | 'numberWithoutDecimals'
+  | 'money'
   | 'onlyNumber'
   | 'percentage'
   | 'percentageWithDecimals'
@@ -25,11 +26,23 @@ const PERCENTAGE_LIMIT = 100;
 const INSTALLMENTS_NUMBER_MAX_LENGTH = 5;
 const PROCEDURE_NUMBER_MAX_LENGTH = 4;
 const PROCEDURE_MAX_DURATION = 1439;
+const MAX_MONEY_VALUE = 999_999_999;
 
 export default function generateMaskTypes(
   value: string,
 ): Record<string, NumberFormatProps> {
   return {
+    money: {
+      thousandSeparator: '.',
+      decimalSeparator: ',',
+      placeholder: '0,00',
+      decimalScale: DECIMAL_SCALE,
+      fixedDecimalScale: true,
+      allowLeadingZeros: false,
+      allowNegative: false,
+      isAllowed: ({ floatValue }: { floatValue?: number }): boolean =>
+        floatValue === undefined || floatValue <= MAX_MONEY_VALUE,
+    },
     percentage: {
       placeholder: '00',
       allowNegative: false,
