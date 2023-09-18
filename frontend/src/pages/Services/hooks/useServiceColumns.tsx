@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table';
-import { ServiceProposal } from '../types';
+import { Service } from '../types';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
@@ -9,9 +9,11 @@ import ServiceActions from '../components/ServiceActions';
 
 export default function useServiceColumns(
   clients: Client[] | undefined,
-): ColumnDef<ServiceProposal>[] {
+): ColumnDef<Service>[] {
   const clientsMap = clients
-    ? new Map<string, Client>(clients.map((client) => [client.id, client]))
+    ? new Map<string, Client>(
+        clients.map((client) => [String(client.id), client]),
+      )
     : new Map<string, Client>([]);
 
   return [
@@ -46,7 +48,7 @@ export default function useServiceColumns(
           </Tooltip>
         );
       },
-      cell: ({ row }) => clientsMap.get(row.original.clientId)?.name,
+      cell: ({ row }) => clientsMap.get(String(row.original.clientId))?.name,
     },
     {
       accessorKey: 'sendDate',
@@ -73,8 +75,13 @@ export default function useServiceColumns(
           </Tooltip>
         );
       },
-      cell: ({ row }) =>
-        format(parseISO(row.getValue('sendDate')), 'dd/MM/yyyy'),
+      cell: ({ row }) => {
+        const sendDate = row.getValue('sendDate');
+
+        return sendDate
+          ? format(parseISO(row.getValue('sendDate')), 'dd/MM/yyyy')
+          : '-';
+      },
     },
     {
       id: 'actions',

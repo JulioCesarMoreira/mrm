@@ -9,9 +9,19 @@ import ServiceProvider from './context/ServiceProvider';
 import useFetchCategories from 'pages/ServiceItems/hooks/useFetchCategories';
 import useFetchItems from 'pages/ServiceItems/hooks/useFetchItems';
 import WellForm from 'pages/Wells/components/WellForm/WellForm';
+import { Well } from 'pages/Wells/types';
+import { wellDefaultValues } from './constants';
+import useServiceContext from './context/useServiceContext';
+import useInsertProposal from './hooks/useInsertProposal';
+import { formatMoneyString } from '@lib/utils';
+import useInsertProposalService from './hooks/useInsertProposalService';
+import useInsertItemProposal from './hooks/useInsertItemProposal';
 
 interface ServiceFields {
   clientId: string;
+  discount: string;
+  guaranteePeriod: string;
+  well: Well;
 }
 
 function ServicesFormPage(): ReactElement {
@@ -19,13 +29,96 @@ function ServicesFormPage(): ReactElement {
   const { data: clients, isLoading: isLoadingClients } = useFetchClients();
   const { data: items } = useFetchItems(true);
   const { data: categories } = useFetchCategories();
+  const { selectedCategories } = useServiceContext();
 
   // TODO: get when accessed directly from the edit route
 
+  const { insertProposal } = useInsertProposal();
+  const { insertProposalService } = useInsertProposalService();
+  const { insertItemProposal } = useInsertItemProposal();
+
+  async function onSubmitService(data: ServiceFields): Promise<void> {
+    console.log('data', data);
+    console.log('selectedCategories', selectedCategories);
+
+    if (proposalId) {
+      console.log('editando');
+      return;
+    }
+
+    const insertProposalInput = {
+      approved: false,
+      clientId: Number(data.clientId),
+      discount: Number(formatMoneyString(data.discount)),
+      guaranteePeriod: Number(data.guaranteePeriod),
+      installmentsBalance: 1,
+      sendDate: '2023-09-18',
+      percentageEntry: 1,
+      periodValidity: '2023-09-18',
+    };
+
+    console.log('insertProposalInput', insertProposalInput);
+
+    const result = await insertProposal(insertProposalInput);
+    console.log('result', result);
+    const categoriesPromises = [];
+
+    for (const [index, category] of selectedCategories.entries()) {
+      if (category.items.length > 0) {
+        categoriesPromises.push(
+          insertProposalService({
+            categoryServiceId: Number(category.id),
+            order: index,
+            proposalId: Number(result.id),
+            side: category.direction,
+          }),
+        );
+      }
+    }
+
+    const categoriesResults = await Promise.all(categoriesPromises);
+
+    const itemsPromises = [];
+
+    for (const category of categoriesResults) {
+      const insertedCategoryItems = selectedCategories.find(
+        (selectedCategory) =>
+          Number(selectedCategory.id) === category.categoryServiceId,
+      )?.items;
+
+      if (insertedCategoryItems) {
+        for (const item of insertedCategoryItems) {
+          itemsPromises.push(
+            insertItemProposal({
+              itemServiceId: Number(item.key),
+              proposalServiceId: category.id,
+              quantity: Number(item.quantity),
+              unitPrice: 1,
+            }),
+          );
+        }
+      }
+    }
+
+    const itemsResults = await Promise.all(itemsPromises);
+
+    console.log('results', itemsResults);
+  }
+
   return (
-    <>
+    <FormWrapper<ServiceFields>
+      id="service-form"
+      onSubmit={onSubmitService}
+      defaultValues={{
+        clientId: '',
+        well: wellDefaultValues,
+        discount: '',
+        guaranteePeriod: '',
+      }}
+      className="relative max-h-[100vh] overflow-hidden"
+    >
       <div className="border-gray-scale-800 flex !h-[100px] !min-h-[100px] w-full items-center gap-4 border-b p-4 pt-2">
-        <Input.Wrapper className="w-[300px]">
+        <Input.Wrapper className="ml-1 w-[300px]">
           <Input.Label label="Cliente" required />
           <Input.Search
             name="clientId"
@@ -44,44 +137,7 @@ function ServicesFormPage(): ReactElement {
           />
         </Input.Wrapper>
 
-        <WellForm
-          defaultValues={{
-            cep: '',
-            city: {
-              id: '',
-              name: '',
-              uf: '',
-            },
-            cityId: '',
-            client: {
-              contactName: '',
-              contactPhone: '',
-              cpfCnpj: '',
-              id: '',
-              name: '',
-              tenantId: '',
-            },
-            clientName: '',
-            deliveryDate: '',
-            distric: '',
-            dynamicLevel: 0,
-            latitude: '',
-            longitude: '',
-            mapLink: '',
-            number: '',
-            proposalId: '',
-            proposalServiceId: '',
-            sedimentaryDepth: 0,
-            sieveDepth: 0,
-            staticLevel: 0,
-            street: '',
-            id: '',
-            totalDepth: 0,
-            voltage: '',
-            zipcode: '',
-          }}
-          isAdding
-        />
+        <WellForm defaultValues={wellDefaultValues} isAdding />
 
         {/* <Button
           type="button"
@@ -93,28 +149,44 @@ function ServicesFormPage(): ReactElement {
         </Button> */}
       </div>
 
-      <div className="flex h-full w-full divide-x-[1px]">
+      <div className="flex h-[74px] items-center justify-start gap-4 pl-5 pb-4">
+        <Input.Wrapper className="w-[140px]">
+          <Input.Label label="Desconto" required />
+          <Input.Field
+            name="discount"
+            maskType="money"
+            required
+            className="pl-6"
+          >
+            <div className="text-gray-scale-200 absolute left-2 text-sm">
+              R$
+            </div>
+          </Input.Field>
+        </Input.Wrapper>
+
+        <Input.Wrapper className="w-[140px]">
+          <Input.Label label="Garantia (meses)" required />
+          <Input.Field
+            name="guaranteePeriod"
+            maskType="numberWithoutDecimals"
+            placeholder="meses"
+            required
+          />
+        </Input.Wrapper>
+      </div>
+      <div className="flex h-full w-full divide-x-[1px] border-t">
         <CategoryList direction="LEFT" categories={categories} items={items} />
         <CategoryList direction="RIGHT" categories={categories} items={items} />
       </div>
-
       <FloatingButtons />
-    </>
+    </FormWrapper>
   );
 }
 
 export default function Providers(): ReactElement {
-  function onSubmitService(): void {}
   return (
     <ServiceProvider>
-      <FormWrapper<ServiceFields>
-        id="service-form"
-        onSubmit={onSubmitService}
-        defaultValues={{ clientId: '' }}
-        className="relative max-h-[100vh] overflow-hidden"
-      >
-        <ServicesFormPage />
-      </FormWrapper>
+      <ServicesFormPage />
     </ServiceProvider>
   );
 }

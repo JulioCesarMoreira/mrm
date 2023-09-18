@@ -21,7 +21,7 @@ export default function FloatingButtons(): ReactElement {
           </Button>
         </Link>
         <Button
-          type="button"
+          type="submit"
           className="bg-hidro-blue-300 hover:bg-main-blue w-28 rounded-full px-4 py-2 text-white"
         >
           Salvar
