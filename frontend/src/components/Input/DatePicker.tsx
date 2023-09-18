@@ -31,6 +31,7 @@ export default function DatePicker({
   loading,
   className,
   rules,
+  required,
   ...properties
 }: DatePickerProperties): ReactElement {
   const { control } = useFormContext();
@@ -47,7 +48,7 @@ export default function DatePicker({
   } = useController({
     name,
     control,
-    rules: disabled ? undefined : { required: true, ...rules },
+    rules: disabled ? undefined : { required, ...rules },
   });
 
   const error = errors[name];
