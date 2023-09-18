@@ -2,7 +2,13 @@ import { ReactElement } from 'react';
 import { Well } from '../../types';
 import { Input } from '@components/Input';
 
-export default function WellFormFields({ well }: { well: Well }): ReactElement {
+export default function WellFormFields({
+  well,
+  isAdding,
+}: {
+  well: Well;
+  isAdding?: boolean;
+}): ReactElement {
   return (
     <div className="my-6 w-full">
       <p className="text-gray-scale-300 text-lg font-semibold">Dados do poço</p>
@@ -10,7 +16,7 @@ export default function WellFormFields({ well }: { well: Well }): ReactElement {
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Voltagem" required />
           <Input.Select
-            name="voltage"
+            name={isAdding ? 'well.voltage' : 'voltage'}
             defaultValue={well.voltage}
             options={[
               { name: 'V110', value: 'V110' },
@@ -23,7 +29,7 @@ export default function WellFormFields({ well }: { well: Well }): ReactElement {
           <Input.Label label="Profundidade Total" required />
           <Input.Field
             required
-            name="totalDepth"
+            name={isAdding ? 'well.totalDepth' : 'totalDepth'}
             maskType="numberWithoutDecimals"
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
@@ -34,7 +40,7 @@ export default function WellFormFields({ well }: { well: Well }): ReactElement {
           <Input.Label label="Profundidade de Crivo" required />
           <Input.Field
             required
-            name="sieveDepth"
+            name={isAdding ? 'well.sieveDepth' : 'sieveDepth'}
             maskType="numberWithoutDecimals"
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
@@ -45,7 +51,7 @@ export default function WellFormFields({ well }: { well: Well }): ReactElement {
           <Input.Label label="Profundidade Sedimentar" required />
           <Input.Field
             required
-            name="sedimentaryDepth"
+            name={isAdding ? 'well.sedimentaryDepth' : 'sedimentaryDepth'}
             maskType="numberWithoutDecimals"
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
@@ -56,7 +62,7 @@ export default function WellFormFields({ well }: { well: Well }): ReactElement {
           <Input.Label label="Nível Dinâmico" required />
           <Input.Field
             required
-            name="dynamicLevel"
+            name={isAdding ? 'well.dynamicLevel' : 'dynamicLevel'}
             maskType="numberWithoutDecimals"
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
@@ -67,7 +73,7 @@ export default function WellFormFields({ well }: { well: Well }): ReactElement {
           <Input.Label label="Nível Estático" required />
           <Input.Field
             required
-            name="staticLevel"
+            name={isAdding ? 'well.staticLevel' : 'staticLevel'}
             maskType="numberWithoutDecimals"
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
@@ -76,7 +82,9 @@ export default function WellFormFields({ well }: { well: Well }): ReactElement {
 
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Data de Entrega" required />
-          <Input.DatePicker name="deliveryDate" />
+          <Input.DatePicker
+            name={isAdding ? 'well.deliveryDate' : 'deliveryDate'}
+          />
         </Input.Wrapper>
       </div>
     </div>

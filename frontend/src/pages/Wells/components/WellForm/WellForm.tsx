@@ -56,11 +56,11 @@ function WellFormBody({
               </>
             )}
 
-            <WellFormFields well={defaultValues} />
+            <WellFormFields isAdding={isAdding} well={defaultValues} />
 
             <hr className="w-full" />
 
-            <WellFormAddress />
+            <WellFormAddress isAdding={isAdding} />
           </div>
 
           <hr className="w-full" />
@@ -134,6 +134,7 @@ export default function WellForm({
       zipcode: well.zipcode ? removeSpecialCharacters(well.zipcode) : undefined,
       longitude: well.longitude,
       latitude: well.latitude,
+      mapLink: well.mapLink,
     };
 
     try {

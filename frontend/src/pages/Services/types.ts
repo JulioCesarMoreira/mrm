@@ -1,4 +1,4 @@
-export interface ServiceProposal {
+export interface Service {
   id: string;
   sendDate: string;
   installmentsBalance: number;
@@ -7,7 +7,7 @@ export interface ServiceProposal {
   percentageEntry: number;
   guaranteePeriod: number;
   approved: boolean;
-  clientId: string;
+  clientId: number;
 }
 
 export interface ServiceFilter {
@@ -30,4 +30,19 @@ export interface SelectedCategory {
   name: string;
   color: string;
   items: CategoryItem[];
+}
+
+export interface ProposalService {
+  id: number;
+  order: number;
+  side: directions;
+  categoryServiceId: number;
+  proposalId: number;
+}
+
+export interface ItemProposal {
+  unitPrice: number;
+  quantity: number;
+  proposalServiceId: number;
+  itemServiceId: number;
 }

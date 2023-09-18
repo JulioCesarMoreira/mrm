@@ -30,3 +30,8 @@ export function isFileAnImage(name: string): boolean {
     getFileType(name) === 'png'
   );
 }
+
+export function formatMoneyString(moneyString: string) {
+  // Remove all dots and replace commas with dots
+  return moneyString.replace(/\./g, '').replace(/,/g, '.');
+}

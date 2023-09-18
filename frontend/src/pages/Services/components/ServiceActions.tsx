@@ -1,14 +1,14 @@
 import DeleteDialog from '@components/ui/delete-dialog';
 import { Row } from '@tanstack/react-table';
 import { ReactElement } from 'react';
-import { ServiceProposal } from '../types';
+import { Service } from '../types';
 import { toggleFetchServices } from 'constants/atoms';
 import { Button } from '@components/ui/button';
 import { Pencil } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 interface ServiceActionsProperties {
-  row: Row<ServiceProposal>;
+  row: Row<Service>;
 }
 
 export default function ServiceActions({

@@ -100,7 +100,11 @@ export default function Category({
             : 'pointer-events-auto opacity-100',
         )}
       >
-        <ItemTable data={category.items} categoryItems={categoryItems} />
+        <ItemTable
+          selectedCategory={category}
+          data={category.items}
+          categoryItems={categoryItems}
+        />
       </div>
     </div>
   );

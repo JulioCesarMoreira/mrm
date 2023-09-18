@@ -76,7 +76,7 @@ export default function CategoryList({
       />
       <ScrollArea
         className="h-full w-1/2 p-4"
-        style={{ height: 'calc(100vh - 100px)' }}
+        style={{ height: 'calc(100vh - 174px)' }}
       >
         {thisSideCategories.map((category) => (
           <Category

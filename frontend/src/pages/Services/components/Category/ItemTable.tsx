@@ -11,12 +11,13 @@ import { ReactElement, useEffect, useState } from 'react';
 import { DataTableProperties } from '@components/DataTable/types';
 import { Button } from '@components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
-import { CategoryItem } from 'pages/Services/types';
+import { CategoryItem, SelectedCategory } from 'pages/Services/types';
 import SelectOptionDialog from '../SelectOptionDialog';
 import { Option } from 'types';
 import { ItemService } from 'pages/ServiceItems/types';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { twMerge } from 'tailwind-merge';
+import useServiceContext from 'pages/Services/context/useServiceContext';
 
 const getColumns = (
   onRemoveRow: (rowId: string) => void,
@@ -94,11 +95,14 @@ const getColumns = (
 export default function ItemTable({
   data,
   categoryItems,
+  selectedCategory,
 }: Omit<DataTableProperties<CategoryItem>, 'columns'> & {
   categoryItems: ItemService[] | undefined;
+  selectedCategory: SelectedCategory;
 }): ReactElement {
   const [openItems, setOpenItems] = useState(false);
   const [tableData, setTableData] = useState<CategoryItem[]>(data);
+  const { setSelectedCategories } = useServiceContext();
 
   const onToggleOpen = (open: boolean) => setOpenItems(open);
 
@@ -112,11 +116,29 @@ export default function ItemTable({
       {
         key: option.value,
         name: option.name,
-        quantity: '',
-        unitPrice: '',
-        unity: '',
+        quantity: '1',
+        unitPrice: '100',
+        unity: 'UN',
       },
     ]);
+    setSelectedCategories((previous) =>
+      previous.map((previouslySelected) => ({
+        ...previouslySelected,
+        items:
+          previouslySelected.id === selectedCategory.id
+            ? [
+                ...previouslySelected.items,
+                {
+                  key: option.value,
+                  name: option.name,
+                  quantity: '1',
+                  unitPrice: '100',
+                  unity: 'UN',
+                },
+              ]
+            : previouslySelected.items,
+      })),
+    );
   }
 
   const table = useReactTable({
