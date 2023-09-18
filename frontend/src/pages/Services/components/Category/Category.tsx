@@ -48,7 +48,7 @@ function CategoryHeader({
           backgroundColor: category.color,
         }}
       />
-      <span>oi</span>
+      <span>{category.name}</span>
 
       <Tooltip
         text={collapsed ? 'Expandir' : 'Retrair'}
