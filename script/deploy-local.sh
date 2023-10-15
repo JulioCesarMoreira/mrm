@@ -7,7 +7,10 @@ echo Iniciando docker-compose...
 docker-compose up -d
 
 echo Executando prisma:migrate...
-docker exec -it mrm-master-mrm-backend-1 pnpm -F backend prisma:migrate
+docker exec -it mrm-backend pnpm -F backend prisma:migrate
+
+echo Executando prisma:seed...
+docker exec -it mrm-backend pnpm -F backend prisma:seed
 
 echo Concluído!
 
