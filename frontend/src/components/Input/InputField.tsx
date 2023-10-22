@@ -1,10 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
-import {
-  RegisterOptions,
-  useController,
-  useFormContext,
-} from 'react-hook-form';
+import { Controller, RegisterOptions, useFormContext } from 'react-hook-form';
 import type { InputHTMLAttributes, ReactElement, ReactNode } from 'react';
 import NumberFormat, {
   NumberFormatProps,
@@ -34,22 +30,19 @@ export default function InputField({
   required,
   ...properties
 }: InputProperties): ReactElement {
-  const { control } = useFormContext();
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
   const [focus, setFocus] = useState<boolean>(false);
   const [value, setValue] = useState(
     (properties.value as string | undefined) ?? '',
   );
 
-  const {
-    field,
-    formState: { errors },
-  } = useController({
-    name,
-    control,
-    rules: disabled ? undefined : { required, ...rules },
-  });
+  const inputReference = useRef(null);
 
   const error = errors[name];
+
   const errorMessage =
     error && error.type === 'required'
       ? 'Campo obrigatório'
@@ -80,35 +73,45 @@ export default function InputField({
         role="textbox"
         tabIndex={-1}
       >
-        {maskType ? (
-          <NumberFormat
-            {...(properties as NumberFormatProps)}
-            {...field}
-            disabled={disabled}
-            className={twMerge(
-              'bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 text-sm !shadow-none ring-0 !ring-transparent focus:outline-none',
-              disabled
-                ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
-                : '',
-            )}
-            onFocus={onFocus}
-            {...maskTypes[maskType]}
-            onValueChange={onChangeValue}
-          />
-        ) : (
-          <input
-            {...properties}
-            {...field}
-            disabled={disabled}
-            className={twMerge(
-              'bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 text-sm !shadow-none ring-0 !ring-transparent focus:outline-none',
-              disabled
-                ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
-                : '',
-            )}
-            onFocus={onFocus}
-          />
-        )}
+        <Controller
+          name={name}
+          control={control}
+          rules={disabled ? undefined : { required, ...rules }}
+          render={({ field }) =>
+            maskType ? (
+              <NumberFormat
+                {...(properties as NumberFormatProps)}
+                {...field}
+                disabled={disabled}
+                className={twMerge(
+                  'bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 text-sm !shadow-none ring-0 !ring-transparent focus:outline-none',
+                  disabled
+                    ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
+                    : '',
+                )}
+                onFocus={onFocus}
+                {...maskTypes[maskType]}
+                onValueChange={onChangeValue}
+                getInputRef={inputReference}
+                ref={inputReference}
+              />
+            ) : (
+              <input
+                {...properties}
+                {...field}
+                disabled={disabled}
+                className={twMerge(
+                  'bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 text-sm !shadow-none ring-0 !ring-transparent focus:outline-none',
+                  disabled
+                    ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
+                    : '',
+                )}
+                ref={inputReference}
+                onFocus={onFocus}
+              />
+            )
+          }
+        />
         {children}
       </div>
       {error && errorMessage && (
