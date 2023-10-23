@@ -25,7 +25,23 @@ export default function ServicesPage(): ReactElement {
 
       <div className="w-full px-10 pb-10">
         <div className="flex w-full items-center justify-between">
-          <DataTableTitle title="Propostas de serviço" />
+          <DataTableTitle
+            title="Propostas de serviço"
+            helpContent={
+              <div className="text-gray-scale-300 flex w-[580px] min-w-[580px] flex-col gap-4 pl-6">
+                <ul className="list-disc space-y-4">
+                  <li>
+                    Aqui é onde você tem acesso aos registros das suas propostas
+                    de serviço, elas serão listadas aqui automaticamente.
+                  </li>
+                  <li>
+                    Opcionalmente, você pode utilizar o filtro no topo da
+                    página.
+                  </li>
+                </ul>
+              </div>
+            }
+          />
           <Link to="/servicos/novo">
             <Button
               type="button"

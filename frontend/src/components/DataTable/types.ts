@@ -1,4 +1,5 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
+import { ReactElement } from 'react';
 
 export interface TableProperty<T> {
   table: Table<T>;
@@ -9,6 +10,7 @@ export interface DataTableTitleProperties {
   addElementButtonLabel?: string;
   disabledAdd?: boolean;
   disabledMessage?: string;
+  helpContent: ReactElement;
 }
 
 export interface DataTableProperties<T> {

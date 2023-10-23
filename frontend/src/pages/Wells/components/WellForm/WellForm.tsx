@@ -14,7 +14,7 @@ import { toggleFetchWells } from 'constants/atoms';
 import useUpdateWell from '../../hooks/useUpdateWell';
 import Spinner from '@components/ui/spinner';
 import Tooltip from '@components/Tooltip/Tooltip';
-import { Pencil } from 'lucide-react';
+import { Info, Pencil } from 'lucide-react';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { CLOSE_DIALOG_DURATION } from 'constants';
 import WellFormFields from './WellFormFields';
@@ -23,6 +23,8 @@ import WellFormAddress from './WellFormAddress';
 import { format, isValid, parse } from 'date-fns';
 import { removeSpecialCharacters } from '@lib/utils';
 import Svg from '@components/Svg/Svg';
+import { useFormContext } from 'react-hook-form';
+import { ServiceFields } from 'pages/Services/types';
 
 interface WellsFormProperties {
   defaultValues: Well;
@@ -94,6 +96,8 @@ export default function WellForm({
   defaultValues,
   isAdding,
 }: WellsFormProperties): ReactElement {
+  const { trigger, getValues } = useFormContext<ServiceFields>();
+
   const [isLoading, setIsLoading] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -101,8 +105,10 @@ export default function WellForm({
 
   const { updateWell } = useUpdateWell();
 
-  function onAdd(): void {
-    setOpenDialog(false);
+  async function onAdd(): Promise<void> {
+    const result = await trigger(['well']);
+
+    if (result) setOpenDialog(false);
   }
 
   async function onSubmitWell(well: Well): Promise<void> {
@@ -177,12 +183,73 @@ export default function WellForm({
           </Button>
         </DialogTrigger>
       ) : (
-        <DataTableTitle title={'Poços'} />
+        <DataTableTitle title={'Poços'} helpContent={<div />} />
       )}
 
       <DialogContent className="max-w-4xl bg-white">
         <DialogHeader>
-          <DialogTitle>Poço</DialogTitle>
+          <DialogTitle>
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-4">
+                <span>Poço</span>
+                <Tooltip position="right" text="Ajuda">
+                  <div ref={undefined}>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <button type="button" className="group mt-1">
+                          <Info
+                            size={18}
+                            className="stroke-gray-scale-400 group-hover:stroke-dark-blue duration-200"
+                          />
+                        </button>
+                      </DialogTrigger>
+
+                      <DialogContent className="min-w-fit">
+                        <DialogHeader>Ajuda de formulário: Poço</DialogHeader>
+                        <div className="text-gray-scale-300 flex w-[580px] min-w-[580px] flex-col gap-4 pl-6">
+                          <ul className="list-disc space-y-4">
+                            <li>
+                              Esse é o formulário para cadastrar/editar um um
+                              poço.
+                            </li>
+                            <li>
+                              Você deve preenchê-lo com:
+                              <ul className="ml-6 list-disc">
+                                <li>Voltagem (V110 ou V220).</li>
+                                <li>
+                                  Profundidades obrigatórias (valores em
+                                  metros).
+                                </li>
+                                <li>
+                                  Níveis obrigatórios (estático e dinâmico,
+                                  valores em metros).
+                                </li>
+                                <li>
+                                  Data de entrega (precisa ser uma data válida).
+                                </li>
+                                <li>
+                                  Você também pode preencher os campos de
+                                  endereço, que são opcionais.
+                                </li>
+                                <li>
+                                  Opcionalmente, há um campo de URL para colocar
+                                  um link que direcione ao maps, podendo
+                                  visualizar a localização do poço.
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </Tooltip>
+              </div>
+              <span className="text-gray-scale-600 text-xs">
+                campos com * são obrigatórios
+              </span>
+            </div>
+          </DialogTitle>
           {isAdding ? (
             <WellFormBody
               defaultValues={defaultValues}

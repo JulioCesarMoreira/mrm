@@ -5,12 +5,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { Paperclip } from 'lucide-react';
+import { Info, Paperclip } from 'lucide-react';
 
 import { ReactElement } from 'react';
 import Attachment from './Attachment';
 import { Input } from '@components/Input';
 import useServiceContext from 'pages/Services/context/useServiceContext';
+import Tooltip from '@components/Tooltip/Tooltip';
 
 export default function AttachmentsDialog(): ReactElement {
   const { attachments, onSetAttachments } = useServiceContext();
@@ -23,8 +24,50 @@ export default function AttachmentsDialog(): ReactElement {
       </DialogTrigger>
       <DialogContent className="max-w-4xl">
         <DialogHeader>
-          <DialogTitle>Anexos</DialogTitle>
+          <DialogTitle>
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-4">
+                <span>Anexos</span>
+                <Tooltip position="right" text="Ajuda">
+                  <div ref={undefined}>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <button type="button" className="group mt-1">
+                          <Info
+                            size={18}
+                            className="stroke-gray-scale-400 group-hover:stroke-dark-blue duration-200"
+                          />
+                        </button>
+                      </DialogTrigger>
+
+                      <DialogContent className="min-w-fit">
+                        <DialogHeader>Ajuda: Anexos de um serviço</DialogHeader>
+                        <div className="text-gray-scale-300 flex w-[580px] min-w-[580px] flex-col gap-4 pl-6">
+                          <ul className="list-disc space-y-4">
+                            <li>
+                              Aqui você poderá salvar anexos relevantes
+                              relacionados ao serviço selecionado.
+                            </li>
+                            <li>
+                              Você pode clicar no ícone para abrir o navegador
+                              de arquivos de seu sistema ou arrastar documentos
+                              diretamente para a área indicada.
+                            </li>
+                            <li>
+                              Seus anexos selecionados serão salvos assim que
+                              clicar no botão de "Salvar" da tela do serviço.
+                            </li>
+                          </ul>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </Tooltip>
+              </div>
+            </div>
+          </DialogTitle>
         </DialogHeader>
+
         <hr className="w-full" />
 
         <div className="grid grid-flow-row grid-cols-3 gap-4">

@@ -12,7 +12,7 @@ import { useSetAtom } from 'jotai';
 import { toggleFetchItems } from 'constants/atoms';
 import Spinner from '@components/ui/spinner';
 import Tooltip from '@components/Tooltip/Tooltip';
-import { Pencil } from 'lucide-react';
+import { Info, Pencil } from 'lucide-react';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { CLOSE_DIALOG_DURATION } from 'constants';
 import { CategoryService, ItemServiceFields } from 'pages/ServiceItems/types';
@@ -83,13 +83,84 @@ export default function ItemForm({
           addElementButtonLabel="Adicionar item de serviço"
           disabledAdd={categories.length === 0}
           disabledMessage="Você precisa ter pelo menos uma categoria para poder adicionar itens."
+          helpContent={<div />}
         />
       )}
 
       <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>
-            {defaultValues.id ? 'Editar item' : 'Adicionar item'}
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-4">
+                <span>
+                  {defaultValues.id ? 'Editar item' : 'Adicionar item'}
+                </span>
+                <Tooltip position="right" text="Ajuda">
+                  <div ref={undefined}>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <button type="button" className="group mt-1">
+                          <Info
+                            size={18}
+                            className="stroke-gray-scale-400 group-hover:stroke-dark-blue duration-200"
+                          />
+                        </button>
+                      </DialogTrigger>
+
+                      <DialogContent className="min-w-fit">
+                        <DialogHeader>
+                          Ajuda de formulário: Item de serviço
+                        </DialogHeader>
+                        <div className="text-gray-scale-300 flex w-[580px] min-w-[580px] flex-col gap-4 pl-6">
+                          <ul className="list-disc space-y-4">
+                            <li>
+                              Esse é o formulário para cadastrar/editar um item.
+                            </li>
+                            <li>
+                              Você deve preenchê-lo com:
+                              <ul className="ml-6 mt-2 list-disc">
+                                <li>
+                                  Nome do item (exemplos: bomba hidráulica
+                                  trifásica, tubo 300mm).
+                                </li>
+                                <li>
+                                  Unidade de medição (exemplos: UN, kg, cm, mt,
+                                  ml).
+                                </li>
+                                <li>Categoria que o item pertence.</li>
+                                <li>
+                                  Status de disponibilidade do item (disponível
+                                  ou indisponível).
+                                </li>
+
+                                <li>
+                                  Descrição é um campo opcional, podendo
+                                  detalhar algo útil sobre o item.
+                                </li>
+                              </ul>
+                              <li className="mt-4">
+                                Exemplo de item: Tubo 300mm, Unidade de medição:
+                                mt, Categoria: Tubulação subterrânea, Status:
+                                Disponível.
+                              </li>
+                            </li>
+
+                            <li className="mt-4 font-semibold">
+                              <hr className="bg-gray-scale-600 mb-4 w-full" />
+                              Atenção: itens são necessários para gerar uma
+                              proposta de serviço completa e detalhada.
+                            </li>
+                          </ul>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </Tooltip>
+              </div>
+              <span className="text-gray-scale-600 text-xs">
+                campos com * são obrigatórios
+              </span>
+            </div>
           </DialogTitle>
           <FormWrapper<ItemServiceFields>
             id="item-form"
