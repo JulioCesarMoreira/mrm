@@ -38,7 +38,7 @@ export default function Filters({
         className="flex gap-6"
       >
         <Input.Wrapper className="mb-2 ml-6 w-[240px]">
-          <Input.Label label="Nome" />
+          <Input.Label label="Nome do item" />
           <Input.Field name="name" placeholder="Nome" />
         </Input.Wrapper>
 

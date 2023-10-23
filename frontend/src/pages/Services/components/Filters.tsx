@@ -33,7 +33,7 @@ export default function Filters({
         defaultValues={{ clientId: '' }}
       >
         <Input.Wrapper className="mb-2 ml-6 w-[240px]">
-          <Input.Label label="Nome" />
+          <Input.Label label="Cliente" />
           <Input.Select
             name="clientId"
             disabled={!clients || clients.length === 0}

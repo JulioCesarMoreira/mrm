@@ -12,8 +12,13 @@ export default function CategoryFormFields({
   return (
     <div className="mb-8 grid grid-flow-row grid-cols-12 gap-6">
       <Input.Wrapper className="col-span-full">
-        <Input.Label label="Nome" required />
-        <Input.Field name="name" placeholder="Ex.: Ferramentas" required />
+        <Input.Label label="Nome da categoria" required />
+        <Input.Field
+          name="name"
+          placeholder="Ex.: Ferramentas"
+          maxLength={100}
+          required
+        />
       </Input.Wrapper>
 
       <Input.Wrapper className="col-span-full">

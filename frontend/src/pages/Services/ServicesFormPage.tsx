@@ -9,20 +9,13 @@ import ServiceProvider from './context/ServiceProvider';
 import useFetchCategories from 'pages/ServiceItems/hooks/useFetchCategories';
 import useFetchItems from 'pages/ServiceItems/hooks/useFetchItems';
 import WellForm from 'pages/Wells/components/WellForm/WellForm';
-import { Well } from 'pages/Wells/types';
 import { wellDefaultValues } from './constants';
 import useServiceContext from './context/useServiceContext';
 import useInsertProposal from './hooks/useInsertProposal';
 import { formatMoneyString } from '@lib/utils';
 import useInsertProposalService from './hooks/useInsertProposalService';
 import useInsertItemProposal from './hooks/useInsertItemProposal';
-
-interface ServiceFields {
-  clientId: string;
-  discount: string;
-  guaranteePeriod: string;
-  well: Well;
-}
+import { ServiceFields } from './types';
 
 function ServicesFormPage(): ReactElement {
   const { proposalId } = useParams<{ proposalId?: string }>();

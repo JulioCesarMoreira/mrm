@@ -2,7 +2,12 @@ import { Input } from '@components/Input';
 import { useState, useEffect } from 'react';
 import type { ReactElement } from 'react';
 import type { ClientFields } from '../types';
-import { cn, removeSpecialCharacters } from '@lib/utils';
+import {
+  cn,
+  isValidCnpj,
+  isValidCpf,
+  removeSpecialCharacters,
+} from '@lib/utils';
 import { useFormContext } from 'react-hook-form';
 
 interface ClientFormFieldsProperties {
@@ -34,6 +39,7 @@ export default function ClientFormFields({
           name="name"
           placeholder="Insira o nome do cliente"
           required
+          maxLength={200}
         />
       </Input.Wrapper>
       <Input.Wrapper className="col-span-full">
@@ -42,6 +48,7 @@ export default function ClientFormFields({
           name="contactName"
           placeholder="Insira o nome do contato"
           required
+          maxLength={100}
         />
       </Input.Wrapper>
       <Input.Wrapper className="col-span-6">
@@ -51,18 +58,21 @@ export default function ClientFormFields({
           placeholder="Contato do cliente"
           maskType="tel"
           required
+          rules={{
+            validate: (value: string): string | undefined =>
+              removeSpecialCharacters(value).length < 10
+                ? 'Número inválido'
+                : undefined,
+          }}
         />
       </Input.Wrapper>
 
       <hr className="col-span-full w-full" />
 
-      <div
-        defaultValue="option-one"
-        className="text-gray-scale-300 col-span-6 text-sm"
-      >
+      <div className="text-gray-scale-300 col-span-6 mt-0.5 text-sm">
         <div>Tipo do documento do cliente:</div>
 
-        <div className="mt-4 flex items-center gap-4">
+        <div className="mt-2 flex items-center gap-4">
           <button
             type="button"
             onClick={onChangeToCpf}
@@ -70,8 +80,8 @@ export default function ClientFormFields({
           >
             <span
               className={cn(
-                'h-5 w-5 rounded-full border-2 border-gray-400',
-                documentType === 'cpf' ? 'bg-gray-600' : 'bg-white',
+                'h-5 w-5 rounded-full border-2 border-gray-300',
+                documentType === 'cpf' ? 'bg-hidro-blue-300' : 'bg-white',
               )}
             />
             CPF
@@ -83,8 +93,8 @@ export default function ClientFormFields({
           >
             <span
               className={cn(
-                'h-5 w-5 rounded-full border-2 border-gray-400',
-                documentType === 'cnpj' ? 'bg-gray-600' : 'bg-white',
+                'h-5 w-5 rounded-full border-2 border-gray-300',
+                documentType === 'cnpj' ? 'bg-hidro-blue-300' : 'bg-white',
               )}
             />
             CNPJ
@@ -99,11 +109,14 @@ export default function ClientFormFields({
             name="cpfCnpj"
             rules={{
               validate: (value: string): string | undefined => {
-                console.log('value cpf', value);
+                const valueWithoutSpecialCharacters =
+                  removeSpecialCharacters(value);
 
-                return removeSpecialCharacters(value).length < 11
-                  ? 'Documento incompleto'
-                  : undefined;
+                if (valueWithoutSpecialCharacters.length < 11)
+                  return 'Documento incompleto';
+
+                if (!isValidCpf(valueWithoutSpecialCharacters))
+                  return 'CPF inválido';
               },
             }}
             maskType="cpf"
@@ -117,10 +130,16 @@ export default function ClientFormFields({
             required
             name="cpfCnpj"
             rules={{
-              validate: (value: string): string | undefined =>
-                removeSpecialCharacters(value).length < 14
-                  ? 'Documento incompleto'
-                  : undefined,
+              validate: (value: string): string | undefined => {
+                const valueWithoutSpecialCharacters =
+                  removeSpecialCharacters(value);
+
+                if (valueWithoutSpecialCharacters.length < 14)
+                  return 'Documento incompleto';
+
+                if (!isValidCnpj(valueWithoutSpecialCharacters))
+                  return 'CNPJ inválido';
+              },
             }}
             maskType="cnpj"
             disabled={!!defaultValues.id}

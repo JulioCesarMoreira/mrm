@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import {
+  Controller,
   RegisterOptions,
   useController,
   useFormContext,
+  useWatch,
 } from 'react-hook-form';
 import type { InputHTMLAttributes, ReactElement } from 'react';
 import NumberFormat, { NumberFormatProps } from 'react-number-format';
@@ -34,24 +36,24 @@ export default function DatePicker({
   required,
   ...properties
 }: DatePickerProperties): ReactElement {
-  const { control } = useFormContext();
+  const { control, formState, setValue } = useFormContext();
   const [focus, setFocus] = useState<boolean>(false);
   const [date, setDate] = useState(
     (properties.value as string | undefined) ?? '',
   );
+
   const [openCalendar, setOpenCalendar] = useState(false);
 
-  const { setValue } = useFormContext();
-  const {
-    field,
-    formState: { errors },
-  } = useController({
-    name,
-    control,
-    rules: disabled ? undefined : { required, ...rules },
-  });
+  const inputReference = useRef(null);
 
-  const error = errors[name];
+  const nameParts = name.split('.');
+
+  // Use a reducer to access nested fields
+  const error = nameParts.reduce(
+    (errors, part) => errors && errors[part],
+    formState.errors,
+  );
+
   const errorMessage =
     error && error.type === 'required'
       ? 'Campo obrigatório'
@@ -66,12 +68,14 @@ export default function DatePicker({
     setOpenCalendar(false);
   };
 
+  const fieldValue = useWatch({ control, name });
+
   useEffect(() => {
-    const formattedFieldValue = removeSpecialCharacters(field.value ?? '');
+    const formattedFieldValue = removeSpecialCharacters(fieldValue ?? '');
     if (formattedFieldValue.length === 8) {
       setDate(formattedFieldValue);
     }
-  }, [field.value]);
+  }, [fieldValue]);
 
   const newDateValue = new Date(
     parseInt(date.substring(4, 8), 10),
@@ -99,18 +103,27 @@ export default function DatePicker({
         role="textbox"
         tabIndex={-1}
       >
-        <NumberFormat
-          {...(properties as NumberFormatProps)}
-          {...field}
-          disabled={disabled}
-          className={twMerge(
-            'text-body bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
-            disabled
-              ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
-              : '',
+        <Controller
+          name={name}
+          control={control}
+          rules={disabled ? undefined : { required, ...rules }}
+          render={({ field }) => (
+            <NumberFormat
+              {...(properties as NumberFormatProps)}
+              {...field}
+              disabled={disabled}
+              className={twMerge(
+                'text-body bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 !shadow-none ring-0 !ring-transparent focus:outline-none',
+                disabled
+                  ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
+                  : '',
+              )}
+              onFocus={onFocus}
+              getInputRef={inputReference}
+              ref={inputReference}
+              {...mask['date']}
+            />
           )}
-          onFocus={onFocus}
-          {...mask['date']}
         />
 
         <Popover open={openCalendar} onOpenChange={setOpenCalendar}>

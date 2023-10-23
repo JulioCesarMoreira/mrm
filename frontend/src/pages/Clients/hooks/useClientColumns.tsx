@@ -34,7 +34,7 @@ export default function useClientColumns(): ColumnDef<Client>[] {
               }
               className="px-0"
             >
-              Nome
+              Cliente
               <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
           </Tooltip>
@@ -75,7 +75,7 @@ export default function useClientColumns(): ColumnDef<Client>[] {
     },
     {
       accessorKey: 'cpfCnpj',
-      header: () => <div className="text-center">CPF / CNPJ</div>,
+      header: () => <div className="text-center">Documento do cliente</div>,
       cell: ({ row }) => {
         return (
           <div className="text-center">

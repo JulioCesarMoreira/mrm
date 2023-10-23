@@ -30,10 +30,7 @@ export default function InputField({
   required,
   ...properties
 }: InputProperties): ReactElement {
-  const {
-    control,
-    formState: { errors },
-  } = useFormContext();
+  const { control, formState } = useFormContext();
   const [focus, setFocus] = useState<boolean>(false);
   const [value, setValue] = useState(
     (properties.value as string | undefined) ?? '',
@@ -41,7 +38,15 @@ export default function InputField({
 
   const inputReference = useRef(null);
 
-  const error = errors[name];
+  const nameParts = name.split('.'); // Split name by period
+
+  // Use a reducer to access nested fields
+  const error = nameParts.reduce(
+    (errors, part) => errors && errors[part],
+    formState.errors,
+  );
+
+  console.log('error', error);
 
   const errorMessage =
     error && error.type === 'required'
@@ -56,6 +61,13 @@ export default function InputField({
   const onBlur = (): void => setFocus(false);
 
   const maskTypes = generateMaskTypes(value);
+
+  const inputClassName = twMerge(
+    'bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 text-sm !shadow-none ring-0 !ring-transparent focus:outline-none',
+    disabled
+      ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
+      : '',
+  );
 
   return loading ? (
     <div className="h-[30px] w-full animate-pulse rounded-md" />
@@ -83,12 +95,7 @@ export default function InputField({
                 {...(properties as NumberFormatProps)}
                 {...field}
                 disabled={disabled}
-                className={twMerge(
-                  'bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 text-sm !shadow-none ring-0 !ring-transparent focus:outline-none',
-                  disabled
-                    ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
-                    : '',
-                )}
+                className={inputClassName}
                 onFocus={onFocus}
                 {...maskTypes[maskType]}
                 onValueChange={onChangeValue}
@@ -100,12 +107,7 @@ export default function InputField({
                 {...properties}
                 {...field}
                 disabled={disabled}
-                className={twMerge(
-                  'bg-gray-scale-900 h-[30px] max-h-[30px] w-full rounded-md border-0 py-0.5 px-2 text-sm !shadow-none ring-0 !ring-transparent focus:outline-none',
-                  disabled
-                    ? 'bg-gray-scale-800 !cursor-not-allowed select-none shadow-none'
-                    : '',
-                )}
+                className={inputClassName}
                 ref={inputReference}
                 onFocus={onFocus}
               />

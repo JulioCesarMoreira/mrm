@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 import { Well } from '../../types';
 import { Input } from '@components/Input';
+import { isValid, parse } from 'date-fns';
 
 export default function WellFormFields({
   well,
@@ -31,6 +32,11 @@ export default function WellFormFields({
             required
             name={isAdding ? 'well.totalDepth' : 'totalDepth'}
             maskType="numberWithoutDecimals"
+            rules={{
+              validate: (value: number): string | undefined => {
+                if (value === 0) return 'Profundidade não pode ser 0';
+              },
+            }}
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
           </Input.Field>
@@ -42,6 +48,11 @@ export default function WellFormFields({
             required
             name={isAdding ? 'well.sieveDepth' : 'sieveDepth'}
             maskType="numberWithoutDecimals"
+            rules={{
+              validate: (value: number): string | undefined => {
+                if (value === 0) return 'Profundidade não pode ser 0';
+              },
+            }}
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
           </Input.Field>
@@ -53,6 +64,11 @@ export default function WellFormFields({
             required
             name={isAdding ? 'well.sedimentaryDepth' : 'sedimentaryDepth'}
             maskType="numberWithoutDecimals"
+            rules={{
+              validate: (value: number): string | undefined => {
+                if (value === 0) return 'Profundidade não pode ser 0';
+              },
+            }}
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
           </Input.Field>
@@ -64,6 +80,11 @@ export default function WellFormFields({
             required
             name={isAdding ? 'well.dynamicLevel' : 'dynamicLevel'}
             maskType="numberWithoutDecimals"
+            rules={{
+              validate: (value: number): string | undefined => {
+                if (value === 0) return 'Nível não pode ser 0';
+              },
+            }}
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
           </Input.Field>
@@ -75,6 +96,11 @@ export default function WellFormFields({
             required
             name={isAdding ? 'well.staticLevel' : 'staticLevel'}
             maskType="numberWithoutDecimals"
+            rules={{
+              validate: (value: number): string | undefined => {
+                if (value === 0) return 'Nível não pode ser 0';
+              },
+            }}
           >
             <p className="text-gray-scale-300 mr-2 text-xs">metros</p>
           </Input.Field>
@@ -84,6 +110,12 @@ export default function WellFormFields({
           <Input.Label label="Data de Entrega" required />
           <Input.DatePicker
             name={isAdding ? 'well.deliveryDate' : 'deliveryDate'}
+            rules={{
+              validate: (value: string): string | undefined => {
+                if (!isValid(parse(value, 'dd/MM/yyyy', new Date())))
+                  return 'Data inválida';
+              },
+            }}
           />
         </Input.Wrapper>
       </div>

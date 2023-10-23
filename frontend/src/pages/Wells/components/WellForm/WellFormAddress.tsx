@@ -1,4 +1,5 @@
 import { Input } from '@components/Input';
+import { removeSpecialCharacters } from '@lib/utils';
 import { Check, Pencil } from 'lucide-react';
 import { ReactElement, useState } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
@@ -10,7 +11,7 @@ export default function WellFormAddress({
 }): ReactElement {
   const { control } = useFormContext();
 
-  const [isEditingUrl, setIsEditingUrl] = useState(false);
+  const [isEditingUrl, setIsEditingUrl] = useState(isAdding);
 
   const formWatch = useWatch({ control });
 
@@ -23,7 +24,10 @@ export default function WellFormAddress({
       <div className="grid grid-flow-row grid-cols-12 gap-4">
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Logradouro" />
-          <Input.Field name={isAdding ? 'well.street' : 'street'} />
+          <Input.Field
+            name={isAdding ? 'well.street' : 'street'}
+            maxLength={200}
+          />
         </Input.Wrapper>
 
         <Input.Wrapper className="col-span-3">
@@ -31,18 +35,29 @@ export default function WellFormAddress({
           <Input.Field
             name={isAdding ? 'well.number' : 'number'}
             maskType="numberWithoutDecimals"
+            maxLength={10}
           />
         </Input.Wrapper>
 
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Bairro" />
-          <Input.Field name={isAdding ? 'well.distric' : 'distric'} />
+          <Input.Field
+            name={isAdding ? 'well.distric' : 'distric'}
+            maxLength={100}
+          />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="CEP" />
           <Input.Field
             name={isAdding ? 'well.zipcode' : 'zipcode'}
             maskType="cep"
+            rules={{
+              validate: (value: string): string | undefined =>
+                removeSpecialCharacters(value).length > 0 &&
+                removeSpecialCharacters(value).length < 8
+                  ? 'CEP inválido'
+                  : undefined,
+            }}
           />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
@@ -51,7 +66,10 @@ export default function WellFormAddress({
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Cidade" />
-          <Input.Field name={isAdding ? 'well.city.name' : 'city.name'} />
+          <Input.Field
+            name={isAdding ? 'well.city.name' : 'city.name'}
+            maxLength={100}
+          />
         </Input.Wrapper>
         <Input.Wrapper className="col-span-3">
           <Input.Label label="Latitude" />
@@ -68,10 +86,10 @@ export default function WellFormAddress({
           />
         </Input.Wrapper>
 
-        <div className="col-span-3 flex h-12 items-center gap-4">
+        <div className="col-span-6 flex h-12 items-center gap-4">
           {isEditingUrl ? (
             <Input.Wrapper className="w-full">
-              <Input.Label label="URL" />
+              <Input.Label label="URL para o mapa" />
               <Input.Field
                 name={isAdding ? 'well.mapLink' : 'mapLink'}
                 maxLength={2000}

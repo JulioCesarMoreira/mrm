@@ -36,13 +36,13 @@ export default function Filters({ fetch }: FilterProperties): ReactElement {
         defaultValues={{ name: '' }}
       >
         <Input.Wrapper className="mb-2 ml-6 w-[240px]">
-          <Input.Label label="Nome" />
-          <Input.Field name="name" placeholder="Nome" />
+          <Input.Label label="Cliente" />
+          <Input.Field name="name" placeholder="Nome do cliente" />
         </Input.Wrapper>
 
         <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Contato" />
-          <Input.Field name="contactName" placeholder="Busque por contato" />
+          <Input.Field name="contactName" placeholder="Nome do contato" />
         </Input.Wrapper>
 
         <Input.Wrapper className="mb-2 w-[240px]">

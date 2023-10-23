@@ -1,3 +1,5 @@
+import { Well } from 'pages/Wells/types';
+
 export interface Service {
   id: string;
   sendDate: string;
@@ -45,4 +47,11 @@ export interface ItemProposal {
   quantity: number;
   proposalServiceId: number;
   itemServiceId: number;
+}
+
+export interface ServiceFields {
+  clientId: string;
+  discount: string;
+  guaranteePeriod: string;
+  well: Well;
 }

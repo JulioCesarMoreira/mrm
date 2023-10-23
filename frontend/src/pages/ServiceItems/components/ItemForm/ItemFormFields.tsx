@@ -24,6 +24,7 @@ export default function ItemFormFields({
           name="name"
           placeholder="Insira um nome para o item"
           required
+          maxLength={100}
         />
       </Input.Wrapper>
 
@@ -80,6 +81,7 @@ export default function ItemFormFields({
         <Input.Field
           name="description"
           placeholder="Adicione uma descrição do item"
+          maxLength={400}
         />
       </Input.Wrapper>
     </div>
