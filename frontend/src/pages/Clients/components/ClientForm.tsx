@@ -191,13 +191,6 @@ export default function ClientForm({
                 <hr className="w-full" />
 
                 <div className="-mb-4 flex w-full flex-row-reverse gap-4 pt-4">
-                  <Button
-                    type="submit"
-                    variant={'default'}
-                    className="bg-hidro-blue-300 hover:bg-main-blue text-white"
-                  >
-                    Salvar
-                  </Button>
                   <DialogTrigger asChild>
                     <Button
                       type="button"
@@ -207,6 +200,13 @@ export default function ClientForm({
                       Cancelar
                     </Button>
                   </DialogTrigger>
+                  <Button
+                    type="submit"
+                    variant={'default'}
+                    className="bg-hidro-blue-300 hover:bg-main-blue text-white"
+                  >
+                    Salvar
+                  </Button>
                 </div>
               </>
             )}

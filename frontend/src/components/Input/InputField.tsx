@@ -46,8 +46,6 @@ export default function InputField({
     formState.errors,
   );
 
-  console.log('error', error);
-
   const errorMessage =
     error && error.type === 'required'
       ? 'Campo obrigatório'

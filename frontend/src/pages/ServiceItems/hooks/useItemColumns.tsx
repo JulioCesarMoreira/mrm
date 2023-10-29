@@ -57,11 +57,12 @@ export default function useItemColumns(
       cell: ({ row }) => {
         const itemCategory = categoriesMap.get(row.original.categoryServiceId);
         return (
-          <div className="w-full">
+          <div className="flex w-full items-center gap-2">
             <div
-              className="mx-auto w-fit rounded-[2px] px-2 py-1"
+              className="border-gray-scale-300 ml-auto h-5 w-5 flex-shrink-0 rounded-full"
               style={{ backgroundColor: itemCategory?.color }}
-            >
+            />
+            <div className="flex-center text-gray-scale-200 mr-auto rounded-[2px] px-2 py-1 text-left">
               {itemCategory?.name}
             </div>
           </div>
