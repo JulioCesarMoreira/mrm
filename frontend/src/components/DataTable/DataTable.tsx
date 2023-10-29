@@ -60,7 +60,7 @@ export default function DataTable<T>({
               table.getRowModel().rows.map((row) => (
                 <Table.Row key={row.id}>
                   {row.getVisibleCells().map((cell) => (
-                    <Table.Cell key={cell.id}>
+                    <Table.Cell key={cell.id} className="px-4 py-1">
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext(),
