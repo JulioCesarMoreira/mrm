@@ -11,6 +11,12 @@ export default function FloatingButtons(): ReactElement {
       </div>
 
       <div className="flex-center absolute bottom-0 right-0 mb-6 mr-6 gap-4">
+        <Button
+          type="submit"
+          className="bg-hidro-blue-300 hover:bg-main-blue w-28 rounded-full px-4 py-2 text-white"
+        >
+          Salvar
+        </Button>
         <Link to="/servicos">
           <Button
             type="button"
@@ -20,12 +26,6 @@ export default function FloatingButtons(): ReactElement {
             Cancelar
           </Button>
         </Link>
-        <Button
-          type="submit"
-          className="bg-hidro-blue-300 hover:bg-main-blue w-28 rounded-full px-4 py-2 text-white"
-        >
-          Salvar
-        </Button>
       </div>
     </>
   );

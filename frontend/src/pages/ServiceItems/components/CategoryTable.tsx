@@ -20,16 +20,19 @@ import CategoryForm from './CategoryForm/CategoryForm';
 const columns: ColumnDef<CategoryService>[] = [
   {
     accessorKey: 'name',
-    header: () => <div className="w-[140%] text-left">Categorias</div>,
+    header: () => <div className="text-left">Categorias</div>,
     cell: ({ row }) => {
       return (
-        <div
-          className="flex-center text-gray-scale-200 w-[140%] rounded-[2px] px-2 py-1 text-left"
-          style={{
-            backgroundColor: row.original.color,
-          }}
-        >
-          {row.getValue('name')}
+        <div className="flex items-center gap-2">
+          <div
+            className="border-gray-scale-300 h-5 w-5 flex-shrink-0 rounded-full"
+            style={{
+              backgroundColor: row.original.color,
+            }}
+          />
+          <div className="flex-center text-gray-scale-200 rounded-[2px] px-2 py-1 text-left">
+            {row.getValue('name')}
+          </div>
         </div>
       );
     },
@@ -122,7 +125,7 @@ export default function CategoryDataTable({
                 table.getRowModel().rows.map((row) => (
                   <Table.Row key={row.id}>
                     {row.getVisibleCells().map((cell) => (
-                      <Table.Cell key={cell.id}>
+                      <Table.Cell key={cell.id} className="px-4 py-1">
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext(),

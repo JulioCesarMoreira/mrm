@@ -68,14 +68,6 @@ function WellFormBody({
           <hr className="w-full" />
 
           <div className="-mb-4 flex w-full flex-row-reverse gap-4 pt-4">
-            <Button
-              type={isAdding ? 'button' : 'submit'}
-              onClick={isAdding ? onAdd : undefined}
-              variant="default"
-              className="bg-hidro-blue-300 hover:bg-main-blue text-white"
-            >
-              Salvar
-            </Button>
             <DialogTrigger asChild>
               <Button
                 type="button"
@@ -85,6 +77,14 @@ function WellFormBody({
                 Cancelar
               </Button>
             </DialogTrigger>
+            <Button
+              type={isAdding ? 'button' : 'submit'}
+              onClick={isAdding ? onAdd : undefined}
+              variant="default"
+              className="bg-hidro-blue-300 hover:bg-main-blue text-white"
+            >
+              Salvar
+            </Button>
           </div>
         </>
       )}

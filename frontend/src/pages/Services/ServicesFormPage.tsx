@@ -31,9 +31,6 @@ function ServicesFormPage(): ReactElement {
   const { insertItemProposal } = useInsertItemProposal();
 
   async function onSubmitService(data: ServiceFields): Promise<void> {
-    console.log('data', data);
-    console.log('selectedCategories', selectedCategories);
-
     if (proposalId) {
       console.log('editando');
       return;
@@ -50,10 +47,7 @@ function ServicesFormPage(): ReactElement {
       periodValidity: '2023-09-18',
     };
 
-    console.log('insertProposalInput', insertProposalInput);
-
     const result = await insertProposal(insertProposalInput);
-    console.log('result', result);
     const categoriesPromises = [];
 
     for (const [index, category] of selectedCategories.entries()) {
@@ -93,9 +87,7 @@ function ServicesFormPage(): ReactElement {
       }
     }
 
-    const itemsResults = await Promise.all(itemsPromises);
-
-    console.log('results', itemsResults);
+    await Promise.all(itemsPromises);
   }
 
   return (
