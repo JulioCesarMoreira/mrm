@@ -1,5 +1,5 @@
 import FormWrapper from '@components/FormWrapper/FormWrapper';
-import { ReactElement, useState } from 'react';
+import { MutableRefObject, ReactElement, useEffect, useState } from 'react';
 import { Well } from '../../types';
 import { Button } from '@components/ui/button';
 import {
@@ -25,10 +25,13 @@ import { removeSpecialCharacters } from '@lib/utils';
 import Svg from '@components/Svg/Svg';
 import { useFormContext } from 'react-hook-form';
 import { ServiceFields } from 'pages/Services/types';
+import useAsyncEffect from 'use-async-effect';
 
 interface WellsFormProperties {
   defaultValues: Well;
   isAdding?: boolean;
+  openWell?: boolean;
+  onChangeOpenWell?: (open: boolean) => void;
 }
 
 function WellFormBody({
@@ -95,8 +98,10 @@ function WellFormBody({
 export default function WellForm({
   defaultValues,
   isAdding,
+  openWell,
+  onChangeOpenWell,
 }: WellsFormProperties): ReactElement {
-  const { trigger, getValues } = useFormContext<ServiceFields>();
+  const { trigger } = useFormContext<ServiceFields>();
 
   const [isLoading, setIsLoading] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -151,6 +156,14 @@ export default function WellForm({
       setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
     }
   }
+
+  useEffect(() => {
+    if (onChangeOpenWell) onChangeOpenWell(openDialog);
+  }, [openDialog]);
+
+  useAsyncEffect(async () => {
+    setOpenDialog(!!openWell);
+  }, [openWell]);
 
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>

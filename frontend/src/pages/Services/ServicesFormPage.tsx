@@ -1,36 +1,55 @@
 import FormWrapper from '@components/FormWrapper/FormWrapper';
 import { Input } from '@components/Input';
 import useFetchClients from 'pages/Clients/hooks/useFetchClients';
-import { ReactElement } from 'react';
-import { useParams } from 'react-router-dom';
+import { ReactElement, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import CategoryList from './components/Category/CategoryList';
 import FloatingButtons from './components/FloatingButtons';
 import ServiceProvider from './context/ServiceProvider';
 import useFetchCategories from 'pages/ServiceItems/hooks/useFetchCategories';
 import useFetchItems from 'pages/ServiceItems/hooks/useFetchItems';
 import WellForm from 'pages/Wells/components/WellForm/WellForm';
-import { wellDefaultValues } from './constants';
+import { isWellValid, wellDefaultValues } from './constants';
 import useServiceContext from './context/useServiceContext';
 import useInsertProposal from './hooks/useInsertProposal';
 import { formatMoneyString } from '@lib/utils';
 import useInsertProposalService from './hooks/useInsertProposalService';
 import useInsertItemProposal from './hooks/useInsertItemProposal';
 import { ServiceFields } from './types';
+import Tooltip from '@components/Tooltip/Tooltip';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from '@components/ui/dialog';
+import { Info } from 'lucide-react';
+import { useSetAtom } from 'jotai';
+import { toggleFetchServices } from 'constants/atoms';
 
 function ServicesFormPage(): ReactElement {
+  const navigate = useNavigate();
   const { proposalId } = useParams<{ proposalId?: string }>();
   const { data: clients, isLoading: isLoadingClients } = useFetchClients();
   const { data: items } = useFetchItems(true);
   const { data: categories } = useFetchCategories();
   const { selectedCategories } = useServiceContext();
-
-  // TODO: get when accessed directly from the edit route
+  const setToggleFetchClients = useSetAtom(toggleFetchServices);
 
   const { insertProposal } = useInsertProposal();
   const { insertProposalService } = useInsertProposalService();
   const { insertItemProposal } = useInsertItemProposal();
 
+  const [openWell, setOpenWell] = useState(false);
+
+  const onChangeOpenWell = (open: boolean) => setOpenWell(open);
+
   async function onSubmitService(data: ServiceFields): Promise<void> {
+    if (!isWellValid(data.well)) {
+      setOpenWell(true);
+      return;
+    }
+
     if (proposalId) {
       console.log('editando');
       return;
@@ -88,6 +107,9 @@ function ServicesFormPage(): ReactElement {
     }
 
     await Promise.all(itemsPromises);
+
+    setToggleFetchClients((previous) => !previous);
+    navigate('/servicos');
   }
 
   return (
@@ -122,7 +144,34 @@ function ServicesFormPage(): ReactElement {
           />
         </Input.Wrapper>
 
-        <WellForm defaultValues={wellDefaultValues} isAdding />
+        <WellForm
+          defaultValues={wellDefaultValues}
+          isAdding
+          onChangeOpenWell={onChangeOpenWell}
+          openWell={openWell}
+        />
+
+        <div className="ml-auto mr-4 flex h-full items-center pt-4">
+          <Tooltip position="left" text="Ajuda">
+            <div ref={undefined}>
+              <Dialog>
+                <DialogTrigger asChild>
+                  <button type="button" className="group">
+                    <Info
+                      size={22}
+                      className="stroke-gray-scale-400 group-hover:stroke-dark-blue duration-200"
+                    />
+                  </button>
+                </DialogTrigger>
+
+                <DialogContent className="min-w-fit">
+                  <DialogHeader>Ajuda: Cadastro de serviço</DialogHeader>
+                  algm me ajuda
+                </DialogContent>
+              </Dialog>
+            </div>
+          </Tooltip>
+        </div>
 
         {/* <Button
           type="button"
