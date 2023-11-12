@@ -1,6 +1,11 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
+export const authenticatedUserAtom = atom({
+  username: '',
+  cognitoId: '',
+});
+
 export const isSideMenuOpenAtom = atomWithStorage('isSideMenuOpen', true);
 
 export const toggleFetchClients = atom(false);

@@ -3,6 +3,13 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig({
+  ...(process.env.NODE_ENV === 'development'
+    ? {
+        define: {
+          global: {},
+        },
+      }
+    : {}),
   plugins: [
     react(),
     svgr({

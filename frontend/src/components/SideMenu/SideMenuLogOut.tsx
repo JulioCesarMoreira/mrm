@@ -1,7 +1,10 @@
 import Svg from '../Svg/Svg';
 import Tooltip from '../Tooltip/Tooltip';
 import { useAtomValue } from 'jotai';
-import { isSideMenuOpenAtom } from '../../constants/atoms';
+import {
+  authenticatedUserAtom,
+  isSideMenuOpenAtom,
+} from '../../constants/atoms';
 import { cn } from '@lib/utils';
 import type { ReactElement } from 'react';
 import {
@@ -13,13 +16,35 @@ import {
   DialogTrigger,
 } from '@components/ui/dialog';
 import { Button } from '@components/ui/button';
+import UserPool from 'constants/UserPool';
+import { CognitoUser } from 'amazon-cognito-identity-js';
+import { useNavigate } from 'react-router-dom';
 
 export default function SideMenuLogOut(): ReactElement {
+  const navigate = useNavigate();
+
   const isOpen = useAtomValue(isSideMenuOpenAtom);
+  const authenticatedUser = useAtomValue(authenticatedUserAtom);
 
   function onLogOut(): void {
-    // TODO
-    console.log('log out');
+    const userData = {
+      Username: authenticatedUser.username,
+      Pool: UserPool,
+    };
+
+    const cognitoUser = new CognitoUser(userData);
+
+    cognitoUser.signOut(() => {
+      const tokenKeys = Object.keys(localStorage).filter((key) =>
+        key.startsWith('CognitoIdentityServiceProvider'),
+      );
+
+      tokenKeys.forEach((key) => {
+        localStorage.removeItem(key);
+      });
+
+      navigate('/login');
+    });
   }
 
   return (

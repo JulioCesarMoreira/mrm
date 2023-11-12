@@ -2,7 +2,11 @@ import { Input } from '@components/Input';
 import Svg from '@components/Svg/Svg';
 import { ReactElement, useState } from 'react';
 
-export default function PasswordInput(): ReactElement {
+export default function PasswordInput({
+  disabled,
+}: {
+  disabled: boolean;
+}): ReactElement {
   const [visible, setVisible] = useState<boolean>(false);
 
   function onChangeVisibility(): void {
@@ -16,6 +20,7 @@ export default function PasswordInput(): ReactElement {
         name="password"
         placeholder="Digite sua senha"
         type={visible ? 'text' : 'password'}
+        disabled={disabled}
       >
         <button
           type="button"
