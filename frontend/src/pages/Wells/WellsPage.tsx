@@ -7,11 +7,11 @@ import DataTableTitle from '@components/DataTable/DataTableTitle';
 
 export default function WellsPage(): ReactElement {
   const columns = useWellColumns();
-  const { data, isLoading } = useFetchWells();
+  const { data, isLoading, fetch } = useFetchWells();
 
   return (
     <div className="flex w-full flex-col">
-      <Filters />
+      <Filters fetch={fetch} />
 
       <div className="w-full px-10 pb-10">
         <DataTableTitle

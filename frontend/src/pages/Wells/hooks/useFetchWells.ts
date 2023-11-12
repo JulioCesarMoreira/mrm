@@ -6,9 +6,15 @@ import { toggleFetchWells } from '../../../constants/atoms';
 import useOnError from 'hooks/useOnError';
 import { Well } from '../types';
 
+interface WellsFilter {
+  startDate: string;
+  deliveryDate: string;
+}
+
 interface FetchWellsResponse {
   data: Well[];
   isLoading: boolean;
+  fetch: (filters: WellsFilter) => Promise<void>;
 }
 
 export default function useFetchWells(): FetchWellsResponse {
@@ -18,9 +24,14 @@ export default function useFetchWells(): FetchWellsResponse {
   const [isLoading, setIsLoading] = useState(false);
   const toggleFetch = useAtomValue(toggleFetchWells);
 
-  const fetchData = async (): Promise<{ wells: Well[] }> => {
+  const fetchData = async (
+    filters?: WellsFilter,
+  ): Promise<{ wells: Well[] }> => {
     try {
-      const response = await axios.get('http://localhost:3000/well');
+      const response = await axios.get(
+        'http://localhost:3000/well',
+        filters ? { params: filters } : undefined,
+      );
 
       return response.data;
     } catch (error) {
@@ -31,6 +42,14 @@ export default function useFetchWells(): FetchWellsResponse {
     }
   };
 
+  const fetchWithFilters = async (filters: WellsFilter): Promise<void> => {
+    setIsLoading(true);
+    const data = await fetchData(filters);
+    setIsLoading(false);
+
+    setData(data.wells);
+  };
+
   useAsyncEffect(async () => {
     setIsLoading(true);
     const data = await fetchData();
@@ -39,5 +58,5 @@ export default function useFetchWells(): FetchWellsResponse {
     setData(data.wells);
   }, [toggleFetch]);
 
-  return { data, isLoading };
+  return { data, isLoading, fetch: fetchWithFilters };
 }

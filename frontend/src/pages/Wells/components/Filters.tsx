@@ -4,15 +4,29 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { Search } from 'lucide-react';
 import { ReactElement } from 'react';
+import { format, parse, parseISO } from 'date-fns';
 
 interface WellsFilter {
-  name: string;
+  startDate: string;
+  deliveryDate: string;
 }
 
-export default function Filters(): ReactElement {
-  // TODO
-  function onSubmitFilters(data: WellsFilter): void {
-    console.log('data', data);
+interface FilterProperties {
+  fetch: (filters: WellsFilter) => Promise<void>;
+}
+
+export default function Filters({ fetch }: FilterProperties): ReactElement {
+  function onSubmitFilters({ deliveryDate, startDate }: WellsFilter): void {
+    void fetch({
+      deliveryDate: format(
+        parse(deliveryDate, 'dd/MM/yyyy', new Date()),
+        "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+      ),
+      startDate: format(
+        parse(startDate, 'dd/MM/yyyy', new Date()),
+        "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
+      ),
+    });
   }
 
   return (
@@ -23,15 +37,13 @@ export default function Filters(): ReactElement {
         className="flex w-full gap-6"
       >
         <Input.Wrapper className="mb-2 ml-6 w-[240px]">
-          <Input.Label label="Data inicial" />
-          <Input.DatePicker id="name" name="initialDate" />
+          <Input.Label label="Data de início" />
+          <Input.DatePicker name="startDate" />
         </Input.Wrapper>
 
-        <p className="text-gray-scale-300 mt-10 text-sm">até</p>
-
         <Input.Wrapper className="mb-2 w-[240px]">
-          <Input.Label label="Data final" />
-          <Input.DatePicker id="name" name="finalDate" />
+          <Input.Label label="Data de entrega" />
+          <Input.DatePicker name="deliveryDate" />
         </Input.Wrapper>
 
         <div className="flex w-fit flex-row-reverse items-center pt-3">
