@@ -138,6 +138,7 @@ CREATE TABLE `Well` (
     `sieveDepth` INTEGER NULL,
     `staticLevel` INTEGER NULL,
     `dynamicLevel` INTEGER NULL,
+    `startDate` DATETIME(3) NULL,
     `deliveryDate` DATETIME(3) NULL,
     `sedimentaryDepth` INTEGER NULL,
     `distric` VARCHAR(100) NULL,
@@ -147,7 +148,7 @@ CREATE TABLE `Well` (
     `longitude` VARCHAR(20) NULL,
     `latitude` VARCHAR(20) NULL,
     `mapLink` VARCHAR(2000) NULL,
-    `cityId` INTEGER NOT NULL,
+    `cityId` INTEGER NULL,
     `proposalId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -209,7 +210,7 @@ ALTER TABLE `ModelItemCategory` ADD CONSTRAINT `ModelItemCategory_itemServiceId_
 ALTER TABLE `Detection` ADD CONSTRAINT `Detection_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Well` ADD CONSTRAINT `Well_cityId_fkey` FOREIGN KEY (`cityId`) REFERENCES `City`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Well` ADD CONSTRAINT `Well_cityId_fkey` FOREIGN KEY (`cityId`) REFERENCES `City`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Well` ADD CONSTRAINT `Well_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
