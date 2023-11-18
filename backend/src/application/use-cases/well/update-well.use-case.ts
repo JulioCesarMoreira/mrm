@@ -20,18 +20,19 @@ export class UpdateWellUseCase {
     const { deliveryDate, startDate } = wellFields;
 
     let city: City;
-    // converting date to save in RDS
-    wellFields.deliveryDate = deliveryDate
-      ? new Date(deliveryDate)
-      : deliveryDate;
-    wellFields.startDate = startDate ? new Date(startDate) : startDate;
+    if (wellFields.deliveryDate || wellFields.startDate) {
+      // converting date to save in RDS
+      wellFields.deliveryDate = deliveryDate
+        ? new Date(deliveryDate)
+        : deliveryDate;
+      wellFields.startDate = startDate ? new Date(startDate) : startDate;
 
-    if (wellFields.startDate.getTime() > wellFields.deliveryDate.getTime()) {
-      throw new BadRequestException(
-        'The start date have to be bigger then delivery date.',
-      );
+      if (wellFields.startDate.getTime() > wellFields.deliveryDate.getTime()) {
+        throw new BadRequestException(
+          'The start date have to be bigger then delivery date.',
+        );
+      }
     }
-
     if (wellFields.cityId) {
       city = await this.cityRepository.get(wellFields.cityId);
 
