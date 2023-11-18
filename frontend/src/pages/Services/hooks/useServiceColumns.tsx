@@ -69,7 +69,7 @@ export default function useServiceColumns(
               }
               className="px-0"
             >
-              Data de envio
+              Data de entrega
               <ArrowUpDown className="ml-2 h-4 w-4" />
             </Button>
           </Tooltip>

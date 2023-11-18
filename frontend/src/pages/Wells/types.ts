@@ -1,5 +1,23 @@
 import { Row } from '@tanstack/react-table';
 
+export interface InsertWellInput {
+  voltage: string;
+  totalDepth: number;
+  sieveDepth: number;
+  staticLevel: number;
+  dynamicLevel: number;
+  deliveryDate: string;
+  sedimentaryDepth: number;
+  distric: string;
+  street: string;
+  number: string;
+  longitude: string;
+  latitude: string;
+  mapLink: string;
+  proposalId: number;
+  cityId: number;
+}
+
 export interface Well {
   id: string;
   clientName: string;

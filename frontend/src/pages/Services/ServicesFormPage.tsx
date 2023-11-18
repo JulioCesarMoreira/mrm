@@ -12,7 +12,7 @@ import WellForm from 'pages/Wells/components/WellForm/WellForm';
 import { isWellValid, wellDefaultValues } from './constants';
 import useServiceContext from './context/useServiceContext';
 import useInsertProposal from './hooks/useInsertProposal';
-import { formatMoneyString } from '@lib/utils';
+import { formatMoneyString, removeSpecialCharacters } from '@lib/utils';
 import useInsertProposalService from './hooks/useInsertProposalService';
 import useInsertItemProposal from './hooks/useInsertItemProposal';
 import { ServiceFields } from './types';
@@ -25,20 +25,27 @@ import {
 } from '@components/ui/dialog';
 import { Info } from 'lucide-react';
 import { useSetAtom } from 'jotai';
-import { toggleFetchServices } from 'constants/atoms';
+import { toggleFetchServices, toggleFetchWells } from 'constants/atoms';
+import useInsertWell from 'pages/Wells/hooks/useInsertWell';
+import { format, parse } from 'date-fns';
+import { InsertWellInput } from 'pages/Wells/types';
 
 function ServicesFormPage(): ReactElement {
   const navigate = useNavigate();
   const { proposalId } = useParams<{ proposalId?: string }>();
+
   const { data: clients, isLoading: isLoadingClients } = useFetchClients();
   const { data: items } = useFetchItems(true);
   const { data: categories } = useFetchCategories();
   const { selectedCategories } = useServiceContext();
-  const setToggleFetchClients = useSetAtom(toggleFetchServices);
 
+  const setToggleFetchWells = useSetAtom(toggleFetchWells);
+  const setToggleFetchServices = useSetAtom(toggleFetchServices);
+
+  const { insertWell } = useInsertWell();
   const { insertProposal } = useInsertProposal();
-  const { insertProposalService } = useInsertProposalService();
   const { insertItemProposal } = useInsertItemProposal();
+  const { insertProposalService } = useInsertProposalService();
 
   const [openWell, setOpenWell] = useState(false);
 
@@ -58,7 +65,7 @@ function ServicesFormPage(): ReactElement {
     const insertProposalInput = {
       approved: false,
       clientId: Number(data.clientId),
-      discount: Number(formatMoneyString(data.discount)),
+      discount: data.discount ? Number(formatMoneyString(data.discount)) : 0,
       guaranteePeriod: Number(data.guaranteePeriod),
       installmentsBalance: 1,
       sendDate: '2023-09-18',
@@ -106,9 +113,41 @@ function ServicesFormPage(): ReactElement {
       }
     }
 
+    const parsedDate = parse(
+      removeSpecialCharacters(data.well.deliveryDate),
+      'ddMMyyyy',
+      new Date(),
+    );
+
+    const formattedDate = format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+    const insertWellInput: InsertWellInput = {
+      voltage: data.well.voltage,
+      totalDepth: Number(data.well.totalDepth),
+      sieveDepth: Number(data.well.sieveDepth),
+      staticLevel: Number(data.well.staticLevel),
+      dynamicLevel: Number(data.well.dynamicLevel),
+      deliveryDate: formattedDate,
+      sedimentaryDepth: Number(data.well.sedimentaryDepth),
+      street: data.well.street,
+      number: data.well.number,
+      distric: data.well.distric,
+      longitude: data.well.longitude,
+      latitude: data.well.latitude,
+      mapLink: data.well.mapLink,
+      cityId: 1,
+      proposalId: Number(result.id),
+    };
+
+    console.log('insertWellInput', insertWellInput);
+
+    itemsPromises.push(insertWell(insertWellInput));
+
     await Promise.all(itemsPromises);
 
-    setToggleFetchClients((previous) => !previous);
+    setToggleFetchServices((previous) => !previous);
+    setToggleFetchWells((previous) => !previous);
+
     navigate('/servicos');
   }
 
@@ -206,13 +245,8 @@ function ServicesFormPage(): ReactElement {
 
       <div className="flex h-[74px] items-center justify-start gap-4 pl-5 pb-4">
         <Input.Wrapper className="w-[140px]">
-          <Input.Label label="Desconto" required />
-          <Input.Field
-            name="discount"
-            maskType="money"
-            required
-            className="pl-6"
-          >
+          <Input.Label label="Desconto" />
+          <Input.Field name="discount" maskType="money" className="pl-6">
             <div className="text-gray-scale-200 absolute left-2 text-sm">
               R$
             </div>
