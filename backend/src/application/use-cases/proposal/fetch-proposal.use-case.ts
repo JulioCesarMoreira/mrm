@@ -6,7 +6,10 @@ import { Injectable } from '@nestjs/common';
 export class FetchProposalUseCase {
   constructor(private proposalRepository: ProposalRepository) {}
 
-  async fetchProposal(filters: Omit<Proposal, 'id'>): Promise<Proposal[]> {
+  async fetchProposal(
+    filters: Omit<Proposal, 'id'>,
+    tenantId: string,
+  ): Promise<Proposal[]> {
     const { periodValidity, sendDate, clientId } = filters;
 
     // converting the received dates in to a DATE type
@@ -16,7 +19,10 @@ export class FetchProposalUseCase {
     filters.sendDate = sendDate ? new Date(sendDate) : sendDate;
     filters.clientId = clientId ? Number(clientId) : undefined;
 
-    const fetchProposal = await this.proposalRepository.fetch(filters);
+    const fetchProposal = await this.proposalRepository.fetch(
+      filters,
+      tenantId,
+    );
 
     return fetchProposal;
   }

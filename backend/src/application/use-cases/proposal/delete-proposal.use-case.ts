@@ -5,8 +5,8 @@ import { ProposalRepository } from '@application/core/repositories';
 export class DeleteProposalUseCase {
   constructor(private proposalRepository: ProposalRepository) {}
 
-  async deleteProposal(id: number): Promise<boolean> {
-    const deletedProposal = await this.proposalRepository.delete(id);
+  async deleteProposal(id: number, tenantId: string): Promise<boolean> {
+    const deletedProposal = await this.proposalRepository.delete(id, tenantId);
 
     return deletedProposal;
   }

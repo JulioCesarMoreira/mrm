@@ -54,7 +54,10 @@ export class FetchWellUseCase {
     for (const well of wells) {
       const city = await this.cityRepository.get(well.cityId);
 
-      const proposal = await this.proposalRepository.get(well.proposalId);
+      const proposal = await this.proposalRepository.get(
+        well.proposalId,
+        tenantId,
+      );
 
       const client = await this.clientRepository.get(
         proposal.clientId,

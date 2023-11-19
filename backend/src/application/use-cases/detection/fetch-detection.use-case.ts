@@ -12,11 +12,14 @@ export class FetchDetectionUseCase {
     private proposalRepository: ProposalRepository,
   ) {}
 
-  async fetchDetection(filters: Omit<Detection, 'id'>): Promise<Detection[]> {
+  async fetchDetection(
+    filters: Omit<Detection, 'id'>,
+    tenantId: string,
+  ): Promise<Detection[]> {
     const { proposalId } = filters;
 
     if (proposalId) {
-      const proposal = await this.proposalRepository.get(proposalId);
+      const proposal = await this.proposalRepository.get(proposalId, tenantId);
 
       if (!proposal) {
         throw new BadRequestException('proposal not found.');

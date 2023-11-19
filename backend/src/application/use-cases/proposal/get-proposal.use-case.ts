@@ -6,8 +6,8 @@ import { Injectable } from '@nestjs/common';
 export class GetProposalUseCase {
   constructor(private proposalRepository: ProposalRepository) {}
 
-  async getProposal(id: number): Promise<Proposal> {
-    const getProposal = await this.proposalRepository.get(id);
+  async getProposal(id: number, tenantId: string): Promise<Proposal> {
+    const getProposal = await this.proposalRepository.get(id, tenantId);
 
     return getProposal;
   }

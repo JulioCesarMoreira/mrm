@@ -28,6 +28,10 @@ import {
   DeleteDetectionUseCase,
 } from '@application/use-cases/detection';
 import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
+import {
+  RequestTenantDataInterface,
+  RequestTentantData,
+} from 'src/infra/guard/tenantData.decorator';
 
 @Controller('/detection')
 export class DetectionController {
@@ -70,10 +74,13 @@ export class DetectionController {
   @Get()
   async fetchDetection(
     @Query() filters: FetchDetectionsDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<FetchDetectionsResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
+
       const fetchDetectionsList =
-        await this.fetchDetectionsUseCase.fetchDetection(filters);
+        await this.fetchDetectionsUseCase.fetchDetection(filters, tenantId);
 
       return DetectionMapper.fetchDetectionToController(fetchDetectionsList);
     } catch (error) {

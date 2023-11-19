@@ -31,6 +31,10 @@ import {
 import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
 import { FetchItemServiceToProposalUseCase } from '@application/use-cases/itemService/fetchToProposal-itemService.use-case';
 import { ItemServiceMapper } from '../mappers/itemService.mapper';
+import {
+  RequestTenantDataInterface,
+  RequestTentantData,
+} from 'src/infra/guard/tenantData.decorator';
 
 @Controller('/proposal')
 export class ProposalController {
@@ -46,11 +50,14 @@ export class ProposalController {
   @Post()
   async createProposal(
     @Body() proposalDto: CreateProposalDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<CreateProposalResponseDto | ErrorResponseDto> {
     try {
-      const createdProposal = await this.createProposalUseCase.createProposal(
-        proposalDto,
-      );
+      const tenantId = tenantData.id;
+      const createdProposal = await this.createProposalUseCase.createProposal({
+        ...proposalDto,
+        tenantId,
+      });
 
       return createdProposal;
     } catch (error) {
@@ -61,10 +68,13 @@ export class ProposalController {
   @Get('get/:id')
   async getProposal(
     @Param() parameters: GetProposalIdDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<GetProposalResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const proposalEntity = await this.getProposalUsecase.getProposal(
         Number(parameters.id),
+        tenantId,
       );
       return proposalEntity;
     } catch (error) {
@@ -75,10 +85,13 @@ export class ProposalController {
   @Get()
   async fetchProposal(
     @Query() filters: FetchProposalsDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<FetchProposalsResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const fetchProposalsList = await this.fetchProposalsUseCase.fetchProposal(
         filters,
+        tenantId,
       );
 
       return ProposalMapper.fetchProposalToController(fetchProposalsList);
@@ -91,11 +104,14 @@ export class ProposalController {
   async updateProposal(
     @Param() parameters: GetProposalIdDto,
     @Body() body: UpdateProposalDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<UpdateProposalResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const updateProposal = await this.updateProposalUseCase.updateProposal(
         Number(parameters.id),
         body,
+        tenantId,
       );
 
       return updateProposal;
@@ -107,10 +123,13 @@ export class ProposalController {
   @Delete(':id')
   async deleteProposal(
     @Param() parameters: GetProposalIdDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<DeleteProposalResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const deleteProposal = await this.deleteProposalUseCase.deleteProposal(
         Number(parameters.id),
+        tenantId,
       );
 
       return ProposalMapper.deleteProposalToController(deleteProposal);
