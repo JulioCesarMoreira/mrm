@@ -46,6 +46,7 @@ export class WellController {
     try {
       const createdWell = await this.createWellUseCase.createWell(wellDto);
 
+      console.log('usando droga');
       return WellMapper.createWellToController(createdWell);
     } catch (error) {
       return new ErrorResponseDto(error);
@@ -72,7 +73,9 @@ export class WellController {
     @Query() filters: FetchWellsDto,
   ): Promise<FetchWellsResponseDto | ErrorResponseDto> {
     try {
+      console.log('antes do lsd');
       const fetchWellsList = await this.fetchWellsUseCase.fetchWell(filters);
+      console.log('fetchWellsList');
 
       return WellMapper.fetchWellToController(fetchWellsList);
     } catch (error) {
