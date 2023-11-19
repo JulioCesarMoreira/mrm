@@ -97,7 +97,7 @@ export default function WellFormAddress({
             </Input.Wrapper>
           ) : (
             <div className="h-[50px] w-full">
-              <p className="text-gray-scale-500 text-sm">URL</p>
+              <p className="text-gray-scale-500 text-sm">URL para o mapa</p>
               <a
                 target="_blank"
                 href={isAdding ? formWatch.well.mapLink : formWatch.mapLink}
