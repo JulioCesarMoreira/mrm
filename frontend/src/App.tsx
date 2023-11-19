@@ -9,11 +9,15 @@ export default function App(): ReactElement {
   const setAuthenticatedUser = useSetAtom(authenticatedUserAtom);
 
   const isAuthenticated = (): boolean => {
-    const idTokenKey = Object.keys(localStorage).find((key) =>
-      key.startsWith('CognitoIdentityServiceProvider'),
+    const idTokenKey = Object.keys(localStorage).find(
+      (key) =>
+        key.startsWith('CognitoIdentityServiceProvider') &&
+        key.endsWith('idToken'),
     );
-    const accessTokenKey = Object.keys(localStorage).find((key) =>
-      key.startsWith('CognitoIdentityServiceProvider'),
+    const accessTokenKey = Object.keys(localStorage).find(
+      (key) =>
+        key.startsWith('CognitoIdentityServiceProvider') &&
+        key.endsWith('accessToken'),
     );
 
     if (!idTokenKey || !accessTokenKey) return false;
