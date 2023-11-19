@@ -21,7 +21,16 @@ export class PrismaModelProposalRepository implements ModelProposalRepository {
     return createdModelProposal;
   }
 
-  async get(id: number): Promise<ModelProposal> {
+  async get(id: number, tenantId: string): Promise<ModelProposal> {
+    const valitadeTenant = await this.prisma.modelProposal.count({
+      where: {
+        id,
+        tenantId,
+      },
+    });
+
+    if (valitadeTenant === 0) return undefined;
+
     const getModelProposal = await this.prisma.modelProposal.findUnique({
       where: {
         id: id,
@@ -31,10 +40,10 @@ export class PrismaModelProposalRepository implements ModelProposalRepository {
     return getModelProposal;
   }
 
-  async fetch({
-    name,
-    tenantId,
-  }: Omit<ModelProposal, 'id'>): Promise<ModelProposal[]> {
+  async fetch(
+    { name }: Omit<ModelProposal, 'id'>,
+    tenantId: string,
+  ): Promise<ModelProposal[]> {
     const fetchModelProposal = await this.prisma.modelProposal.findMany({
       where: {
         ...(name && { name: { contains: name } }),
@@ -48,7 +57,17 @@ export class PrismaModelProposalRepository implements ModelProposalRepository {
   async update(
     entityId: number,
     { name }: Omit<ModelProposal, 'id' | 'proposalId'>,
+    tenantId: string,
   ): Promise<ModelProposal> {
+    const valitadeTenant = await this.prisma.modelProposal.count({
+      where: {
+        id: entityId,
+        tenantId,
+      },
+    });
+
+    if (valitadeTenant === 0) return undefined;
+
     const updatedModelProposal = await this.prisma.modelProposal.update({
       where: {
         id: entityId,
@@ -61,7 +80,16 @@ export class PrismaModelProposalRepository implements ModelProposalRepository {
     return updatedModelProposal;
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: number, tenantId: string): Promise<boolean> {
+    const valitadeTenant = await this.prisma.modelProposal.count({
+      where: {
+        id,
+        tenantId,
+      },
+    });
+
+    if (valitadeTenant === 0) return false;
+
     const modelProposal = await this.prisma.modelProposal.delete({
       where: {
         id,

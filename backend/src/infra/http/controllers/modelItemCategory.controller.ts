@@ -24,6 +24,10 @@ import {
   DeleteModelItemCategoryUseCase,
 } from '@application/use-cases/modelItemCategory';
 import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
+import {
+  RequestTenantDataInterface,
+  RequestTentantData,
+} from 'src/infra/guard/tenantData.decorator';
 
 @Controller('/ModelItemCategory')
 export class ModelItemCategoryController {
@@ -68,11 +72,14 @@ export class ModelItemCategoryController {
   @Get()
   async fetchModelItemCategory(
     @Query() filters: FetchModelItemCategorysDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<FetchModelItemCategorysResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const fetchModelItemCategorysList =
         await this.fetchModelItemCategorysUseCase.fetchModelItemCategory(
           filters,
+          tenantId,
         );
 
       return ModelItemCategoryMapper.fetchModelItemCategoryToController(

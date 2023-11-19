@@ -4,7 +4,6 @@ import {
   IsOptional,
   IsString,
   MaxLength,
-  IsUUID,
 } from 'class-validator';
 
 export class CreateModelProposalDto {
@@ -13,8 +12,6 @@ export class CreateModelProposalDto {
   @MaxLength(250)
   name: string;
 
-  @IsNotEmpty()
-  @IsUUID()
   tenantId: string;
 }
 
@@ -29,8 +26,6 @@ export class FetchModelProposalsDto {
   @MaxLength(250)
   name: string;
 
-  @IsNotEmpty()
-  @IsUUID()
   tenantId: string;
 }
 

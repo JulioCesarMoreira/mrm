@@ -9,10 +9,12 @@ export class UpdateModelProposalUseCase {
   async updateModelProposal(
     modelProposalId: number,
     modelProposalFields: Omit<ModelProposal, 'id' | 'tenantId'>,
+    tenantId: string,
   ): Promise<ModelProposal> {
     const updatedModelProposal = await this.modelProposalRepository.update(
       modelProposalId,
       modelProposalFields,
+      tenantId,
     );
     return updatedModelProposal;
   }

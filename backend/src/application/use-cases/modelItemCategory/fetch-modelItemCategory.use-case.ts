@@ -16,12 +16,14 @@ export class FetchModelItemCategoryUseCase {
 
   async fetchModelItemCategory(
     filters: Omit<ModelItemCategory, 'id'>,
+    tenantId: string,
   ): Promise<ModelItemCategory[]> {
     const { modelProposalId, itemServiceId } = filters;
 
     if (modelProposalId) {
       const modelProposal = await this.modelProposalRepository.get(
         modelProposalId,
+        tenantId,
       );
 
       if (!modelProposal) {
