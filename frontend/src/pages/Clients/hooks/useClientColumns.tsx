@@ -82,7 +82,7 @@ export default function useClientColumns(): ColumnDef<Client>[] {
             <NumberFormat
               value={row.getValue('cpfCnpj')}
               format={
-                (row.getValue('cpfCnpj') as string).length < CPF_LIMIT
+                (row.getValue('cpfCnpj') as string).length <= 11
                   ? '###.###.###-#####'
                   : '##.###.###/####-##'
               }
