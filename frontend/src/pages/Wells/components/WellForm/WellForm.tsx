@@ -1,6 +1,6 @@
 import FormWrapper from '@components/FormWrapper/FormWrapper';
 import { MutableRefObject, ReactElement, useEffect, useState } from 'react';
-import { Well } from '../../types';
+import { Well, WellFields } from '../../types';
 import { Button } from '@components/ui/button';
 import {
   Dialog,
@@ -95,25 +95,21 @@ function WellFormBody({
   );
 }
 
-function WellForm({
+export default function WellForm({
   defaultValues,
   isAdding,
   openWell,
   isLoading,
-  openDialog,
-  onSetOpenDialog,
   onChangeOpenWell,
-}: WellsFormProperties & {
-  onSetOpenDialog: (value: boolean) => void;
-  isLoading: boolean;
-  openDialog: boolean;
-}): ReactElement {
+}: WellsFormProperties & { isLoading?: boolean }): ReactElement {
   const { trigger } = useFormContext<ServiceFields>();
+
+  const [openDialog, setOpenDialog] = useState(false);
 
   async function onAdd(): Promise<void> {
     const result = await trigger(['well']);
 
-    if (result) onSetOpenDialog(false);
+    if (result) setOpenDialog(false);
   }
 
   useEffect(() => {
@@ -121,11 +117,11 @@ function WellForm({
   }, [openDialog]);
 
   useAsyncEffect(async () => {
-    onSetOpenDialog(!!openWell);
+    setOpenDialog(!!openWell);
   }, [openWell]);
 
   return (
-    <Dialog open={openDialog} onOpenChange={onSetOpenDialog}>
+    <Dialog open={openDialog} onOpenChange={setOpenDialog}>
       {defaultValues.id ? (
         <Tooltip position="bottom" text="Editar">
           <DialogTrigger asChild ref={undefined}>
@@ -230,85 +226,13 @@ function WellForm({
               isAdding
             />
           ) : (
-            <WellFormBody isLoading={isLoading} defaultValues={defaultValues} />
+            <WellFormBody
+              isLoading={!!isLoading}
+              defaultValues={defaultValues}
+            />
           )}
         </DialogHeader>
       </DialogContent>
     </Dialog>
-  );
-}
-
-export default function WellFormWrapper({
-  defaultValues,
-  isAdding,
-  openWell,
-  onChangeOpenWell,
-}: WellsFormProperties) {
-  const { updateWell } = useUpdateWell();
-  const setToggleFetchWells = useSetAtom(toggleFetchWells);
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false);
-
-  async function onSubmitWell(well: Well): Promise<void> {
-    setIsLoading(true);
-
-    const parsedDate = parse(
-      removeSpecialCharacters(well.deliveryDate),
-      'ddMMyyyy',
-      new Date(),
-    );
-
-    const formattedDate = isValid(parsedDate)
-      ? format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-      : undefined;
-
-    const updatedWell = {
-      voltage: well.voltage,
-      totalDepth: well.totalDepth ? Number(well.totalDepth) : undefined,
-      sieveDepth: well.sieveDepth ? Number(well.sieveDepth) : undefined,
-      staticLevel: well.staticLevel ? Number(well.staticLevel) : undefined,
-      dynamicLevel: well.dynamicLevel ? Number(well.dynamicLevel) : undefined,
-      deliveryDate: isValid(parsedDate) ? formattedDate : undefined,
-      sedimentaryDepth: well.sedimentaryDepth
-        ? Number(well.sedimentaryDepth)
-        : undefined,
-      street: well.street,
-      number: well.number,
-      distric: well.distric,
-      zipcode: well.zipcode ? removeSpecialCharacters(well.zipcode) : undefined,
-      longitude: well.longitude,
-      latitude: well.latitude,
-      mapLink: well.mapLink,
-    };
-
-    try {
-      const result = await updateWell(defaultValues.id, updatedWell);
-      if (result) setOpenDialog(false);
-    } finally {
-      setToggleFetchWells((previous) => !previous);
-      setTimeout(() => setIsLoading(false), CLOSE_DIALOG_DURATION);
-    }
-  }
-
-  const onSetOpenDialog = (value: boolean): void => setOpenDialog(value);
-
-  return (
-    <FormWrapper<Well>
-      id="well-form"
-      onSubmit={onSubmitWell}
-      className="py-4"
-      defaultValues={defaultValues}
-    >
-      <WellForm
-        defaultValues={defaultValues}
-        isLoading={isLoading}
-        openDialog={openDialog}
-        onSetOpenDialog={onSetOpenDialog}
-        isAdding={isAdding}
-        onChangeOpenWell={onChangeOpenWell}
-        openWell={openWell}
-      />
-    </FormWrapper>
   );
 }
