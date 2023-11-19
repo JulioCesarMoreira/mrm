@@ -16,18 +16,18 @@ export class CreateWellUseCase {
   async createWell(wellDto: Omit<Well, 'id'>): Promise<WellResponse> {
     const { deliveryDate, startDate } = wellDto;
 
-    if (wellDto.deliveryDate || wellDto.startDate) {
-      // converting date to save in RDS
-      wellDto.deliveryDate = deliveryDate
-        ? new Date(deliveryDate)
-        : deliveryDate;
-      wellDto.startDate = startDate ? new Date(startDate) : startDate;
+    // converting date to save in RDS
+    wellDto.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
+    wellDto.startDate = startDate ? new Date(startDate) : startDate;
 
-      if (wellDto.startDate.getTime() > wellDto.deliveryDate.getTime()) {
-        throw new BadRequestException(
-          'The start date have to be bigger then delivery date.',
-        );
-      }
+    if (
+      deliveryDate &&
+      startDate &&
+      wellDto.startDate.getTime() > wellDto.deliveryDate.getTime()
+    ) {
+      throw new BadRequestException(
+        'The start date have to be bigger then delivery date.',
+      );
     }
 
     const city = await this.cityRepository.get(wellDto.cityId);
