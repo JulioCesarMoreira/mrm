@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  mrm-backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    environment:
+      - DATABASE_URL=mysql://root:mrmmysql@mrm-mysql-dev-instance-1.ccprilvyxwrp.us-west-2.rds.amazonaws.com:3306/mrm_mysql_dev?connection_limit=9&pool_timeout=10&connect_timeout=10&socket_timeout=10
+      - NODE_ENV=development
+      - COGNITO_USERPOOL="us-west-2_iV27jfIWi"
+    ports:
+      - '3000:3000'
+    container_name: mrm-backend
+    networks:
+      - mrm-app
+
+networks:
+  mrm-app:
+    driver: bridge
