@@ -29,6 +29,9 @@
       ],
       "@application/core/*": [
         "src/application/core/*"
+      ],
+      "@src/error/*": [
+        "src/error/*"
       ]
     }
   },
