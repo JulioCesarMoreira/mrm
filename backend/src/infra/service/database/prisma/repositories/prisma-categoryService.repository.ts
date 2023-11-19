@@ -37,12 +37,10 @@ export class PrismaCategoryServiceRepository
     return getCategoryService;
   }
 
-  async fetch({
-    name,
-    subCategory,
-    color,
-    tenantId,
-  }: Omit<CategoryService, 'id'>): Promise<CategoryService[]> {
+  async fetch(
+    { name, subCategory, color }: Omit<CategoryService, 'id' | 'tenantId'>,
+    tenantId: string,
+  ): Promise<CategoryService[]> {
     const fetchCategoryService = await this.prisma.categoryService.findMany({
       where: {
         ...(name && { name: { contains: name } }),
@@ -58,7 +56,17 @@ export class PrismaCategoryServiceRepository
   async update(
     entityId: number,
     { subCategory, name, color }: Omit<CategoryService, 'id' | 'tenantId'>,
+    tenantId: string,
   ): Promise<CategoryService> {
+    const verifyTenant = await this.prisma.categoryService.count({
+      where: {
+        id: entityId,
+        tenantId,
+      },
+    });
+
+    if (verifyTenant === 0) return undefined;
+
     const updatedCategoryService = await this.prisma.categoryService.update({
       where: {
         id: entityId,
@@ -73,7 +81,16 @@ export class PrismaCategoryServiceRepository
     return updatedCategoryService;
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: number, tenantId: string): Promise<boolean> {
+    const verifyTenant = await this.prisma.categoryService.count({
+      where: {
+        id,
+        tenantId,
+      },
+    });
+
+    if (verifyTenant === 0) return false;
+
     const categoryService = await this.prisma.categoryService.delete({
       where: {
         id,

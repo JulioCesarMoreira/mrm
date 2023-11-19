@@ -8,9 +8,11 @@ export class FetchCategoryServiceUseCase {
 
   async fetchCategoryService(
     filters: Omit<CategoryService, 'id'>,
+    tenantId: string,
   ): Promise<CategoryService[]> {
     const fetchCategoryService = await this.categoryServiceRepository.fetch(
       filters,
+      tenantId,
     );
 
     return fetchCategoryService;

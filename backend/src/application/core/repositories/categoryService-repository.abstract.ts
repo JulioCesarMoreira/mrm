@@ -9,12 +9,14 @@ export abstract class CategoryServiceRepository {
 
   abstract fetch(
     filters: Omit<CategoryService, 'id'>,
+    tenantId: string,
   ): Promise<CategoryService[]>;
 
   abstract update(
     entityId: number,
     entityFields: Omit<CategoryService, 'id' | 'tenantId'>,
+    tenantId: string,
   ): Promise<CategoryService>;
 
-  abstract delete(id: number): Promise<boolean>;
+  abstract delete(id: number, tenantId: string): Promise<boolean>;
 }
