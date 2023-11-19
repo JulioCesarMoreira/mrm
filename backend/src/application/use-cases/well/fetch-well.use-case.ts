@@ -34,19 +34,18 @@ export class FetchWellUseCase {
     const { deliveryDate, startDate } = filters;
     const fetchWell = [] as { well: Well; client: Client; city: City }[];
 
-    if (filters.deliveryDate || filters.startDate) {
-      // converting date to use in RDS
-      filters.deliveryDate = deliveryDate
-        ? new Date(deliveryDate)
-        : deliveryDate;
+    // converting date to save in RDS
+    filters.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
+    filters.startDate = startDate ? new Date(startDate) : startDate;
 
-      filters.deliveryDate = startDate ? new Date(startDate) : startDate;
-
-      if (filters.startDate.getTime() > filters.deliveryDate.getTime()) {
-        throw new BadRequestException(
-          'The start date have to be bigger then delivery date.',
-        );
-      }
+    if (
+      deliveryDate &&
+      startDate &&
+      filters.startDate.getTime() > filters.deliveryDate.getTime()
+    ) {
+      throw new BadRequestException(
+        'The start date have to be bigger then delivery date.',
+      );
     }
 
     const wells = await this.wellRepository.fetch(filters);
