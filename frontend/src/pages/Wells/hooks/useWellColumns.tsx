@@ -88,12 +88,32 @@ export default function useWellColumns(): ColumnDef<Well>[] {
     {
       accessorKey: 'street',
       header: () => <div className="text-center">Endereço</div>,
-      cell: ({ row }) => (
-        <div className="text-center">
-          {row.original.street}, {row.original.number}, {row.original.distric},{' '}
-          {row.original.city.name}, {row.original.city.uf}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const address = {
+          street: row.original.street,
+          number: row.original.number,
+          distric: row.original.distric,
+          city: row.original.city.name,
+          uf: row.original.city.uf,
+        };
+
+        const stringAddress = Object.values(address).reduce(
+          (accumulator, currentValue) => {
+            if (currentValue) {
+              if (accumulator) {
+                return `${accumulator}, ${currentValue}`;
+              } else {
+                return currentValue;
+              }
+            } else {
+              return accumulator;
+            }
+          },
+          '',
+        );
+
+        return <div className="text-center">{stringAddress}</div>;
+      },
     },
     {
       id: 'actions',

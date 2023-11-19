@@ -29,6 +29,7 @@ import { toggleFetchServices, toggleFetchWells } from 'constants/atoms';
 import useInsertWell from 'pages/Wells/hooks/useInsertWell';
 import { format, parse } from 'date-fns';
 import { InsertWellInput } from 'pages/Wells/types';
+import axios from 'axios';
 
 function ServicesFormPage(): ReactElement {
   const navigate = useNavigate();
@@ -48,6 +49,7 @@ function ServicesFormPage(): ReactElement {
   const { insertProposalService } = useInsertProposalService();
 
   const [openWell, setOpenWell] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onChangeOpenWell = (open: boolean) => setOpenWell(open);
 
@@ -56,6 +58,8 @@ function ServicesFormPage(): ReactElement {
       setOpenWell(true);
       return;
     }
+
+    setIsLoading(true);
 
     if (proposalId) {
       console.log('editando');
@@ -74,82 +78,99 @@ function ServicesFormPage(): ReactElement {
     };
 
     const result = await insertProposal(insertProposalInput);
-    const categoriesPromises = [];
 
-    for (const [index, category] of selectedCategories.entries()) {
-      if (category.items.length > 0) {
-        categoriesPromises.push(
-          insertProposalService({
-            categoryServiceId: Number(category.id),
-            order: index,
-            proposalId: Number(result.id),
-            side: category.direction,
-          }),
-        );
-      }
-    }
+    try {
+      const categoriesPromises = [];
 
-    const categoriesResults = await Promise.all(categoriesPromises);
-
-    const itemsPromises = [];
-
-    for (const category of categoriesResults) {
-      const insertedCategoryItems = selectedCategories.find(
-        (selectedCategory) =>
-          Number(selectedCategory.id) === category.categoryServiceId,
-      )?.items;
-
-      if (insertedCategoryItems) {
-        for (const item of insertedCategoryItems) {
-          itemsPromises.push(
-            insertItemProposal({
-              itemServiceId: Number(item.key),
-              proposalServiceId: category.id,
-              quantity: Number(item.quantity),
-              unitPrice: 1,
+      for (const [index, category] of selectedCategories.entries()) {
+        if (category.items.length > 0) {
+          categoriesPromises.push(
+            insertProposalService({
+              categoryServiceId: Number(category.id),
+              order: index,
+              proposalId: Number(result.id),
+              side: category.direction,
             }),
           );
         }
       }
+
+      const categoriesResults = await Promise.all(categoriesPromises);
+
+      const itemsPromises = [];
+
+      for (const category of categoriesResults) {
+        const insertedCategoryItems = selectedCategories.find(
+          (selectedCategory) =>
+            Number(selectedCategory.id) === category.categoryServiceId,
+        )?.items;
+
+        if (insertedCategoryItems) {
+          for (const item of insertedCategoryItems) {
+            itemsPromises.push(
+              insertItemProposal({
+                itemServiceId: Number(item.key),
+                proposalServiceId: category.id,
+                quantity: Number(item.quantity),
+                unitPrice: 1,
+              }),
+            );
+          }
+        }
+      }
+
+      const parsedDate = parse(
+        removeSpecialCharacters(data.well.deliveryDate),
+        'ddMMyyyy',
+        new Date(),
+      );
+
+      const formattedDate = format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+      const insertWellInput: InsertWellInput = {
+        voltage: data.well.voltage,
+        totalDepth: Number(data.well.totalDepth),
+        sieveDepth: Number(data.well.sieveDepth),
+        staticLevel: Number(data.well.staticLevel),
+        dynamicLevel: Number(data.well.dynamicLevel),
+        deliveryDate: formattedDate,
+        sedimentaryDepth: Number(data.well.sedimentaryDepth),
+        street: data.well.street,
+        number: data.well.number,
+        distric: data.well.distric,
+        longitude: data.well.longitude,
+        latitude: data.well.latitude,
+        mapLink: data.well.mapLink,
+        cityId: 1,
+        proposalId: Number(result.id),
+      };
+
+      console.log('insertWellInput', insertWellInput);
+
+      itemsPromises.push(insertWell(insertWellInput));
+
+      await Promise.all(itemsPromises);
+
+      setToggleFetchServices((previous) => !previous);
+      setToggleFetchWells((previous) => !previous);
+
+      setIsLoading(false);
+
+      navigate('/servicos');
+    } catch {
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/proposal/${result.id}`,
+      );
+
+      setIsLoading(false);
     }
-
-    const parsedDate = parse(
-      removeSpecialCharacters(data.well.deliveryDate),
-      'ddMMyyyy',
-      new Date(),
-    );
-
-    const formattedDate = format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-
-    const insertWellInput: InsertWellInput = {
-      voltage: data.well.voltage,
-      totalDepth: Number(data.well.totalDepth),
-      sieveDepth: Number(data.well.sieveDepth),
-      staticLevel: Number(data.well.staticLevel),
-      dynamicLevel: Number(data.well.dynamicLevel),
-      deliveryDate: formattedDate,
-      sedimentaryDepth: Number(data.well.sedimentaryDepth),
-      street: data.well.street,
-      number: data.well.number,
-      distric: data.well.distric,
-      longitude: data.well.longitude,
-      latitude: data.well.latitude,
-      mapLink: data.well.mapLink,
-      cityId: 1,
-      proposalId: Number(result.id),
-    };
-
-    console.log('insertWellInput', insertWellInput);
-
-    itemsPromises.push(insertWell(insertWellInput));
-
-    await Promise.all(itemsPromises);
-
-    setToggleFetchServices((previous) => !previous);
-    setToggleFetchWells((previous) => !previous);
-
-    navigate('/servicos');
   }
+
+  console.log('==============================================');
+  console.log('items', items);
+  console.log('clients', clients);
+  console.log('categories', categories);
+  console.log('selectedCategories', selectedCategories);
 
   return (
     <FormWrapper<ServiceFields>
@@ -170,7 +191,7 @@ function ServicesFormPage(): ReactElement {
             name="clientId"
             placeholder="Procure pelo nome"
             loading={isLoadingClients}
-            disabled={!isLoadingClients && clients.length === 0}
+            disabled={(!isLoadingClients && clients.length === 0) || isLoading}
             options={
               clients
                 ? clients.map(({ id, name }) => ({
@@ -246,7 +267,12 @@ function ServicesFormPage(): ReactElement {
       <div className="flex h-[74px] items-center justify-start gap-4 pl-5 pb-4">
         <Input.Wrapper className="w-[140px]">
           <Input.Label label="Desconto" />
-          <Input.Field name="discount" maskType="money" className="pl-6">
+          <Input.Field
+            name="discount"
+            maskType="money"
+            className="pl-6"
+            disabled={isLoading}
+          >
             <div className="text-gray-scale-200 absolute left-2 text-sm">
               R$
             </div>
@@ -260,6 +286,7 @@ function ServicesFormPage(): ReactElement {
             maskType="numberWithoutDecimals"
             placeholder="meses"
             required
+            disabled={isLoading}
           />
         </Input.Wrapper>
       </div>
@@ -267,7 +294,7 @@ function ServicesFormPage(): ReactElement {
         <CategoryList direction="LEFT" categories={categories} items={items} />
         <CategoryList direction="RIGHT" categories={categories} items={items} />
       </div>
-      <FloatingButtons />
+      <FloatingButtons isLoading={isLoading} />
     </FormWrapper>
   );
 }
