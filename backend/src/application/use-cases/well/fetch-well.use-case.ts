@@ -30,6 +30,7 @@ export class FetchWellUseCase {
       | 'latitude'
       | 'mapLink'
     >,
+    tenantId: string,
   ): Promise<{ well: Well; city: City; client: Client }[]> {
     const { deliveryDate, startDate } = filters;
     const fetchWell = [] as { well: Well; client: Client; city: City }[];
@@ -55,7 +56,10 @@ export class FetchWellUseCase {
 
       const proposal = await this.proposalRepository.get(well.proposalId);
 
-      const client = await this.clientRepository.get(proposal.clientId);
+      const client = await this.clientRepository.get(
+        proposal.clientId,
+        tenantId,
+      );
 
       fetchWell.push({
         well,

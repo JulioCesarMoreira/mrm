@@ -65,6 +65,8 @@ export class AuthGuard implements CanActivate {
   ): Promise<RequestTenantDataInterface | undefined> {
     const authorizationToken = request.headers['authorization'];
 
+    if (!authorizationToken) throw new Error('Error: Provide a Id Token');
+
     const [type, token] = authorizationToken.split(' ') ?? [];
 
     if (type !== 'Bearer') throw new Error('Error: Invalid Cognito Id Token');

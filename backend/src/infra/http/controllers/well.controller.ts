@@ -28,6 +28,10 @@ import {
   DeleteWellUseCase,
 } from '@application/use-cases/well';
 import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
+import {
+  RequestTenantDataInterface,
+  RequestTentantData,
+} from 'src/infra/guard/tenantData.decorator';
 
 @Controller('/well')
 export class WellController {
@@ -70,9 +74,15 @@ export class WellController {
   @Get()
   async fetchWell(
     @Query() filters: FetchWellsDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<FetchWellsResponseDto | ErrorResponseDto> {
     try {
-      const fetchWellsList = await this.fetchWellsUseCase.fetchWell(filters);
+      const tenantId = tenantData.id;
+
+      const fetchWellsList = await this.fetchWellsUseCase.fetchWell(
+        filters,
+        tenantId,
+      );
 
       return WellMapper.fetchWellToController(fetchWellsList);
     } catch (error) {

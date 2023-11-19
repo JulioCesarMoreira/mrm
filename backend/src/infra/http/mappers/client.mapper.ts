@@ -8,14 +8,17 @@ import {
 import { Client } from '@application/core/entities';
 
 export class ClientMapper {
-  public static createClientToDomain(createClientDto: CreateClientDto): Client {
+  public static createClientToDomain(
+    createClientDto: CreateClientDto,
+    tenantId: string,
+  ): Client {
     const client = new Client();
 
     client.contactName = createClientDto.contactName;
     client.contactPhone = createClientDto.contactPhone;
     client.cpfCnpj = createClientDto.cpfCnpj;
     client.name = createClientDto.name;
-    client.tenantId = createClientDto.tenantId;
+    client.tenantId = tenantId;
 
     return client;
   }
