@@ -4,6 +4,7 @@ import { atomWithStorage } from 'jotai/utils';
 export const authenticatedUserAtom = atom({
   username: '',
   cognitoId: '',
+  idToken: '',
 });
 
 export const isSideMenuOpenAtom = atomWithStorage('isSideMenuOpen', true);

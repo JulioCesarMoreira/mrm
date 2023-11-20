@@ -2,7 +2,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import useAsyncEffect from 'use-async-effect';
-import { toggleFetchItems } from '../../../constants/atoms';
+import {
+  authenticatedUserAtom,
+  toggleFetchItems,
+} from '../../../constants/atoms';
 import useOnError from 'hooks/useOnError';
 import { ItemFilter, ItemService, Status } from '../types';
 
@@ -19,7 +22,9 @@ export default function useFetchItems(
 
   const [data, setData] = useState<ItemService[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const toggleFetch = useAtomValue(toggleFetchItems);
+  const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const fetchData = async (
     filters?: ItemFilter,
@@ -29,9 +34,22 @@ export default function useFetchItems(
     try {
       const response = await axios.get(
         onlyAvailable
-          ? 'http://localhost:3000/proposal/item-service/'
-          : 'http://localhost:3000/itemService',
-        filters ? { params: filters } : undefined,
+          ? `${import.meta.env.VITE_API_URL}/proposal/item-service/`
+          : `${import.meta.env.VITE_API_URL}/itemService`,
+        filters
+          ? {
+              params: filters,
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          : {
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json',
+              },
+            },
       );
 
       return response.data;

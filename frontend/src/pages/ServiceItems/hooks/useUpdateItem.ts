@@ -2,6 +2,8 @@ import axios from 'axios';
 import { ItemService } from '../types';
 import useOnError from 'hooks/useOnError';
 import { useToast } from '@components/ui/use-toast';
+import { useAtomValue } from 'jotai';
+import { authenticatedUserAtom } from 'constants/atoms';
 
 interface UpdateItem {
   updateItem: (
@@ -13,6 +15,7 @@ interface UpdateItem {
 export default function useUpdateItem(): UpdateItem {
   const { toast } = useToast();
   const { handleError } = useOnError();
+  const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const updateItem = async (
     itemId: string,
@@ -20,10 +23,16 @@ export default function useUpdateItem(): UpdateItem {
   ): Promise<ItemService> => {
     try {
       const response = await axios.patch(
-        `http://localhost:3000/itemService/${itemId}`,
+        `${import.meta.env.VITE_API_URL}/itemService/${itemId}`,
         {
           ...updatedItem,
           categoryServiceId: Number.parseInt(updatedItem.categoryServiceId, 10),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+            'Content-Type': 'application/json',
+          },
         },
       );
 

@@ -5,7 +5,7 @@ import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import { Client } from 'pages/Clients/types';
 import { format, parseISO } from 'date-fns';
-import ServiceActions from '../components/ServiceActions';
+import ServiceActions from '../components/ServiceForm/ServiceActions';
 
 export default function useServiceColumns(
   clients: Client[] | undefined,

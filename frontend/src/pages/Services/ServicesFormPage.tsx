@@ -1,10 +1,7 @@
 import FormWrapper from '@components/FormWrapper/FormWrapper';
-import { Input } from '@components/Input';
-import useFetchClients from 'pages/Clients/hooks/useFetchClients';
-import { ReactElement, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import CategoryList from './components/Category/CategoryList';
-import FloatingButtons from './components/FloatingButtons';
+import { ReactElement, useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import CategoryList from './components/ServiceForm/Category/CategoryList';
 import ServiceProvider from './context/ServiceProvider';
 import useFetchCategories from 'pages/ServiceItems/hooks/useFetchCategories';
 import useFetchItems from 'pages/ServiceItems/hooks/useFetchItems';
@@ -15,31 +12,41 @@ import useInsertProposal from './hooks/useInsertProposal';
 import { formatMoneyString, removeSpecialCharacters } from '@lib/utils';
 import useInsertProposalService from './hooks/useInsertProposalService';
 import useInsertItemProposal from './hooks/useInsertItemProposal';
-import { ServiceFields } from './types';
-import Tooltip from '@components/Tooltip/Tooltip';
+import { SelectedCategory, Service, ServiceFields } from './types';
+import { useAtomValue, useSetAtom } from 'jotai';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTrigger,
-} from '@components/ui/dialog';
-import { Info } from 'lucide-react';
-import { useSetAtom } from 'jotai';
-import { toggleFetchServices, toggleFetchWells } from 'constants/atoms';
+  authenticatedUserAtom,
+  toggleFetchServices,
+  toggleFetchWells,
+} from 'constants/atoms';
 import useInsertWell from 'pages/Wells/hooks/useInsertWell';
 import { format, parse } from 'date-fns';
 import { InsertWellInput } from 'pages/Wells/types';
 import axios from 'axios';
+import useFetchWells from 'pages/Wells/hooks/useFetchWells';
+import useFetchProposalServices from './hooks/useFetchProposalServices';
+import useFetchItemProposal from './hooks/useFetchItemProposal';
+import ServiceFormHelper from './components/ServiceForm/ServiceFormHelper';
+import SelectClientInput from './components/ServiceForm/SelectClientInput';
+import FloatingButtons from './components/ServiceForm/FloatingButtons';
+import AdditionalFields from './components/ServiceForm/AdditionalFields';
 
 function ServicesFormPage(): ReactElement {
   const navigate = useNavigate();
+  const location = useLocation();
   const { proposalId } = useParams<{ proposalId?: string }>();
 
-  const { data: clients, isLoading: isLoadingClients } = useFetchClients();
+  const routeData = location.state as Service | undefined;
+
+  const { data: wells } = useFetchWells();
   const { data: items } = useFetchItems(true);
   const { data: categories } = useFetchCategories();
-  const { selectedCategories } = useServiceContext();
+  const { selectedCategories, setSelectedCategories } = useServiceContext();
 
+  const { data: itemsProposal } = useFetchItemProposal(!!proposalId);
+  const { data: proposalServices } = useFetchProposalServices(!!proposalId);
+
+  const { idToken } = useAtomValue(authenticatedUserAtom);
   const setToggleFetchWells = useSetAtom(toggleFetchWells);
   const setToggleFetchServices = useSetAtom(toggleFetchServices);
 
@@ -145,8 +152,6 @@ function ServicesFormPage(): ReactElement {
         proposalId: Number(result.id),
       };
 
-      console.log('insertWellInput', insertWellInput);
-
       itemsPromises.push(insertWell(insertWellInput));
 
       await Promise.all(itemsPromises);
@@ -160,99 +165,99 @@ function ServicesFormPage(): ReactElement {
     } catch {
       await axios.delete(
         `${import.meta.env.VITE_API_URL}/proposal/${result.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+            'Content-Type': 'application/json',
+          },
+        },
       );
 
       setIsLoading(false);
     }
   }
 
-  console.log('==============================================');
-  console.log('items', items);
-  console.log('clients', clients);
-  console.log('categories', categories);
-  console.log('selectedCategories', selectedCategories);
+  const handleWellDefaultValues =
+    wells.find((well) => String(well.proposalId) === String(proposalId)) ??
+    wellDefaultValues;
+
+  useEffect(() => {
+    if (proposalId && !routeData) navigate('/servicos');
+  }, [proposalId, routeData]);
+
+  useEffect(() => {
+    if (
+      proposalId &&
+      proposalServices &&
+      categories &&
+      itemsProposal &&
+      items
+    ) {
+      const proposalSelectedCategories: SelectedCategory[] = [];
+
+      for (const proposalService of proposalServices) {
+        if (String(proposalService.proposalId) === String(proposalId)) {
+          const foundCategory = categories.find(
+            (category) =>
+              String(category.id) === String(proposalService.categoryServiceId),
+          );
+
+          if (foundCategory) {
+            const foundItems = itemsProposal.filter(
+              (item) =>
+                String(item.proposalServiceId) === String(proposalService.id),
+            );
+
+            const selectedCategoryToPush = {
+              color: foundCategory.color,
+              direction: proposalService.side,
+              id: foundCategory.id,
+              name: foundCategory.name,
+              items: foundItems.map((foundItem) => ({
+                quantity: String(foundItem.quantity),
+                unitPrice: String(foundItem.unitPrice),
+                key: String(foundItem.id),
+                name: items.find(
+                  (item) => String(item.id) === String(foundItem.itemServiceId),
+                )?.name as string,
+                unity: '1',
+              })),
+            };
+
+            proposalSelectedCategories.push(selectedCategoryToPush);
+          }
+        }
+      }
+
+      setSelectedCategories(proposalSelectedCategories);
+    }
+  }, [proposalId, proposalServices, categories, itemsProposal && items]);
 
   return (
     <FormWrapper<ServiceFields>
       id="service-form"
       onSubmit={onSubmitService}
       defaultValues={{
-        clientId: '',
-        well: wellDefaultValues,
-        discount: '',
-        guaranteePeriod: '',
+        clientId: routeData?.clientId ? String(routeData.clientId) : '',
+        well: handleWellDefaultValues,
+        discount: routeData?.discount ? String(routeData.discount) : '',
+        guaranteePeriod: routeData?.guaranteePeriod
+          ? String(routeData.guaranteePeriod)
+          : '',
       }}
       className="relative max-h-[100vh] overflow-hidden"
     >
       <div className="border-gray-scale-800 flex !h-[100px] !min-h-[100px] w-full items-center gap-4 border-b p-4 pt-2">
-        <Input.Wrapper className="ml-1 w-[300px]">
-          <Input.Label label="Cliente" required />
-          <Input.Search
-            name="clientId"
-            placeholder="Procure pelo nome"
-            loading={isLoadingClients}
-            disabled={(!isLoadingClients && clients.length === 0) || isLoading}
-            options={
-              clients
-                ? clients.map(({ id, name }) => ({
-                    name,
-                    value: String(id),
-                  }))
-                : []
-            }
-            required
-          />
-        </Input.Wrapper>
+        <SelectClientInput isLoading={isLoading} />
 
         <WellForm
-          defaultValues={wellDefaultValues}
+          defaultValues={handleWellDefaultValues}
           isAdding
           onChangeOpenWell={onChangeOpenWell}
           openWell={openWell}
         />
 
-        <div className="ml-auto mr-4 flex h-full items-center pt-4">
-          <Tooltip position="left" text="Ajuda">
-            <div ref={undefined}>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <button type="button" className="group">
-                    <Info
-                      size={22}
-                      className="stroke-gray-scale-400 group-hover:stroke-dark-blue duration-200"
-                    />
-                  </button>
-                </DialogTrigger>
-
-                <DialogContent className="min-w-fit">
-                  <DialogHeader>Ajuda: Cadastro/Edição de serviço</DialogHeader>
-                  <div className="text-gray-scale-300 flex w-[580px] min-w-[580px] flex-col gap-4 pl-6">
-                    <ul className="list-disc space-y-4">
-                      <li>
-                        Preencha sua proposta de serviço com as informações do
-                        poço e os itens de serviço que serão utilizados para
-                        realiza-lá. Para escolher itens, basta primeiro
-                        selecionar a respectiva categoria desejada.
-                      </li>
-                      <li>
-                        Há também o espaço para anexos na parte inferior
-                        esquerda, onde será possível visualizar, remover ou
-                        adicionar conforme a necessidade.
-                      </li>
-
-                      <li className="mt-4 font-semibold">
-                        <hr className="bg-gray-scale-600 mb-4 w-full" />
-                        Atenção: para salvar um serviço, é necessário preencher
-                        os campos sobre o Poço, assim como selecionar um Cliente
-                        e informar Desconto e a Garantia.
-                      </li>
-                    </ul>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </div>
-          </Tooltip>
-        </div>
+        <ServiceFormHelper />
 
         {/* <Button
           type="button"
@@ -264,32 +269,7 @@ function ServicesFormPage(): ReactElement {
         </Button> */}
       </div>
 
-      <div className="flex h-[74px] items-center justify-start gap-4 pl-5 pb-4">
-        <Input.Wrapper className="w-[140px]">
-          <Input.Label label="Desconto" />
-          <Input.Field
-            name="discount"
-            maskType="money"
-            className="pl-6"
-            disabled={isLoading}
-          >
-            <div className="text-gray-scale-200 absolute left-2 text-sm">
-              R$
-            </div>
-          </Input.Field>
-        </Input.Wrapper>
-
-        <Input.Wrapper className="w-[140px]">
-          <Input.Label label="Garantia (meses)" required />
-          <Input.Field
-            name="guaranteePeriod"
-            maskType="numberWithoutDecimals"
-            placeholder="meses"
-            required
-            disabled={isLoading}
-          />
-        </Input.Wrapper>
-      </div>
+      <AdditionalFields isLoading={isLoading} />
       <div className="flex h-full w-full divide-x-[1px] border-t">
         <CategoryList direction="LEFT" categories={categories} items={items} />
         <CategoryList direction="RIGHT" categories={categories} items={items} />

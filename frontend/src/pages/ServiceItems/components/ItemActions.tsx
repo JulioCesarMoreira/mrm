@@ -22,7 +22,7 @@ export default function ItemActions({
         deleteMessage={`Você está prestes a excluir o item ${item.original.name}.`}
         entity="Item"
         id={item.original.id}
-        route="http://localhost:3000/itemService"
+        route={`${import.meta.env.VITE_API_URL}/itemService`}
         toggleFetchEntity={toggleFetchItems}
       />
     </div>

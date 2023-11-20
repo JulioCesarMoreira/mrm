@@ -16,7 +16,7 @@ export interface ServiceFilter {
   clientId?: number;
 }
 
-export type directions = 'RIGHT' | 'LEFT';
+export type Direction = 'RIGHT' | 'LEFT';
 
 export interface CategoryItem {
   key: string;
@@ -28,7 +28,7 @@ export interface CategoryItem {
 
 export interface SelectedCategory {
   id: string;
-  direction: directions;
+  direction: Direction;
   name: string;
   color: string;
   items: CategoryItem[];
@@ -37,7 +37,7 @@ export interface SelectedCategory {
 export interface ProposalService {
   id: number;
   order: number;
-  side: directions;
+  side: Direction;
   categoryServiceId: number;
   proposalId: number;
 }

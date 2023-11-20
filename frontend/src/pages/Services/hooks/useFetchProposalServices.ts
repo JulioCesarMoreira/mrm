@@ -4,31 +4,41 @@ import { useAtomValue } from 'jotai';
 import useAsyncEffect from 'use-async-effect';
 import {
   authenticatedUserAtom,
-  toggleFetchCategories,
+  toggleFetchServices,
 } from '../../../constants/atoms';
 import useOnError from 'hooks/useOnError';
-import { CategoryService } from '../types';
+import { Direction } from '../types';
 
-interface FetchCategoriesResponse {
-  data: CategoryService[];
+interface ProposalService {
+  id: number;
+  order: number;
+  side: Direction;
+  categoryServiceId: number;
+  proposalId: number;
+}
+
+interface FetchProposalServicesResponse {
+  data: ProposalService[];
   isLoading: boolean;
 }
 
-export default function useFetchCategories(): FetchCategoriesResponse {
+export default function useFetchProposalServices(
+  enabled: boolean,
+): FetchProposalServicesResponse {
   const { handleError } = useOnError();
 
-  const [data, setData] = useState<CategoryService[]>([]);
+  const [data, setData] = useState<ProposalService[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const toggleFetch = useAtomValue(toggleFetchCategories);
+  const toggleFetch = useAtomValue(toggleFetchServices);
   const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const fetchData = async (): Promise<{
-    categoryServices: CategoryService[];
+    proposalServices: ProposalService[];
   }> => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/categoryService`,
+        `${import.meta.env.VITE_API_URL}/proposalService`,
         {
           headers: {
             Authorization: `Bearer ${idToken}`,
@@ -46,12 +56,15 @@ export default function useFetchCategories(): FetchCategoriesResponse {
   };
 
   useAsyncEffect(async () => {
-    setIsLoading(true);
-    const data = await fetchData();
-    setIsLoading(false);
+    if (enabled) {
+      setIsLoading(true);
+      const data = await fetchData();
 
-    setData(data.categoryServices);
-  }, [toggleFetch]);
+      setIsLoading(false);
+
+      setData(data.proposalServices);
+    }
+  }, [toggleFetch, enabled]);
 
   return { data, isLoading };
 }

@@ -1,7 +1,7 @@
 import DeleteDialog from '@components/ui/delete-dialog';
 import { Row } from '@tanstack/react-table';
 import { ReactElement } from 'react';
-import { Service } from '../types';
+import { Service } from '../../types';
 import { toggleFetchServices } from 'constants/atoms';
 import { Button } from '@components/ui/button';
 import { Pencil } from 'lucide-react';
@@ -16,7 +16,10 @@ export default function ServiceActions({
 }: ServiceActionsProperties): ReactElement {
   return (
     <div className="flex-center">
-      <Link to={`/servicos/editar/${service.original.id}`}>
+      <Link
+        to={`/servicos/editar/${service.original.id}`}
+        state={service.original}
+      >
         <Button variant="ghost" className="group hover:bg-transparent">
           <Pencil
             size={18}
@@ -30,7 +33,7 @@ export default function ServiceActions({
         deleteMessage="Você está prestes a excluir este serviço."
         entity="Serviço"
         id={service.original.id}
-        route="http://localhost:3000/proposal"
+        route={`${import.meta.env.VITE_API_URL}/proposal`}
         toggleFetchEntity={toggleFetchServices}
       />
     </div>

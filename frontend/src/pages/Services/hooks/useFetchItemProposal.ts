@@ -4,31 +4,40 @@ import { useAtomValue } from 'jotai';
 import useAsyncEffect from 'use-async-effect';
 import {
   authenticatedUserAtom,
-  toggleFetchCategories,
+  toggleFetchServices,
 } from '../../../constants/atoms';
 import useOnError from 'hooks/useOnError';
-import { CategoryService } from '../types';
 
-interface FetchCategoriesResponse {
-  data: CategoryService[];
+interface ItemProposal {
+  id: number;
+  unitPrice: number;
+  quantity: number;
+  proposalServiceId: number;
+  itemServiceId: number;
+}
+
+interface FetchItemProposalResponse {
+  data: ItemProposal[];
   isLoading: boolean;
 }
 
-export default function useFetchCategories(): FetchCategoriesResponse {
+export default function useFetchItemProposal(
+  enabled: boolean,
+): FetchItemProposalResponse {
   const { handleError } = useOnError();
 
-  const [data, setData] = useState<CategoryService[]>([]);
+  const [data, setData] = useState<ItemProposal[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const toggleFetch = useAtomValue(toggleFetchCategories);
+  const toggleFetch = useAtomValue(toggleFetchServices);
   const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const fetchData = async (): Promise<{
-    categoryServices: CategoryService[];
+    itemProposals: ItemProposal[];
   }> => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/categoryService`,
+        `${import.meta.env.VITE_API_URL}/itemProposal`,
         {
           headers: {
             Authorization: `Bearer ${idToken}`,
@@ -46,12 +55,15 @@ export default function useFetchCategories(): FetchCategoriesResponse {
   };
 
   useAsyncEffect(async () => {
-    setIsLoading(true);
-    const data = await fetchData();
-    setIsLoading(false);
+    if (enabled) {
+      setIsLoading(true);
+      const data = await fetchData();
 
-    setData(data.categoryServices);
-  }, [toggleFetch]);
+      setIsLoading(false);
+
+      setData(data.itemProposals);
+    }
+  }, [toggleFetch, enabled]);
 
   return { data, isLoading };
 }

@@ -2,6 +2,8 @@ import axios from 'axios';
 import { Well, WellFields } from '../types';
 import useOnError from 'hooks/useOnError';
 import { useToast } from '@components/ui/use-toast';
+import { useAtomValue } from 'jotai';
+import { authenticatedUserAtom } from 'constants/atoms';
 
 interface UpdateWell {
   updateWell: (
@@ -13,6 +15,7 @@ interface UpdateWell {
 export default function useUpdateWell(): UpdateWell {
   const { toast } = useToast();
   const { handleError } = useOnError();
+  const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const updateWell = async (
     wellId: string,
@@ -20,8 +23,14 @@ export default function useUpdateWell(): UpdateWell {
   ): Promise<Well> => {
     try {
       const response = await axios.patch(
-        `http://localhost:3000/well/${wellId}`,
+        `${import.meta.env.VITE_API_URL}/well/${wellId}`,
         updatedWell,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+            'Content-Type': 'application/json',
+          },
+        },
       );
 
       toast({

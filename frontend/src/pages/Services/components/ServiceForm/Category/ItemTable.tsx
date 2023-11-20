@@ -12,7 +12,7 @@ import { DataTableProperties } from '@components/DataTable/types';
 import { Button } from '@components/ui/button';
 import { Plus, Trash2 } from 'lucide-react';
 import { CategoryItem, SelectedCategory } from 'pages/Services/types';
-import SelectOptionDialog from '../SelectOptionDialog';
+import SelectOptionDialog from '../../SelectOptionDialog';
 import { Option } from 'types';
 import { ItemService } from 'pages/ServiceItems/types';
 import Tooltip from '@components/Tooltip/Tooltip';
@@ -33,39 +33,39 @@ const getColumns = (
       );
     },
   },
-  {
-    accessorKey: 'unity',
-    header: () => <div className="text-center">Unidade</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="text-gray-scale-200 ml-[64px] rounded-[2px] px-2 py-1 text-left">
-          {row.getValue('unity')}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: 'quantity',
-    header: () => <div className="text-left">Quantidade</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="text-gray-scale-200 ml-12 rounded-[2px] px-2 py-1 text-center">
-          {row.getValue('quantity')}
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: 'unitPrice',
-    header: () => <div className="text-left">Preço unitário</div>,
-    cell: ({ row }) => {
-      return (
-        <div className="text-gray-scale-200 ml-16 rounded-[2px] px-2 py-1 text-right">
-          {row.getValue('unitPrice')}
-        </div>
-      );
-    },
-  },
+  // {
+  //   accessorKey: 'unity',
+  //   header: () => <div className="text-center">Unidade</div>,
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className="text-gray-scale-200 ml-[64px] rounded-[2px] px-2 py-1 text-left">
+  //         {row.getValue('unity')}
+  //       </div>
+  //     );
+  //   },
+  // },
+  // {
+  //   accessorKey: 'quantity',
+  //   header: () => <div className="text-left">Quantidade</div>,
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className="text-gray-scale-200 ml-12 rounded-[2px] px-2 py-1 text-center">
+  //         {row.getValue('quantity')}
+  //       </div>
+  //     );
+  //   },
+  // },
+  // {
+  //   accessorKey: 'unitPrice',
+  //   header: () => <div className="text-left">Preço unitário</div>,
+  //   cell: ({ row }) => {
+  //     return (
+  //       <div className="text-gray-scale-200 ml-16 rounded-[2px] px-2 py-1 text-right">
+  //         {row.getValue('unitPrice')}
+  //       </div>
+  //     );
+  //   },
+  // },
   {
     id: 'actions',
     header: () => <div> </div>,
@@ -152,6 +152,12 @@ export default function ItemTable({
   useEffect(() => {
     table.setPageSize(Number.POSITIVE_INFINITY);
   }, []);
+
+  useEffect(() => {
+    if (data) {
+      setTableData(data);
+    }
+  }, [data]);
 
   return (
     <>

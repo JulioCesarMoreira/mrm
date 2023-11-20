@@ -1,18 +1,18 @@
 import { Button } from '@components/ui/button';
 import { Plus } from 'lucide-react';
 import { ReactElement, useEffect, useMemo, useState } from 'react';
-import { directions } from '../../types';
+import { Direction } from '../../../types';
 import Category from './Category';
 import { ScrollArea } from '@components/ui/scroll-area';
 import { CategoryService, ItemService } from 'pages/ServiceItems/types';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { twMerge } from 'tailwind-merge';
-import SelectOptionDialog from '../SelectOptionDialog';
+import SelectOptionDialog from '../../SelectOptionDialog';
 import { Option } from 'types';
 import useServiceContext from 'pages/Services/context/useServiceContext';
 
 interface CategoryListProperties {
-  direction: directions;
+  direction: Direction;
   categories: CategoryService[] | undefined;
   items: ItemService[] | undefined;
 }

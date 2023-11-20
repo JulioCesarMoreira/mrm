@@ -2,7 +2,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import useAsyncEffect from 'use-async-effect';
-import { toggleFetchServices } from '../../../constants/atoms';
+import {
+  authenticatedUserAtom,
+  toggleFetchServices,
+} from '../../../constants/atoms';
 import useOnError from 'hooks/useOnError';
 import { ServiceFilter, Service } from '../types';
 
@@ -17,15 +20,30 @@ export default function useFetchServices(): FetchServicesResponse {
 
   const [data, setData] = useState<Service[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const toggleFetch = useAtomValue(toggleFetchServices);
+  const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const fetchData = async (
     filters?: ServiceFilter,
   ): Promise<{ proposals: Service[] }> => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/proposal',
-        filters ? { params: filters } : undefined,
+        `${import.meta.env.VITE_API_URL}/proposal`,
+        filters
+          ? {
+              params: filters,
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          : {
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json',
+              },
+            },
       );
 
       return response.data;
