@@ -183,16 +183,16 @@ ALTER TABLE `CategoryService` ADD CONSTRAINT `CategoryService_tenantId_fkey` FOR
 ALTER TABLE `ItemService` ADD CONSTRAINT `ItemService_categoryServiceId_fkey` FOREIGN KEY (`categoryServiceId`) REFERENCES `CategoryService`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ItemProposal` ADD CONSTRAINT `ItemProposal_proposalServiceId_fkey` FOREIGN KEY (`proposalServiceId`) REFERENCES `ProposalService`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ItemProposal` ADD CONSTRAINT `ItemProposal_proposalServiceId_fkey` FOREIGN KEY (`proposalServiceId`) REFERENCES `ProposalService`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ItemProposal` ADD CONSTRAINT `ItemProposal_itemServiceId_fkey` FOREIGN KEY (`itemServiceId`) REFERENCES `ItemService`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ItemProposal` ADD CONSTRAINT `ItemProposal_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `ItemProposal` ADD CONSTRAINT `ItemProposal_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `ProposalService` ADD CONSTRAINT `ProposalService_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `ProposalService` ADD CONSTRAINT `ProposalService_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `ProposalService` ADD CONSTRAINT `ProposalService_categoryServiceId_fkey` FOREIGN KEY (`categoryServiceId`) REFERENCES `CategoryService`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -207,10 +207,10 @@ ALTER TABLE `ModelItemCategory` ADD CONSTRAINT `ModelItemCategory_modelProposalI
 ALTER TABLE `ModelItemCategory` ADD CONSTRAINT `ModelItemCategory_itemServiceId_fkey` FOREIGN KEY (`itemServiceId`) REFERENCES `ItemService`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Detection` ADD CONSTRAINT `Detection_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Detection` ADD CONSTRAINT `Detection_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Well` ADD CONSTRAINT `Well_cityId_fkey` FOREIGN KEY (`cityId`) REFERENCES `City`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Well` ADD CONSTRAINT `Well_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Well` ADD CONSTRAINT `Well_proposalId_fkey` FOREIGN KEY (`proposalId`) REFERENCES `Proposal`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
