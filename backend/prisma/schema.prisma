@@ -92,11 +92,11 @@ model ItemProposal {
   id                Int             @id @default(autoincrement())
   unitPrice         Int
   quantity          Int
-  proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id])
+  proposalService   ProposalService @relation(fields: [proposalServiceId], references: [id], onDelete: Cascade)
   proposalServiceId Int
   itemService       ItemService     @relation(fields: [itemServiceId], references: [id])
   itemServiceId     Int
-  Proposal          Proposal?       @relation(fields: [proposalId], references: [id])
+  Proposal          Proposal?       @relation(fields: [proposalId], references: [id], onDelete: Cascade)
   proposalId        Int?
 }
 
@@ -105,7 +105,7 @@ model ProposalService {
   order             Int
   side              Side
   proposalId        Int
-  proposal          Proposal        @relation(fields: [proposalId], references: [id])
+  proposal          Proposal        @relation(fields: [proposalId], references: [id], onDelete: Cascade)
   categoryServiceId Int
   CategoryService   CategoryService @relation(fields: [categoryServiceId], references: [id])
   ItemProposal      ItemProposal[]
@@ -136,7 +136,7 @@ model Detection {
   salinity     Int
   maximumDepth Int
   minimumDepth Int
-  proposal     Proposal @relation(fields: [proposalId], references: [id])
+  proposal     Proposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
   proposalId   Int
 }
 
@@ -159,7 +159,7 @@ model Well {
   mapLink          String?   @db.VarChar(2000)
   city             City?     @relation(fields: [cityId], references: [id])
   cityId           Int?
-  proposal         Proposal  @relation(fields: [proposalId], references: [id])
+  proposal         Proposal  @relation(fields: [proposalId], references: [id], onDelete: Cascade)
   proposalId       Int
 }
 
