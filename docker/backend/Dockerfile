@@ -48,7 +48,7 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/prisma/ ./prisma/
 
 # Expose application port
-EXPOSE 3000
+EXPOSE 8000
 
 # Start application with wait-for-it.sh to wait for the database
 CMD ["node", "dist/src/main.js"]
