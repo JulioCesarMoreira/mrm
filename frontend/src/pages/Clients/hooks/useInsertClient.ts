@@ -12,12 +12,11 @@ interface InsertClient {
 export default function useInsertClient(): InsertClient {
   const { toast } = useToast();
   const { handleError } = useOnError();
+  const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const insertClient = async (
     insertedClient: Omit<Client, 'id'>,
   ): Promise<Client> => {
-    const { idToken } = useAtomValue(authenticatedUserAtom);
-
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/client`,
