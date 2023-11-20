@@ -4,7 +4,7 @@ RUN npm i -g pnpm
 
 WORKDIR /app
 
-COPY frontend/package.json frontend/pnpm-lock.yaml ./
+COPY frontend/package.json ./
 
 RUN pnpm -F frontend install
 
