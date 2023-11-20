@@ -6,7 +6,9 @@ import {
 import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { Prisma } from '@prisma/client';
+import { UnauthorizedErrorException } from '@src/error/CustomError';
 import { Response } from 'express';
+import { authGuardValidationExceptionFilter } from '../guard/auth-exception.filter';
 
 @Catch()
 export class GlobalExceptionFilter extends BaseExceptionFilter {
@@ -31,6 +33,13 @@ export class GlobalExceptionFilter extends BaseExceptionFilter {
       case exception instanceof Prisma.PrismaClientValidationError:
         prismaClientValidationExceptionFilter(
           exception as Prisma.PrismaClientValidationError,
+          host,
+        );
+        break;
+
+      case exception instanceof UnauthorizedErrorException:
+        authGuardValidationExceptionFilter(
+          exception as UnauthorizedErrorException,
           host,
         );
         break;

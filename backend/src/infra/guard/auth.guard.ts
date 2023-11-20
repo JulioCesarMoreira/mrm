@@ -56,7 +56,7 @@ export class AuthGuard implements CanActivate {
     try {
       await verifier.verify(token);
     } catch {
-      throw new Error('Error: Invalid Cognito Id Token');
+      throw new UnauthorizedErrorException('Invalid Cognito Id Token');
     }
   }
 
@@ -65,11 +65,13 @@ export class AuthGuard implements CanActivate {
   ): Promise<RequestTenantDataInterface | undefined> {
     const authorizationToken = request.headers['authorization'];
 
-    if (!authorizationToken) throw new Error('Error: Provide a Id Token');
+    if (!authorizationToken)
+      throw new UnauthorizedErrorException('Provide a Id Token');
 
     const [type, token] = authorizationToken.split(' ') ?? [];
 
-    if (type !== 'Bearer') throw new Error('Error: Invalid Cognito Id Token');
+    if (type !== 'Bearer')
+      throw new UnauthorizedErrorException('Invalid Cognito Id Token');
 
     if (token) {
       try {
@@ -94,9 +96,7 @@ export class AuthGuard implements CanActivate {
           };
         }
       } catch (error) {
-        if (process.env.DEBUG) {
-          console.log('error decoding', error);
-        }
+        console.log('error decoding', error.code);
       }
     }
 
