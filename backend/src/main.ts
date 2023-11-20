@@ -35,12 +35,12 @@ async function bootstrap(): Promise<void> {
   app.useGlobalGuards(new AuthGuard(jwtService));
 
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'https://mrmsoftware.cloud/'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
 
-  await app.listen(3000);
+  await app.listen(8000, '0.0.0.0');
 }
 
 bootstrap();
