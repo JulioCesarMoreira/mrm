@@ -40,7 +40,15 @@ export const wellDefaultValues = {
 export const isWellValid = (well: Well): boolean => {
   if (
     !well.deliveryDate ||
-    !isValid(parse(well.deliveryDate, 'dd/MM/yyyy', new Date())) ||
+    !isValid(
+      parse(
+        well.deliveryDate,
+        well.deliveryDate.length > 16
+          ? "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+          : 'dd/MM/yyyy',
+        new Date(),
+      ),
+    ) ||
     !well.staticLevel ||
     well.staticLevel === 0 ||
     !well.dynamicLevel ||
