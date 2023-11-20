@@ -6,7 +6,6 @@ import {
   DialogTrigger,
 } from '@components/ui/dialog';
 import { Info, Paperclip } from 'lucide-react';
-
 import { ReactElement } from 'react';
 import Attachment from './Attachment';
 import { Input } from '@components/Input';

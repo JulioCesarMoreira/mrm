@@ -1,7 +1,7 @@
 import { Button } from '@components/ui/button';
-import AttachmentsDialog from './Attachments/AttachmentsDialog';
 import type { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import AttachmentsDialog from '../Attachments/AttachmentsDialog';
 
 export default function FloatingButtons({
   isLoading,

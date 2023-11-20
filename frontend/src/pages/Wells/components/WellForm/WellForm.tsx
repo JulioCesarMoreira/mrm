@@ -102,7 +102,7 @@ export default function WellForm({
   isLoading,
   onChangeOpenWell,
 }: WellsFormProperties & { isLoading?: boolean }): ReactElement {
-  const { trigger } = useFormContext<ServiceFields>();
+  const { trigger, getValues, reset } = useFormContext<ServiceFields>();
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -120,9 +120,15 @@ export default function WellForm({
     setOpenDialog(!!openWell);
   }, [openWell]);
 
+  useEffect(() => {
+    if (defaultValues) {
+      reset({ ...getValues(), well: defaultValues });
+    }
+  }, [defaultValues]);
+
   return (
     <Dialog open={openDialog} onOpenChange={setOpenDialog}>
-      {defaultValues.id ? (
+      {defaultValues.id && !isAdding ? (
         <Tooltip position="bottom" text="Editar">
           <DialogTrigger asChild ref={undefined}>
             <Button
