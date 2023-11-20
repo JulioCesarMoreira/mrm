@@ -7,7 +7,7 @@ export class FetchProposalUseCase {
   constructor(private proposalRepository: ProposalRepository) {}
 
   async fetchProposal(
-    filters: Omit<Proposal, 'id'>,
+    filters: Omit<Proposal, 'id' | 'tenantId'>,
     tenantId: string,
   ): Promise<Proposal[]> {
     const { periodValidity, sendDate, clientId } = filters;

@@ -6,7 +6,7 @@ export abstract class ProposalRepository {
   abstract get(id: number, tenantId: string): Promise<Proposal | null>;
 
   abstract fetch(
-    filters: Omit<Proposal, 'id'>,
+    filters: Omit<Proposal, 'id' | 'tenantId'>,
     tenantId: string,
   ): Promise<Proposal[]>;
 

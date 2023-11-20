@@ -1,6 +1,5 @@
 import {
   IsNotEmpty,
-  IsUUID,
   IsNumberString,
   IsOptional,
   IsDateString,
@@ -44,10 +43,6 @@ export class CreateProposalDto {
   @IsInt()
   @IsNotEmpty()
   clientId: number;
-
-  @IsUUID()
-  @IsNotEmpty()
-  tenantId: string;
 }
 
 export class GetProposalIdDto {
@@ -89,10 +84,6 @@ export class FetchProposalsDto {
   @IsNumberString()
   @IsOptional()
   clientId: number;
-
-  @IsUUID()
-  @IsOptional()
-  tenantId: string;
 }
 
 export class UpdateProposalDto {
