@@ -30,11 +30,13 @@ import ServiceFormHelper from './components/ServiceForm/ServiceFormHelper';
 import SelectClientInput from './components/ServiceForm/SelectClientInput';
 import FloatingButtons from './components/ServiceForm/FloatingButtons';
 import AdditionalFields from './components/ServiceForm/AdditionalFields';
+import { useToast } from '@components/ui/use-toast';
 
 function ServicesFormPage(): ReactElement {
   const navigate = useNavigate();
   const location = useLocation();
   const { proposalId } = useParams<{ proposalId?: string }>();
+  const { toast } = useToast();
 
   const routeData = location.state as Service | undefined;
 
@@ -69,8 +71,15 @@ function ServicesFormPage(): ReactElement {
     setIsLoading(true);
 
     if (proposalId) {
-      console.log('editando');
-      return;
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/proposal/${proposalId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+            'Content-Type': 'application/json',
+          },
+        },
+      );
     }
 
     const insertProposalInput = {
@@ -127,8 +136,12 @@ function ServicesFormPage(): ReactElement {
       }
 
       const parsedDate = parse(
-        removeSpecialCharacters(data.well.deliveryDate),
-        'ddMMyyyy',
+        data.well.deliveryDate.length > 16
+          ? data.well.deliveryDate
+          : removeSpecialCharacters(data.well.deliveryDate),
+        data.well.deliveryDate.length > 16
+          ? "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+          : 'ddMMyyyy',
         new Date(),
       );
 
@@ -162,19 +175,30 @@ function ServicesFormPage(): ReactElement {
       setIsLoading(false);
 
       navigate('/servicos');
-    } catch {
-      await axios.delete(
-        `${import.meta.env.VITE_API_URL}/proposal/${result.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-            'Content-Type': 'application/json',
+    } catch (error) {
+      if (!proposalId) {
+        await axios.delete(
+          `${import.meta.env.VITE_API_URL}/proposal/${result.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+              'Content-Type': 'application/json',
+            },
           },
-        },
-      );
+        );
+      }
 
+      toast({
+        title: proposalId
+          ? 'Houve um erro ao editar a Proposta de Serviço.'
+          : 'Houve um erro ao criar a Proposta de Serviço.',
+        variant: 'destructive',
+      });
+      navigate('/servicos');
       setIsLoading(false);
     }
+
+    setIsLoading(false);
   }
 
   const handleWellDefaultValues =
