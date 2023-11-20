@@ -14,18 +14,21 @@ export default function CategoryActions({
 }: CategoryActionsProperties): ReactElement {
   const [openDialog, setOpenDialog] = useState(false);
 
-  const onChangeOpenDialog = (open: boolean): void => setOpenDialog(open)
-  
+  const onChangeOpenDialog = (open: boolean): void => setOpenDialog(open);
 
   return (
     <div className="ml-auto flex w-fit">
-      <CategoryForm openDialog={openDialog} onChangeOpenDialog={onChangeOpenDialog} defaultValues={category.original} />
+      <CategoryForm
+        openDialog={openDialog}
+        onChangeOpenDialog={onChangeOpenDialog}
+        defaultValues={category.original}
+      />
 
       <DeleteDialog
         deleteMessage={`Você está prestes a excluir a categoria ${category.original.name}.`}
         entity="Categoria"
         id={category.original.id}
-        route="http://localhost:3000/categoryService"
+        route={`${import.meta.env.VITE_API_URL}/categoryService`}
         toggleFetchEntity={toggleFetchCategories}
       />
     </div>

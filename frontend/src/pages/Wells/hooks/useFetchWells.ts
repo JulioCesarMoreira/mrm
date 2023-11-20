@@ -2,7 +2,10 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import useAsyncEffect from 'use-async-effect';
-import { toggleFetchWells } from '../../../constants/atoms';
+import {
+  authenticatedUserAtom,
+  toggleFetchWells,
+} from '../../../constants/atoms';
 import useOnError from 'hooks/useOnError';
 import { Well } from '../types';
 
@@ -22,15 +25,30 @@ export default function useFetchWells(): FetchWellsResponse {
 
   const [data, setData] = useState<Well[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const toggleFetch = useAtomValue(toggleFetchWells);
+  const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const fetchData = async (
     filters?: WellsFilter,
   ): Promise<{ wells: Well[] }> => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/well',
-        filters ? { params: filters } : undefined,
+        `${import.meta.env.VITE_API_URL}/well`,
+        filters
+          ? {
+              params: filters,
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          : {
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json',
+              },
+            },
       );
 
       return response.data;

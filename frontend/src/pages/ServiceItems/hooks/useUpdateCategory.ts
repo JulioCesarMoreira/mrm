@@ -2,6 +2,8 @@ import axios from 'axios';
 import { CategoryService } from '../types';
 import useOnError from 'hooks/useOnError';
 import { useToast } from '@components/ui/use-toast';
+import { useAtomValue } from 'jotai';
+import { authenticatedUserAtom } from 'constants/atoms';
 
 interface UpdateCategory {
   updateCategory: (
@@ -13,6 +15,7 @@ interface UpdateCategory {
 export default function useUpdateCategory(): UpdateCategory {
   const { toast } = useToast();
   const { handleError } = useOnError();
+  const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const updateCategory = async (
     categoryId: string,
@@ -20,8 +23,14 @@ export default function useUpdateCategory(): UpdateCategory {
   ): Promise<CategoryService> => {
     try {
       const response = await axios.patch(
-        `http://localhost:3000/categoryService/${categoryId}`,
+        `${import.meta.env.VITE_API_URL}/categoryService/${categoryId}`,
         updatedCategory,
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+            'Content-Type': 'application/json',
+          },
+        },
       );
 
       toast({

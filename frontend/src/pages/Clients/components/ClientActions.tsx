@@ -20,7 +20,7 @@ export default function ClientActions({
         deleteMessage={`Você está prestes a excluir o cliente ${client.original.name}.`}
         entity="Cliente"
         id={client.original.id}
-        route="http://localhost:3000/client"
+        route={`${import.meta.env.VITE_API_URL}/client`}
         toggleFetchEntity={toggleFetchClients}
       />
     </div>

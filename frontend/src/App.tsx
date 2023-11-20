@@ -34,6 +34,7 @@ export default function App(): ReactElement {
       setAuthenticatedUser({
         cognitoId: idTokenData['cognito:username'],
         username: idTokenData.email,
+        idToken,
       });
 
       return true;

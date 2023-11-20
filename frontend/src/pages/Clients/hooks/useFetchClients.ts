@@ -3,7 +3,10 @@ import { useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { Client } from 'pages/Clients/types';
 import useAsyncEffect from 'use-async-effect';
-import { toggleFetchClients } from '../../../constants/atoms';
+import {
+  authenticatedUserAtom,
+  toggleFetchClients,
+} from '../../../constants/atoms';
 import useOnError from 'hooks/useOnError';
 
 interface FetchClientsResponse {
@@ -24,14 +27,28 @@ export default function useFetchClients(): FetchClientsResponse {
   const [data, setData] = useState<Client[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const toggleFetch = useAtomValue(toggleFetchClients);
+  const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const fetchData = async (
     filters?: ClientFilter,
   ): Promise<{ clients: Client[] }> => {
     try {
       const response = await axios.get(
-        'http://localhost:3000/client',
-        filters ? { params: filters } : undefined,
+        `${import.meta.env.VITE_API_URL}/client`,
+        filters
+          ? {
+              params: filters,
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          : {
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json',
+              },
+            },
       );
 
       return response.data;
