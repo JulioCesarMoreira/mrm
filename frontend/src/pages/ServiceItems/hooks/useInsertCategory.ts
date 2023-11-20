@@ -22,10 +22,7 @@ export default function useInsertCategory(): InsertCategory {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/categoryService`,
-        {
-          ...insertedCategory,
-          tenantId: '3d222283-d485-4b54-acb8-5f290c105143',
-        },
+        insertedCategory,
         {
           headers: {
             Authorization: `Bearer ${idToken}`,

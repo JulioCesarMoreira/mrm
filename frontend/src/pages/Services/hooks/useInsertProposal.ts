@@ -18,10 +18,7 @@ export default function useInsertProposal(): InsertProposal {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/proposal`,
-        {
-          ...insertedProposal,
-          tenantId: '3d222283-d485-4b54-acb8-5f290c105143',
-        },
+        insertedProposal,
         {
           headers: {
             Authorization: `Bearer ${idToken}`,

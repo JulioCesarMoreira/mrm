@@ -21,10 +21,7 @@ export default function useInsertClient(): InsertClient {
     try {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/client`,
-        {
-          ...insertedClient,
-          tenantId: '3d222283-d485-4b54-acb8-5f290c105143',
-        },
+        insertedClient,
         {
           headers: {
             Authorization: `Bearer ${idToken}`,
