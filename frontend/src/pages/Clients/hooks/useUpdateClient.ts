@@ -15,13 +15,12 @@ interface UpdateClient {
 export default function useUpdateClient(): UpdateClient {
   const { toast } = useToast();
   const { handleError } = useOnError();
+  const { idToken } = useAtomValue(authenticatedUserAtom);
 
   const updateClient = async (
     clientId: string,
     updatedClient: Omit<Omit<Client, 'id'>, 'cpfCnpj'>,
   ): Promise<Client> => {
-    const { idToken } = useAtomValue(authenticatedUserAtom);
-
     try {
       const response = await axios.patch(
         `${import.meta.env.VITE_API_URL}/client/${clientId}`,
