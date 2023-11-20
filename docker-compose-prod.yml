@@ -10,7 +10,7 @@ services:
       - NODE_ENV=development
       - COGNITO_USERPOOL="us-west-2_iV27jfIWi"
     ports:
-      - '3000:3000'
+      - '8000:8000'
     container_name: mrm-backend
     networks:
       - mrm-app
