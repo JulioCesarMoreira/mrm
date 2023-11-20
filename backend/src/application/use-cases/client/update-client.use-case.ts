@@ -9,10 +9,12 @@ export class UpdateClientUseCase {
   async updateClient(
     clientId: number,
     clientFields: Omit<Client, 'id' | 'cpfCnpj' | 'tenantId'>,
+    tenantId: string,
   ): Promise<Client> {
     const updatedClient = await this.clientRepository.update(
       clientId,
       clientFields,
+      tenantId,
     );
     return updatedClient;
   }

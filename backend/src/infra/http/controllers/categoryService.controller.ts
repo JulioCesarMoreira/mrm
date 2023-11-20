@@ -28,6 +28,10 @@ import {
   DeleteCategoryServiceUseCase,
 } from '@application/use-cases/categoryService';
 import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
+import {
+  RequestTenantDataInterface,
+  RequestTentantData,
+} from 'src/infra/guard/tenantData.decorator';
 
 @Controller('/categoryService')
 export class CategoryServiceController {
@@ -42,12 +46,16 @@ export class CategoryServiceController {
   @Post()
   async createCategoryService(
     @Body() categoryServiceDto: CreateCategoryServiceDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<CreateCategoryServiceResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
+
       const createdCategoryService =
-        await this.createCategoryServiceUseCase.createCategoryService(
-          categoryServiceDto,
-        );
+        await this.createCategoryServiceUseCase.createCategoryService({
+          ...categoryServiceDto,
+          tenantId,
+        });
 
       return createdCategoryService;
     } catch (error) {
@@ -58,8 +66,10 @@ export class CategoryServiceController {
   @Get(':id')
   async getCategoryService(
     @Param() parameters: GetCategoryServiceIdDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<GetCategoryServiceResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const categoryServiceEntity =
         await this.getCategoryServiceUsecase.getCategoryService(
           Number(parameters.id),
@@ -73,10 +83,15 @@ export class CategoryServiceController {
   @Get()
   async fetchCategoryService(
     @Query() filters: FetchCategoryServicesDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<FetchCategoryServicesResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const fetchCategoryServicesList =
-        await this.fetchCategoryServicesUseCase.fetchCategoryService(filters);
+        await this.fetchCategoryServicesUseCase.fetchCategoryService(
+          filters,
+          tenantId,
+        );
 
       return CategoryServiceMapper.fetchCategoryServiceToController(
         fetchCategoryServicesList,
@@ -90,12 +105,15 @@ export class CategoryServiceController {
   async updateCategoryService(
     @Param() parameters: GetCategoryServiceIdDto,
     @Body() body: UpdateCategoryServiceDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<UpdateCategoryServiceResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const updateCategoryService =
         await this.updateCategoryServiceUseCase.updateCategoryService(
           Number(parameters.id),
           body,
+          tenantId,
         );
 
       return updateCategoryService;
@@ -107,11 +125,14 @@ export class CategoryServiceController {
   @Delete(':id')
   async deleteCategoryService(
     @Param() parameters: GetCategoryServiceIdDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<DeleteCategoryServiceResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const deleteCategoryService =
         await this.deleteCategoryServiceUseCase.deleteCategoryService(
           Number(parameters.id),
+          tenantId,
         );
 
       return CategoryServiceMapper.deleteCategoryServiceToController(

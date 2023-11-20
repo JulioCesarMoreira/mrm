@@ -9,6 +9,7 @@ export class UpdateProposalUseCase {
   async updateProposal(
     proposalId: number,
     proposalFields: Omit<Proposal, 'id' | 'tenantId' | 'clientId'>,
+    tenantId: string,
   ): Promise<Proposal> {
     const { periodValidity, sendDate } = proposalFields;
 
@@ -21,6 +22,7 @@ export class UpdateProposalUseCase {
     const updatedProposal = await this.proposalRepository.update(
       proposalId,
       proposalFields,
+      tenantId,
     );
     return updatedProposal;
   }

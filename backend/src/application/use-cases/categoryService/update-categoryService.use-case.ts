@@ -9,10 +9,12 @@ export class UpdateCategoryServiceUseCase {
   async updateCategoryService(
     categoryServiceId: number,
     categoryServiceFields: Omit<CategoryService, 'id' | 'tenantId'>,
+    tenantId: string,
   ): Promise<CategoryService> {
     const updatedCategoryService = await this.categoryServiceRepository.update(
       categoryServiceId,
       categoryServiceFields,
+      tenantId,
     );
     return updatedCategoryService;
   }

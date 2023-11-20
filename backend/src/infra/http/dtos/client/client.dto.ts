@@ -2,7 +2,6 @@ import {
   IsNumberString,
   IsOptional,
   IsString,
-  IsUUID,
   MaxLength,
   Validate,
 } from 'class-validator';
@@ -27,9 +26,6 @@ export class CreateClientDto {
   @IsString()
   @MaxLength(14)
   cpfCnpj: string;
-
-  @IsUUID()
-  tenantId: string;
 }
 
 export class ClientIdDto {
@@ -53,9 +49,7 @@ export class FetchClientsDto {
   @MaxLength(11)
   contactPhone: string;
 
-  @IsUUID()
-  @IsOptional()
-  tenantId: string;
+  tenantId?: string;
 }
 
 export class UpdateClientDto {

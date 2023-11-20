@@ -8,9 +8,11 @@ export class FetchModelProposalUseCase {
 
   async fetchModelProposal(
     filters: Omit<ModelProposal, 'id'>,
+    tenantId: string,
   ): Promise<ModelProposal[]> {
     const fetchModelProposal = await this.modelProposalRepository.fetch(
       filters,
+      tenantId,
     );
 
     return fetchModelProposal;

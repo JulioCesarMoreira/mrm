@@ -2,7 +2,6 @@ import {
   IsEnum,
   IsNotEmpty,
   IsString,
-  IsUUID,
   MaxLength,
   IsNumberString,
   IsOptional,
@@ -31,8 +30,6 @@ export class CreateCategoryServiceDto {
   @IsNotEmpty()
   color: string;
 
-  @IsUUID()
-  @IsNotEmpty()
   tenantId: string;
 }
 
@@ -56,8 +53,6 @@ export class FetchCategoryServicesDto {
   @IsOptional()
   color: string;
 
-  @IsUUID()
-  @IsOptional()
   tenantId: string;
 }
 

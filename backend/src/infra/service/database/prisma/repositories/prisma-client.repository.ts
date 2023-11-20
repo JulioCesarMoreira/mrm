@@ -22,22 +22,21 @@ export class PrismaClientRepository implements ClientRepository {
     return createdClient;
   }
 
-  async get(id: number): Promise<Client> {
-    const getClient = await this.prisma.client.findUnique({
+  async get(id: number, tenantId: string): Promise<Client> {
+    const getClient = await this.prisma.client.findFirst({
       where: {
         id: id,
+        tenantId,
       },
     });
 
     return getClient;
   }
 
-  async fetch({
-    contactName,
-    contactPhone,
-    name,
-    tenantId,
-  }: FetchClientsDto): Promise<Client[]> {
+  async fetch(
+    { contactName, contactPhone, name }: FetchClientsDto,
+    tenantId: string,
+  ): Promise<Client[]> {
     const fetchClient = await this.prisma.client.findMany({
       where: {
         ...(contactName && { contactName: { contains: contactName } }),
@@ -53,7 +52,17 @@ export class PrismaClientRepository implements ClientRepository {
   async update(
     entityId: number,
     { contactName, contactPhone, name }: UpdateClientDto,
+    tenantId: string,
   ): Promise<Client> {
+    const validTenant = await this.prisma.client.count({
+      where: {
+        id: entityId,
+        tenantId,
+      },
+    });
+
+    if (validTenant === 0) return undefined;
+
     const updatedClient = await this.prisma.client.update({
       where: {
         id: entityId,

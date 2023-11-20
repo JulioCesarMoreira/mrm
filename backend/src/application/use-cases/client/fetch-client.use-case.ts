@@ -7,9 +7,10 @@ export class FetchClienteUseCase {
   constructor(private clientRepository: ClientRepository) {}
 
   async fetchClient(
-    filters: Omit<Client, 'id' | 'cpfCnpj'>,
+    filters: Omit<Client, 'id' | 'cpfCnpj' | 'tenantId'>,
+    tenantId: string,
   ): Promise<Client[]> {
-    const fetchCliente = await this.clientRepository.fetch(filters);
+    const fetchCliente = await this.clientRepository.fetch(filters, tenantId);
 
     return fetchCliente;
   }

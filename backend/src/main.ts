@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { GlobalExceptionFilter } from './infra/global-exception/global-exception.filter';
 import { ValidationError } from 'class-validator';
+import { AuthGuard } from './infra/guard/auth.guard';
+import { JwtService } from '@nestjs/jwt';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule);
@@ -28,6 +30,9 @@ async function bootstrap(): Promise<void> {
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new GlobalExceptionFilter(httpAdapter));
+
+  const jwtService = app.get(JwtService);
+  app.useGlobalGuards(new AuthGuard(jwtService));
 
   app.enableCors({
     origin: 'http://localhost:5173',

@@ -28,6 +28,10 @@ import {
   DeleteModelProposalUseCase,
 } from '@application/use-cases/modelProposal';
 import { ErrorResponseDto } from '@infra/http/dtos/error/error-response.dto';
+import {
+  RequestTenantDataInterface,
+  RequestTentantData,
+} from 'src/infra/guard/tenantData.decorator';
 
 @Controller('/modelProposal')
 export class ModelProposalController {
@@ -42,12 +46,15 @@ export class ModelProposalController {
   @Post()
   async createModelProposal(
     @Body() modelProposalDto: CreateModelProposalDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<CreateModelProposalResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const createdModelProposal =
-        await this.createModelProposalUseCase.createModelProposal(
-          modelProposalDto,
-        );
+        await this.createModelProposalUseCase.createModelProposal({
+          ...modelProposalDto,
+          tenantId,
+        });
 
       return createdModelProposal;
     } catch (error) {
@@ -58,11 +65,14 @@ export class ModelProposalController {
   @Get(':id')
   async getModelProposal(
     @Param() parameters: GetModelProposalIdDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<GetModelProposalResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const modelProposalEntity =
         await this.getModelProposalUsecase.getModelProposal(
           Number(parameters.id),
+          tenantId,
         );
       return modelProposalEntity;
     } catch (error) {
@@ -73,10 +83,15 @@ export class ModelProposalController {
   @Get()
   async fetchModelProposal(
     @Query() filters: FetchModelProposalsDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<FetchModelProposalsResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const fetchModelProposalsList =
-        await this.fetchModelProposalsUseCase.fetchModelProposal(filters);
+        await this.fetchModelProposalsUseCase.fetchModelProposal(
+          filters,
+          tenantId,
+        );
 
       return ModelProposalMapper.fetchModelProposalToController(
         fetchModelProposalsList,
@@ -90,12 +105,15 @@ export class ModelProposalController {
   async updateModelProposal(
     @Param() parameters: GetModelProposalIdDto,
     @Body() body: UpdateModelProposalDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<UpdateModelProposalResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const updateModelProposal =
         await this.updateModelProposalUseCase.updateModelProposal(
           Number(parameters.id),
           body,
+          tenantId,
         );
 
       return updateModelProposal;
@@ -107,11 +125,14 @@ export class ModelProposalController {
   @Delete(':id')
   async deleteModelProposal(
     @Param() parameters: GetModelProposalIdDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<DeleteModelProposalResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
       const deleteModelProposal =
         await this.deleteModelProposalUseCase.deleteModelProposal(
           Number(parameters.id),
+          tenantId,
         );
 
       return ModelProposalMapper.deleteModelProposalToController(

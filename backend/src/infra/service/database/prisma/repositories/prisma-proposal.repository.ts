@@ -33,7 +33,16 @@ export class PrismaProposalRepository implements ProposalRepository {
     return createdProposal;
   }
 
-  async get(id: number): Promise<Proposal> {
+  async get(id: number, tenantId: string): Promise<Proposal> {
+    const valitadeTenant = await this.prisma.proposal.count({
+      where: {
+        id,
+        tenantId,
+      },
+    });
+
+    if (valitadeTenant === 0) return undefined;
+
     const getProposal = await this.prisma.proposal.findUnique({
       where: {
         id: id,
@@ -43,17 +52,19 @@ export class PrismaProposalRepository implements ProposalRepository {
     return getProposal;
   }
 
-  async fetch({
-    sendDate,
-    installmentsBalance,
-    periodValidity,
-    discount,
-    percentageEntry,
-    guaranteePeriod,
-    approved,
-    clientId,
-    tenantId,
-  }: Omit<Proposal, 'id'>): Promise<Proposal[]> {
+  async fetch(
+    {
+      sendDate,
+      installmentsBalance,
+      periodValidity,
+      discount,
+      percentageEntry,
+      guaranteePeriod,
+      approved,
+      clientId,
+    }: Omit<Proposal, 'id'>,
+    tenantId: string,
+  ): Promise<Proposal[]> {
     const fetchProposal = await this.prisma.proposal.findMany({
       where: {
         ...(sendDate && { sendDate }),
@@ -82,7 +93,17 @@ export class PrismaProposalRepository implements ProposalRepository {
       guaranteePeriod,
       approved,
     }: Omit<Proposal, 'id' | 'tenantId' | 'clientId'>,
+    tenantId: string,
   ): Promise<Proposal> {
+    const valitadeTenant = await this.prisma.proposal.count({
+      where: {
+        id: entityId,
+        tenantId,
+      },
+    });
+
+    if (valitadeTenant === 0) return undefined;
+
     const updatedProposal = await this.prisma.proposal.update({
       where: {
         id: entityId,
@@ -101,7 +122,16 @@ export class PrismaProposalRepository implements ProposalRepository {
     return updatedProposal;
   }
 
-  async delete(id: number): Promise<boolean> {
+  async delete(id: number, tenantId: string): Promise<boolean> {
+    const valitadeTenant = await this.prisma.proposal.count({
+      where: {
+        id,
+        tenantId,
+      },
+    });
+
+    if (valitadeTenant === 0) return false;
+
     const proposal = await this.prisma.proposal.delete({
       where: {
         id,
