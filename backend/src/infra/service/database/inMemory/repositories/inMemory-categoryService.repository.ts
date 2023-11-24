@@ -1,5 +1,5 @@
 import { CategoryService } from '@application/core/entities';
-import { CategoryServiceRepository } from '@application/core/repositories';
+import { CategoryServiceRepository } from '@application/core/repositories/database';
 
 export class InMemoryCategoryServiceRepository extends CategoryServiceRepository {
   private categoryServices: CategoryService[] = [];

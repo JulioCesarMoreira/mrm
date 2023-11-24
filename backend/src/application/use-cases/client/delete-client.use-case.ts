@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ClientRepository } from '@application/core/repositories';
+import { ClientRepository } from '@application/core/repositories/database';
 
 @Injectable()
 export class DeleteClientUseCase {

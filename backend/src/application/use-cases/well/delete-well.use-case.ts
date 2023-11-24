@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { WellRepository } from '@application/core/repositories';
+import { WellRepository } from '@application/core/repositories/database';
 
 @Injectable()
 export class DeleteWellUseCase {

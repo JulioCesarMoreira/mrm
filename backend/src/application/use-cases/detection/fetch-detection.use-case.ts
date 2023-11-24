@@ -2,7 +2,7 @@ import { Detection } from '@application/core/entities';
 import {
   DetectionRepository,
   ProposalRepository,
-} from '@application/core/repositories';
+} from '@application/core/repositories/database';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()

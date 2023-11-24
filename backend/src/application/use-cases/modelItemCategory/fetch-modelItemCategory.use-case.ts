@@ -3,7 +3,7 @@ import {
   ItemServiceRepository,
   ModelItemCategoryRepository,
   ModelProposalRepository,
-} from '@application/core/repositories';
+} from '@application/core/repositories/database';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()

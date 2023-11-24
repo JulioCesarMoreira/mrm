@@ -1,5 +1,5 @@
 import { ModelProposal } from '@application/core/entities';
-import { ModelProposalRepository } from '@application/core/repositories';
+import { ModelProposalRepository } from '@application/core/repositories/database';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 @Injectable()

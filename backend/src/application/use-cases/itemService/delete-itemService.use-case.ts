@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ItemServiceRepository } from '@application/core/repositories';
+import { ItemServiceRepository } from '@application/core/repositories/database';
 
 @Injectable()
 export class DeleteItemServiceUseCase {

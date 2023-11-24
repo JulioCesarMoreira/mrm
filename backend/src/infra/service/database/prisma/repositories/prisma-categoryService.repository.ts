@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { CategoryServiceRepository } from '@application/core/repositories';
+import { CategoryServiceRepository } from '@application/core/repositories/database';
 import { CategoryService } from '@application/core/entities';
 
 @Injectable()

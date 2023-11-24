@@ -1,5 +1,8 @@
 import { City, Well } from '@application/core/entities';
-import { CityRepository, WellRepository } from '@application/core/repositories';
+import {
+  CityRepository,
+  WellRepository,
+} from '@application/core/repositories/database';
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 interface WellResponse {

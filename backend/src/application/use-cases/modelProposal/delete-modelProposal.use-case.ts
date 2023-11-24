@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ModelProposalRepository } from '@application/core/repositories';
+import { ModelProposalRepository } from '@application/core/repositories/database';
 
 @Injectable()
 export class DeleteModelProposalUseCase {

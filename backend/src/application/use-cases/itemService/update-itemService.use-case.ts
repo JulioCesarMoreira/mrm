@@ -1,5 +1,5 @@
 import { ItemService } from '@application/core/entities';
-import { ItemServiceRepository } from '@application/core/repositories';
+import { ItemServiceRepository } from '@application/core/repositories/database';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Detection } from '@application/core/entities';
-import { DetectionRepository } from '@application/core/repositories';
+import { DetectionRepository } from '@application/core/repositories/database';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

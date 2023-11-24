@@ -1,5 +1,5 @@
 import { ModelItemCategory } from '@application/core/entities';
-import { ModelItemCategoryRepository } from '@application/core/repositories';
+import { ModelItemCategoryRepository } from '@application/core/repositories/database';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

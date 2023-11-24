@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { ClientRepository } from '@application/core/repositories';
+import { ClientRepository } from '@application/core/repositories/database';
 import { Client } from '@application/core/entities';
 import { FetchClientsDto, UpdateClientDto } from '@infra/http/dtos/client';
 
