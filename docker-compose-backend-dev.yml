@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  mrm-backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    environment:
+      - DATABASE_URL=mysql://root:mrm-mysql@172.17.0.1:3306/mrm-mysql?connection_limit=9&pool_timeout=10&connect_timeout=10&socket_timeout=10
+      - NODE_ENV=development
+      - COGNITO_USERPOOL="us-west-2_iV27jfIWi"
+    ports:''
+      - '8000:8000'
+    container_name: mrm-backend
