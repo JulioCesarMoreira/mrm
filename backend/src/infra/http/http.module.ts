@@ -83,9 +83,11 @@ import {
 } from '@application/use-cases/proposalService';
 import { ProposalServiceController } from './controllers/proposalService.controller';
 import { FetchItemServiceToProposalUseCase } from '@application/use-cases/itemService/fetchToProposal-itemService.use-case';
+import { SaveProposalAttachmentUseCase } from '@application/use-cases/attachments';
+import { StorageModule } from '@infra/service/storage/storage.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, StorageModule],
   controllers: [
     ItemServiceController,
     ClientController,
@@ -124,6 +126,7 @@ import { FetchItemServiceToProposalUseCase } from '@application/use-cases/itemSe
     FetchProposalUseCase,
     UpdateProposalUseCase,
     DeleteProposalUseCase,
+    SaveProposalAttachmentUseCase,
 
     CreateDetectionUseCase,
     GetDetectionUseCase,

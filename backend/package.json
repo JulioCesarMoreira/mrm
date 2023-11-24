@@ -13,10 +13,13 @@
     "start:prod": "node dist/main",
     "prisma:migrate": "pnpm dlx prisma migrate dev --schema=./prisma/schema.prisma",
     "prisma:seed": "pnpm dlx prisma db seed",
+    "prisma:generate": "pnpm dlx prisma generate",
     "test": "jest",
     "test:api": "pnpm test -- ./__tests__/*.api.spec.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.456.0",
+    "@fastify/multipart": "^8.0.0",
     "@nestjs/common": "^9.4.2",
     "@nestjs/core": "^9.4.2",
     "@nestjs/jwt": "^10.2.0",
@@ -28,6 +31,7 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "csv-parser": "^3.0.0",
+    "form-data": "^4.0.0",
     "nestjs-prisma": "^0.22.0",
     "none": "^1.0.0",
     "reflect-metadata": "^0.1.13",

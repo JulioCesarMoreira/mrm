@@ -15,5 +15,5 @@ export function authGuardValidationExceptionFilter(
     message: exception.message,
   };
 
-  response.status(401).json(error);
+  response.status(401).send(error);
 }

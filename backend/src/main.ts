@@ -5,9 +5,15 @@ import { GlobalExceptionFilter } from './infra/global-exception/global-exception
 import { ValidationError } from 'class-validator';
 import { AuthGuard } from './infra/guard/auth.guard';
 import { JwtService } from '@nestjs/jwt';
+import type { NestFastifyApplication } from '@nestjs/platform-fastify';
+import { FastifyAdapter } from '@nestjs/platform-fastify';
+import multipart from '@fastify/multipart';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(),
+  );
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -27,6 +33,8 @@ async function bootstrap(): Promise<void> {
       },
     }),
   );
+
+  await app.register(multipart);
 
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.useGlobalFilters(new GlobalExceptionFilter(httpAdapter));

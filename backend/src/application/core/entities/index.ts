@@ -11,3 +11,4 @@ export * from './itemProposal.entity';
 export * from './modelProposal.entity';
 export * from './modelItemCategory.entity';
 export * from './city.entity';
+export * from './attachment.interface';
