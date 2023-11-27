@@ -106,10 +106,18 @@ export class PrismaProposalRepository implements ProposalRepository {
   }
 
   async delete(id: number, tenantId: string): Promise<boolean> {
-    const proposal = await this.prisma.proposal.delete({
+    const valitadeTenant = await this.prisma.proposal.count({
       where: {
         id,
         tenantId,
+      },
+    });
+
+    if (valitadeTenant === 0) return false;
+
+    const proposal = await this.prisma.proposal.delete({
+      where: {
+        id,
       },
     });
 

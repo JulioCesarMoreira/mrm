@@ -199,8 +199,8 @@ export class ProposalController {
     @Param() parameters: DeleteProposalAttachmentDto,
     @RequestTentantData() tenantData: RequestTenantDataInterface,
   ): Promise<DeleteProposalAttachmentResponseDto | ErrorResponseDto> {
+    const response: DeleteProposalAttachmentResponseDto = { message: '' };
     try {
-      const response: DeleteProposalAttachmentResponseDto = { message: '' };
       const tenantId = tenantData.id;
 
       const { id, fileName } = parameters;
@@ -210,13 +210,11 @@ export class ProposalController {
         tenantId,
         fileName,
       );
-      console.log('deleteResponse', deleteResponse);
 
       response.message = deleteResponse;
-
-      return response;
     } catch (error) {
       return new ErrorResponseDto(error);
     }
+    return response;
   }
 }
