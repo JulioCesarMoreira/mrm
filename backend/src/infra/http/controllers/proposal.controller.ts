@@ -19,6 +19,10 @@ import {
   UpdateProposalResponseDto,
   DeleteProposalResponseDto,
   FetchItemServicesToProposalResponseDto,
+  SaveProposalIdAttachmentDto,
+  SaveProposalAttachmentResponseDto,
+  DeleteProposalAttachmentDto,
+  DeleteProposalAttachmentResponseDto,
 } from '@infra/http/dtos/proposal';
 import { ProposalMapper } from '@infra/http/mappers/proposal.mapper';
 import {
@@ -35,6 +39,10 @@ import {
   RequestTenantDataInterface,
   RequestTentantData,
 } from 'src/infra/guard/tenantData.decorator';
+import { SaveProposalAttachmentUseCase } from '@application/use-cases/attachments';
+import { HandleFile } from './decorators/handleFile';
+import { Attachment } from '@application/core/entities';
+import { DeleteProposalAttachmentUseCase } from '@application/use-cases/attachments/deleteProposalAttatchment.use-case';
 
 @Controller('/proposal')
 export class ProposalController {
@@ -45,6 +53,8 @@ export class ProposalController {
     private updateProposalUseCase: UpdateProposalUseCase,
     private deleteProposalUseCase: DeleteProposalUseCase,
     private itemsServiceFetchUseCase: FetchItemServiceToProposalUseCase,
+    private saveProposalAttachmentUseCase: SaveProposalAttachmentUseCase,
+    private deleteProposalAttachmentUseCase: DeleteProposalAttachmentUseCase,
   ) {}
 
   @Post()
@@ -147,6 +157,64 @@ export class ProposalController {
         await this.itemsServiceFetchUseCase.fetchItemService();
 
       return ItemServiceMapper.fetchItemServiceToController(fetchItemsServices);
+    } catch (error) {
+      return new ErrorResponseDto(error);
+    }
+  }
+
+  @Post(':id/attachment')
+  async SaveProposalAttchament(
+    @Param() parameters: SaveProposalIdAttachmentDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
+    @HandleFile() attachment: Attachment,
+  ): Promise<SaveProposalAttachmentResponseDto | ErrorResponseDto> {
+    try {
+      const { id } = parameters;
+
+      const tenantId = tenantData.id;
+      const attachmentUrl = await this.saveProposalAttachmentUseCase.save(
+        Number(id),
+        tenantId,
+        attachment.filename,
+        attachment.mimetype,
+        attachment.buffer,
+      );
+      let messageResponse: string;
+      if (attachmentUrl) {
+        messageResponse = `File ${attachment.filename} attachement saved.`;
+      } else {
+        messageResponse = `File ${attachment.filename} attachement not saved.`;
+      }
+      return {
+        url: attachmentUrl,
+        message: messageResponse,
+      };
+    } catch (error) {
+      return new ErrorResponseDto(error);
+    }
+  }
+
+  @Delete(':id/attachment/:fileName')
+  async DeleteProposalAttachment(
+    @Param() parameters: DeleteProposalAttachmentDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
+  ): Promise<DeleteProposalAttachmentResponseDto | ErrorResponseDto> {
+    try {
+      const response: DeleteProposalAttachmentResponseDto = { message: '' };
+      const tenantId = tenantData.id;
+
+      const { id, fileName } = parameters;
+
+      const deleteResponse = await this.deleteProposalAttachmentUseCase.delete(
+        Number(id),
+        tenantId,
+        fileName,
+      );
+      console.log('deleteResponse', deleteResponse);
+
+      response.message = deleteResponse;
+
+      return response;
     } catch (error) {
       return new ErrorResponseDto(error);
     }

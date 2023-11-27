@@ -7,6 +7,7 @@ import {
   IsBoolean,
   Max,
   Min,
+  IsString,
 } from 'class-validator';
 
 export class CreateProposalDto {
@@ -116,4 +117,19 @@ export class UpdateProposalDto {
   @IsBoolean()
   @IsOptional()
   approved: boolean;
+}
+
+export class SaveProposalIdAttachmentDto {
+  @IsNumberString()
+  id: number;
+}
+
+export class DeleteProposalAttachmentDto {
+  @IsNumberString()
+  @IsNotEmpty()
+  id: number;
+
+  @IsNotEmpty()
+  @IsString()
+  fileName: string;
 }

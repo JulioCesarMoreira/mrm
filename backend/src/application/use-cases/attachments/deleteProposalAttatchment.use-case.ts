@@ -1,10 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ProposalAttachmentRepository } from '@application/core/repositories/storage';
 import { ProposalRepository } from '@application/core/repositories/database';
-import { Attachment } from '@application/core/entities';
+import { DeleteObjectCommandOutput } from '@aws-sdk/client-s3';
 
 @Injectable()
-export class SaveProposalAttachmentUseCase {
+export class DeleteProposalAttachmentUseCase {
   private readonly bucketName: string;
 
   constructor(
@@ -14,12 +14,10 @@ export class SaveProposalAttachmentUseCase {
     this.bucketName = 'mrm-attachments';
   }
 
-  async save(
+  async delete(
     proposalId: number,
     tenantId: string,
     filename: string,
-    mimetype: string,
-    buffer: Buffer,
   ): Promise<string> {
     const proposal = await this.proposalDatabaseRepository.get(
       proposalId,
@@ -30,32 +28,18 @@ export class SaveProposalAttachmentUseCase {
       throw new BadRequestException('Proposal do not exists!');
     }
 
-    const attachment: Attachment = {
-      filename: `tenant/${tenantId}/proposal/${proposalId}/${filename}`,
-      mimetype,
-      buffer,
-    };
+    const filenameKey = `tenant/${tenantId}/proposal/${proposalId}/${filename}`;
 
-    const saveObjectResponse =
-      await this.proposalAttatchmentRepository.saveObject({
+    const deleteObjectResponse =
+      await this.proposalAttatchmentRepository.deleteObject({
         Bucket: this.bucketName,
-        Key: attachment.filename,
-        Body: attachment.buffer,
-        ContentType: attachment.mimetype,
+        Key: filenameKey,
       });
 
-    if (saveObjectResponse.$metadata.httpStatusCode !== 200) {
-      new Error(`Attachmento ${filename} are not saved.`);
+    if (deleteObjectResponse.$metadata.httpStatusCode !== 204) {
+      new Error(`Attachment ${filename} are not deleted.`);
     }
 
-    const url = await this.proposalAttatchmentRepository.getObjetcUrl(
-      {
-        Bucket: this.bucketName,
-        Key: attachment.filename,
-      },
-      1800,
-    );
-
-    return url;
+    return 'Attachment has been deleted.';
   }
 }

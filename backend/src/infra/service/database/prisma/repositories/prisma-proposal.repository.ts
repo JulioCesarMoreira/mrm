@@ -33,21 +33,12 @@ export class PrismaProposalRepository implements ProposalRepository {
     return createdProposal;
   }
 
-  async get(id: number, tenantId: string): Promise<Proposal> {
-    const valitadeTenant = await this.prisma.proposal.count({
-      where: {
-        id,
-        tenantId,
-      },
-    });
-
-    if (valitadeTenant === 0) return undefined;
-
+  async get(proposalId: number, tenantId: string): Promise<Proposal> {
     const getProposal = await this.prisma.proposal.findUnique({
-      where: {
-        id: id,
-      },
+      where: { id: proposalId },
     });
+
+    if (getProposal.tenantId !== tenantId) return null;
 
     return getProposal;
   }
@@ -95,18 +86,10 @@ export class PrismaProposalRepository implements ProposalRepository {
     }: Omit<Proposal, 'id' | 'tenantId' | 'clientId'>,
     tenantId: string,
   ): Promise<Proposal> {
-    const valitadeTenant = await this.prisma.proposal.count({
-      where: {
-        id: entityId,
-        tenantId,
-      },
-    });
-
-    if (valitadeTenant === 0) return undefined;
-
     const updatedProposal = await this.prisma.proposal.update({
       where: {
         id: entityId,
+        tenantId,
       },
       data: {
         ...(sendDate && { sendDate }),
@@ -123,18 +106,10 @@ export class PrismaProposalRepository implements ProposalRepository {
   }
 
   async delete(id: number, tenantId: string): Promise<boolean> {
-    const valitadeTenant = await this.prisma.proposal.count({
-      where: {
-        id,
-        tenantId,
-      },
-    });
-
-    if (valitadeTenant === 0) return false;
-
     const proposal = await this.prisma.proposal.delete({
       where: {
         id,
+        tenantId,
       },
     });
 

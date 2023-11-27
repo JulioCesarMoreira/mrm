@@ -1,3 +1,5 @@
+import { Attachment } from './attachment.interface';
+
 export class Proposal {
   id: number;
 
@@ -18,4 +20,12 @@ export class Proposal {
   clientId: number;
 
   tenantId: string;
+
+  attachements?: ProposalAttachment[];
+}
+
+export class ProposalAttachment implements Attachment {
+  buffer?: Buffer;
+  filename: string;
+  mimetype?: string;
 }

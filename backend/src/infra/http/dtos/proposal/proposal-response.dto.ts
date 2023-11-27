@@ -105,3 +105,12 @@ export class FetchItemServicesToProposalResponseDto {
     categoryServiceId: number;
   }[];
 }
+
+export class SaveProposalAttachmentResponseDto {
+  url: string;
+  message: string;
+}
+
+export class DeleteProposalAttachmentResponseDto {
+  message: string;
+}

@@ -45,7 +45,7 @@ export class GlobalExceptionFilter extends BaseExceptionFilter {
         break;
 
       default:
-        response.status(500).json({ message: 'Internal server error' });
+        response.status(500).send({ message: 'Internal server error' });
     }
   }
 }

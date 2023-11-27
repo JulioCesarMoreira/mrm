@@ -15,7 +15,7 @@ export function prismaClientValidationExceptionFilter(
     message: exception.message,
   };
 
-  response.status(400).json(error);
+  response.status(400).send(error);
 }
 
 export function prismaClientKnowExceptionFilter(
@@ -32,7 +32,7 @@ export function prismaClientKnowExceptionFilter(
     message: JSON.stringify(exception.meta),
   };
 
-  response.status(status).json(error);
+  response.status(status).send(error);
 }
 
 function getHttpStatusForPrismaError(exceptionCode: string): number {

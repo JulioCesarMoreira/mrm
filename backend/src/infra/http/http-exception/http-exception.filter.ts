@@ -23,5 +23,5 @@ export function httpExceptionFilter(
     message: JSON.stringify(errorMessage.message),
   };
 
-  response.status(status).json(error);
+  response.status(status).send(error);
 }
