@@ -86,10 +86,18 @@ export class PrismaProposalRepository implements ProposalRepository {
     }: Omit<Proposal, 'id' | 'tenantId' | 'clientId'>,
     tenantId: string,
   ): Promise<Proposal> {
-    const updatedProposal = await this.prisma.proposal.update({
+    const valitadeTenant = await this.prisma.proposal.count({
       where: {
         id: entityId,
         tenantId,
+      },
+    });
+
+    if (valitadeTenant === 0) return undefined;
+
+    const updatedProposal = await this.prisma.proposal.update({
+      where: {
+        id: entityId,
       },
       data: {
         ...(sendDate && { sendDate }),
