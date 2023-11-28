@@ -21,10 +21,13 @@ export class SaveProposalAttachmentUseCase {
     mimetype: string,
     buffer: Buffer,
   ): Promise<string> {
+    console.log('Ai meu deus');
+
     const proposal = await this.proposalDatabaseRepository.get(
       proposalId,
       tenantId,
     );
+    console.log('proposal', proposal);
 
     if (!proposal) {
       throw new BadRequestException('Proposal do not exists!');
@@ -44,6 +47,8 @@ export class SaveProposalAttachmentUseCase {
         ContentType: attachment.mimetype,
       });
 
+    console.log('saveObjectResponse', saveObjectResponse);
+
     if (saveObjectResponse.$metadata.httpStatusCode !== 200) {
       new Error(`Attachmento ${filename} are not saved.`);
     }
@@ -55,6 +60,7 @@ export class SaveProposalAttachmentUseCase {
       },
       1800,
     );
+    console.log('url', url);
 
     return url;
   }
