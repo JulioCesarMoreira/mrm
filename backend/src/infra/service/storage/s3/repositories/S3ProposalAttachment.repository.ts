@@ -20,7 +20,13 @@ export class S3ProposalAttachmentRepository
 {
   private readonly client: S3Client;
   constructor() {
-    this.client = new S3Client({ region: process.env.AWS_REGION });
+    this.client = new S3Client({
+      region: process.env.AWS_REGION,
+      // credentials: {
+      //   accessKeyId: process.env.AWS_ACCESS_KEY,
+      //   secretAccessKey: process.env.AWS_SECRET_KEY,
+      // },
+    });
   }
 
   async saveObject(

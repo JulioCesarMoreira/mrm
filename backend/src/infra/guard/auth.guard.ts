@@ -53,6 +53,9 @@ export class AuthGuard implements CanActivate {
         clientId,
       });
 
+    if (userPoolId !== process.env.COGNITO_USERPOOL) {
+      throw new UnauthorizedErrorException('Invalid Cognito Id Token');
+    }
     try {
       await verifier.verify(token);
     } catch {
