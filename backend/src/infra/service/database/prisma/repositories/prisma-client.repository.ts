@@ -23,12 +23,13 @@ export class PrismaClientRepository implements ClientRepository {
   }
 
   async get(id: number, tenantId: string): Promise<Client> {
-    const getClient = await this.prisma.client.findFirst({
+    const getClient = await this.prisma.client.findUnique({
       where: {
         id: id,
-        tenantId,
       },
     });
+
+    if (getClient && getClient.tenantId !== tenantId) return null;
 
     return getClient;
   }

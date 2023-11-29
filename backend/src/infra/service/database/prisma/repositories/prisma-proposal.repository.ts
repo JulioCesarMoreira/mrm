@@ -38,7 +38,7 @@ export class PrismaProposalRepository implements ProposalRepository {
       where: { id: proposalId },
     });
 
-    if (getProposal.tenantId !== tenantId) return null;
+    if (getProposal && getProposal.tenantId !== tenantId) return null;
 
     return getProposal;
   }

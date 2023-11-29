@@ -22,20 +22,13 @@ export class PrismaModelProposalRepository implements ModelProposalRepository {
   }
 
   async get(id: number, tenantId: string): Promise<ModelProposal> {
-    const valitadeTenant = await this.prisma.modelProposal.count({
-      where: {
-        id,
-        tenantId,
-      },
-    });
-
-    if (valitadeTenant === 0) return undefined;
-
     const getModelProposal = await this.prisma.modelProposal.findUnique({
       where: {
         id: id,
       },
     });
+
+    if (getModelProposal && getModelProposal.tenantId !== tenantId) return null;
 
     return getModelProposal;
   }
