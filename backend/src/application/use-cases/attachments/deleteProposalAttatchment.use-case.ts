@@ -37,7 +37,7 @@ export class DeleteProposalAttachmentUseCase {
       });
 
     if (deleteObjectResponse.$metadata.httpStatusCode !== 204) {
-      new Error(`Attachment ${filename} are not deleted.`);
+      throw new Error(`Attachment ${filename} are not deleted.`);
     }
 
     return 'Attachment has been deleted.';
