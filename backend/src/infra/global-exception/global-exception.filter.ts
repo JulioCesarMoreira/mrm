@@ -54,17 +54,11 @@ export class GlobalExceptionFilter extends BaseExceptionFilter {
         break;
 
       case exception instanceof BadRequestExceptionCustom:
-        badRequestExceptionFilter(
-          exception as UnauthorizedErrorException,
-          host,
-        );
+        badRequestExceptionFilter(exception as BadRequestExceptionCustom, host);
         break;
 
       case exception instanceof BadRequestException:
-        authGuardValidationExceptionFilter(
-          exception as UnauthorizedErrorException,
-          host,
-        );
+        badRequestExceptionFilter(exception as BadRequestExceptionCustom, host);
         break;
 
       default:
