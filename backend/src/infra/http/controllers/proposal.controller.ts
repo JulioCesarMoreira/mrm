@@ -23,6 +23,8 @@ import {
   SaveProposalAttachmentResponseDto,
   DeleteProposalAttachmentDto,
   DeleteProposalAttachmentResponseDto,
+  FetchProposalIdAttachmentDto,
+  FetchProposalAttachmentsResponseDto,
 } from '@infra/http/dtos/proposal';
 import { ProposalMapper } from '@infra/http/mappers/proposal.mapper';
 import {
@@ -43,6 +45,7 @@ import { SaveProposalAttachmentUseCase } from '@application/use-cases/attachment
 import { HandleFile } from './decorators/handleFile';
 import { Attachment } from '@application/core/entities';
 import { DeleteProposalAttachmentUseCase } from '@application/use-cases/attachments/deleteProposalAttatchment.use-case';
+import { FetchProposalAttachmentsUseCase } from '@application/use-cases/attachments/fetchProposalAttatchments.use-case';
 
 @Controller('/proposal')
 export class ProposalController {
@@ -55,6 +58,7 @@ export class ProposalController {
     private itemsServiceFetchUseCase: FetchItemServiceToProposalUseCase,
     private saveProposalAttachmentUseCase: SaveProposalAttachmentUseCase,
     private deleteProposalAttachmentUseCase: DeleteProposalAttachmentUseCase,
+    private fetchProposalAttachmentsUseCase: FetchProposalAttachmentsUseCase,
   ) {}
 
   @Post()
@@ -212,6 +216,28 @@ export class ProposalController {
       );
 
       response.message = deleteResponse;
+    } catch (error) {
+      return new ErrorResponseDto(error);
+    }
+    return response;
+  }
+
+  @Get(':id/attachment')
+  async FetchProposalAttchaments(
+    @Param() parameters: FetchProposalIdAttachmentDto,
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
+  ): Promise<FetchProposalAttachmentsResponseDto | ErrorResponseDto> {
+    const response: FetchProposalAttachmentsResponseDto = { objetcUrls: [''] };
+    try {
+      const { id } = parameters;
+
+      const tenantId = tenantData.id;
+
+      const urlList = await this.fetchProposalAttachmentsUseCase.fetch(
+        Number(id),
+        tenantId,
+      );
+      response.objetcUrls = urlList;
     } catch (error) {
       return new ErrorResponseDto(error);
     }

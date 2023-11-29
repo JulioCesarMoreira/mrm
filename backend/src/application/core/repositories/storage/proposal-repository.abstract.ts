@@ -3,6 +3,8 @@ import {
   DeleteObjectCommandOutput,
   GetObjectCommandInput,
   GetObjectCommandOutput,
+  ListObjectsCommandInput,
+  ListObjectsCommandOutput,
   PutObjectCommandInput,
   PutObjectCommandOutput,
 } from '@aws-sdk/client-s3';
@@ -24,4 +26,8 @@ export abstract class ProposalAttachmentRepository {
   abstract deleteObject(
     command: DeleteObjectCommandInput,
   ): Promise<DeleteObjectCommandOutput>;
+
+  abstract listObjetcs(
+    command: ListObjectsCommandInput,
+  ): Promise<ListObjectsCommandOutput>;
 }

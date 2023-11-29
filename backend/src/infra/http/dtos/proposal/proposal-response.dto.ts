@@ -114,3 +114,7 @@ export class SaveProposalAttachmentResponseDto {
 export class DeleteProposalAttachmentResponseDto {
   message: string;
 }
+
+export class FetchProposalAttachmentsResponseDto {
+  objetcUrls: string[];
+}

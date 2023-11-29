@@ -11,6 +11,9 @@ import {
   DeleteObjectCommandInput,
   DeleteObjectCommandOutput,
   DeleteObjectCommand,
+  ListObjectsCommandInput,
+  ListObjectsCommandOutput,
+  ListObjectsCommand,
 } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
@@ -63,8 +66,18 @@ export class S3ProposalAttachmentRepository
   ): Promise<DeleteObjectCommandOutput> {
     const command = new DeleteObjectCommand(deleteObjectCommandInput);
 
-    const deleteObjectResponse = this.client.send(command);
+    const deleteObjectResponse = await this.client.send(command);
 
     return deleteObjectResponse;
+  }
+
+  async listObjetcs(
+    listObjectsCommandInput: ListObjectsCommandInput,
+  ): Promise<ListObjectsCommandOutput> {
+    const command = new ListObjectsCommand(listObjectsCommandInput);
+
+    const listObjetcsResponse = await this.client.send(command);
+
+    return listObjetcsResponse;
   }
 }

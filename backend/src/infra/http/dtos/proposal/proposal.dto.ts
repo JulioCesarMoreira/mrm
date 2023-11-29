@@ -133,3 +133,8 @@ export class DeleteProposalAttachmentDto {
   @IsString()
   fileName: string;
 }
+
+export class FetchProposalIdAttachmentDto {
+  @IsNumberString()
+  id: number;
+}
