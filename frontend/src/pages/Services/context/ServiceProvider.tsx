@@ -14,6 +14,8 @@ export interface ServiceContextProperties {
   onSetAttachments: (newAttachments: Attachment[]) => void;
   selectedCategories: SelectedCategory[];
   setSelectedCategories: Dispatch<SetStateAction<SelectedCategory[]>>;
+  onRemoveAttachment: (name: string) => void;
+  onRemoveAllAttachments: () => void;
 }
 
 export const ServiceContext = createContext<
@@ -23,7 +25,7 @@ export const ServiceContext = createContext<
 export default function ServiceProvider({
   children,
 }: ChildrenProperty): ReactElement {
-  const [attachments, setAttachments] = useState<File[]>([]);
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<
     SelectedCategory[]
   >([]);
@@ -31,12 +33,20 @@ export default function ServiceProvider({
   const onSetAttachments = (newFiles: Attachment[]): void =>
     setAttachments((previous) => [...previous, ...newFiles]);
 
+  const onRemoveAttachment = (key: string): void =>
+    setAttachments((previous) =>
+      previous.filter((attachment) => attachment.key !== key),
+    );
+
+  const onRemoveAllAttachments = (): void => setAttachments([]);
   const value = useMemo(
     () => ({
       attachments,
       onSetAttachments,
       selectedCategories,
       setSelectedCategories,
+      onRemoveAttachment,
+      onRemoveAllAttachments,
     }),
     [attachments, onSetAttachments],
   );

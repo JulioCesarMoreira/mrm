@@ -1,18 +1,22 @@
 import Tooltip from '@components/Tooltip/Tooltip';
 import { isFileAnImage } from '@lib/utils';
 import { File, Trash } from 'lucide-react';
+import useServiceContext from 'pages/Services/context/useServiceContext';
 import { ReactElement, useEffect, useState } from 'react';
 
 interface AttachmentProperties {
   name: string;
   url: string;
+  fileKey: string;
 }
 
 export default function Attachment({
   name,
   url,
+  fileKey,
 }: AttachmentProperties): ReactElement {
   const [firstRender, setFirstRender] = useState(true);
+  const { onRemoveAttachment } = useServiceContext();
 
   useEffect(() => {
     setFirstRender(false);
@@ -33,6 +37,7 @@ export default function Attachment({
         <Tooltip text="Excluir" position="bottom" disabled={firstRender}>
           <button
             type="button"
+            onClick={(): void => onRemoveAttachment(fileKey)}
             className="pointer-events-none opacity-0 duration-200 group-hover:pointer-events-auto group-hover:opacity-100"
           >
             <Trash size={18} color="gray" />

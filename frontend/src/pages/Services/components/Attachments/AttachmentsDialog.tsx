@@ -5,7 +5,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { Info, Paperclip } from 'lucide-react';
+import { Info, Paperclip, Trash } from 'lucide-react';
 import { ReactElement } from 'react';
 import Attachment from './Attachment';
 import { Input } from '@components/Input';
@@ -13,7 +13,8 @@ import useServiceContext from 'pages/Services/context/useServiceContext';
 import Tooltip from '@components/Tooltip/Tooltip';
 
 export default function AttachmentsDialog(): ReactElement {
-  const { attachments, onSetAttachments } = useServiceContext();
+  const { attachments, onSetAttachments, onRemoveAllAttachments } =
+    useServiceContext();
 
   return (
     <Dialog>
@@ -69,10 +70,22 @@ export default function AttachmentsDialog(): ReactElement {
 
         <hr className="w-full" />
 
-        <div className="grid grid-flow-row grid-cols-3 gap-4">
+        {attachments.length > 0 && (
+          <Tooltip text="Remover todos" arrow position="left">
+            <button className="ml-auto w-fit" onClick={onRemoveAllAttachments}>
+              <Trash size={22} color="gray" />
+            </button>
+          </Tooltip>
+        )}
+        <div className="grid max-h-[480px] grid-flow-row grid-cols-3 gap-20 overflow-y-auto p-4">
           {attachments.length > 0 ? (
-            attachments.map(({ name, url }) => (
-              <Attachment key={url} name={name} url={url} />
+            attachments.map(({ file, key }) => (
+              <Attachment
+                key={key}
+                fileKey={key}
+                name={file.name}
+                url={URL.createObjectURL(file)}
+              />
             ))
           ) : (
             <div className="flex-center col-span-full w-full py-20">
@@ -83,7 +96,10 @@ export default function AttachmentsDialog(): ReactElement {
 
         <div className="border-gray-scale-600 w-full border-t border-dotted" />
 
-        <Input.FileDrop files={attachments} onSetFiles={onSetAttachments} />
+        <Input.FileDrop
+          filesLength={attachments.length}
+          onSetFiles={onSetAttachments}
+        />
       </DialogContent>
     </Dialog>
   );
