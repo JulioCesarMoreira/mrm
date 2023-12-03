@@ -68,7 +68,7 @@ model CategoryService {
   itemService     ItemService[]
   ProposalService ProposalService[]
 
-  @@unique([color, tenantId])
+  @@unique([name, tenantId])
 }
 
 enum SubCategory {

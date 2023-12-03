@@ -6,8 +6,10 @@ import { Injectable } from '@nestjs/common';
 export class FetchItemServiceToProposalUseCase {
   constructor(private itemServiceRepository: ItemServiceRepository) {}
 
-  async fetchItemService(): Promise<ItemService[]> {
-    const fetchItemService = await this.itemServiceRepository.fetchToProposal();
+  async fetchItemService(tenantId: string): Promise<ItemService[]> {
+    const fetchItemService = await this.itemServiceRepository.fetchToProposal(
+      tenantId,
+    );
     const itemServices: ItemService[] = [];
 
     for (const itemService of fetchItemService) {
