@@ -22,7 +22,12 @@ export default function ClientsPage() {
           }}
         />
 
-        <DataTable data={data} columns={columns} isLoading={isLoading} />
+        <DataTable
+          data={data}
+          rows={8}
+          columns={columns}
+          isLoading={isLoading}
+        />
       </div>
     </div>
   );

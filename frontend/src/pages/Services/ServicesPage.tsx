@@ -54,6 +54,7 @@ export default function ServicesPage(): ReactElement {
 
         <DataTable
           data={services}
+          rows={8}
           columns={columns}
           isLoading={isLoadingClients || isLoadingServices}
         />

@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { DataTableProperties } from './types';
 import DataTablePagination from './DataTablePagination';
 import Spinner from '@components/ui/spinner';
@@ -17,6 +17,7 @@ export default function DataTable<T>({
   data,
   columns,
   isLoading,
+  rows,
 }: DataTableProperties<T>): ReactElement {
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -32,6 +33,12 @@ export default function DataTable<T>({
       sorting,
     },
   });
+
+  useEffect(() => {
+    if (rows) {
+      table.setPageSize(rows);
+    }
+  }, []);
 
   return (
     <>
