@@ -9,6 +9,7 @@ export interface Option {
   value: string;
 }
 
-export interface Attachment extends File {
-  url: string;
+export interface Attachment {
+  file: File;
+  key: string;
 }

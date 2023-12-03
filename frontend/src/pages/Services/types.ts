@@ -55,3 +55,10 @@ export interface ServiceFields {
   guaranteePeriod: string;
   well: Well;
 }
+
+export interface DefaultAttachment {
+  name: string;
+  url: string;
+  key: string;
+  file: Blob;
+}

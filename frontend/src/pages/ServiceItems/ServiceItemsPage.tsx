@@ -67,6 +67,7 @@ export default function ServiceItemsPage() {
 
           <DataTable
             data={items}
+            rows={5}
             columns={itemColumns}
             isLoading={isLoadingItems || isLoadingCategories}
           />

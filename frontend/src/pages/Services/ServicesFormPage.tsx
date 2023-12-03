@@ -43,7 +43,12 @@ function ServicesFormPage(): ReactElement {
   const { data: wells } = useFetchWells();
   const { data: items } = useFetchItems(true);
   const { data: categories } = useFetchCategories();
-  const { selectedCategories, setSelectedCategories } = useServiceContext();
+  const {
+    attachments,
+    selectedCategories,
+    defaultAttachments,
+    setSelectedCategories,
+  } = useServiceContext();
 
   const { data: itemsProposal } = useFetchItemProposal(!!proposalId);
   const { data: proposalServices } = useFetchProposalServices(!!proposalId);
@@ -71,15 +76,29 @@ function ServicesFormPage(): ReactElement {
     setIsLoading(true);
 
     if (proposalId) {
-      await axios.delete(
-        `${import.meta.env.VITE_API_URL}/proposal/${proposalId}`,
-        {
+      const deletePromises = [
+        axios.delete(`${import.meta.env.VITE_API_URL}/proposal/${proposalId}`, {
           headers: {
             Authorization: `Bearer ${idToken}`,
             'Content-Type': 'application/json',
           },
-        },
-      );
+        }),
+        defaultAttachments.map(({ name, key }) =>
+          axios.delete(
+            `${
+              import.meta.env.VITE_API_URL
+            }/proposal/${proposalId}/attachment/${key}${name}`,
+            {
+              headers: {
+                Authorization: `Bearer ${idToken}`,
+                'Content-Type': 'application/json',
+              },
+            },
+          ),
+        ),
+      ];
+
+      await Promise.all(deletePromises);
     }
 
     const insertProposalInput = {
@@ -165,6 +184,52 @@ function ServicesFormPage(): ReactElement {
         proposalId: Number(result.id),
       };
 
+      const attachmentsPromise = [];
+
+      if (attachments.length > 0 || defaultAttachments.length > 0) {
+        function renameFile(originalFile: File | Blob, newName: string): File {
+          return new File([originalFile], newName, {
+            type: originalFile.type,
+          });
+        }
+
+        const attachmentsToInsert = [
+          ...attachments.map(({ file, key }) => ({
+            name: file.name,
+            key,
+            file,
+          })),
+          ...defaultAttachments,
+        ];
+
+        for (const attachment of attachmentsToInsert) {
+          const formData = new FormData();
+          formData.append(
+            `${attachment.key}${attachment.name}`,
+            renameFile(attachment.file, `${attachment.key}${attachment.name}`),
+          );
+
+          attachmentsPromise.push(
+            axios.post<unknown, boolean>(
+              `${import.meta.env.VITE_API_URL}/proposal/${
+                result.id
+              }/attachment`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${idToken}`,
+                  'Content-Type': 'multipart/form-data',
+                },
+              },
+            ),
+          );
+        }
+      }
+
+      if (attachmentsPromise.length > 0) {
+        itemsPromises.push(...attachmentsPromise);
+      }
+
       itemsPromises.push(insertWell(insertWellInput));
 
       await Promise.all(itemsPromises);
@@ -187,6 +252,8 @@ function ServicesFormPage(): ReactElement {
           },
         );
       }
+
+      console.log('DELETE ATTACHMENTS');
 
       toast({
         title: proposalId

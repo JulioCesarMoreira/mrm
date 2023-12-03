@@ -17,4 +17,5 @@ export interface DataTableProperties<T> {
   data: T[];
   columns: ColumnDef<T, unknown>[];
   isLoading?: boolean;
+  rows?: number;
 }

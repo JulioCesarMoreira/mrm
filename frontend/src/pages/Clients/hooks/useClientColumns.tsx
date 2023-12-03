@@ -5,7 +5,7 @@ import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import ClientActions from '../components/ClientActions';
 import NumberFormat from 'react-number-format';
-import { CPF_LIMIT, formatPhone } from 'constants/index';
+import { formatPhone } from 'constants/index';
 
 export default function useClientColumns(): ColumnDef<Client>[] {
   return [

@@ -34,7 +34,7 @@ export default function useFetchItems(
     try {
       const response = await axios.get(
         onlyAvailable
-          ? `${import.meta.env.VITE_API_URL}/proposal/item-service/`
+          ? `${import.meta.env.VITE_API_URL}/proposal/item-service`
           : `${import.meta.env.VITE_API_URL}/itemService`,
         filters
           ? {
