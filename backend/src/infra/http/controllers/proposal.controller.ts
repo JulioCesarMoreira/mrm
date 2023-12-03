@@ -152,7 +152,7 @@ export class ProposalController {
     }
   }
 
-  @Get('item-service/')
+  @Get('item-service')
   async getItemServiceToProposal(): Promise<
     FetchItemServicesToProposalResponseDto | ErrorResponseDto
   > {
