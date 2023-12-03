@@ -67,7 +67,7 @@ export default function useFetchServices(): FetchServicesResponse {
     const data = await fetchData();
     setIsLoading(false);
 
-    setData(data.proposals);
+    if (data.proposals) setData(data.proposals);
   }, [toggleFetch]);
 
   return { data, isLoading, fetch: fetchWithFilters };

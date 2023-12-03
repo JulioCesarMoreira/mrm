@@ -73,7 +73,7 @@ export default function useFetchWells(): FetchWellsResponse {
     const data = await fetchData();
     setIsLoading(false);
 
-    setData(data.wells);
+    if (data.wells) setData(data.wells);
   }, [toggleFetch]);
 
   return { data, isLoading, fetch: fetchWithFilters };

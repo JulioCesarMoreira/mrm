@@ -62,7 +62,7 @@ export default function useFetchProposalServices(
 
       setIsLoading(false);
 
-      setData(data.proposalServices);
+      if (data.proposalServices) setData(data.proposalServices);
     }
   }, [toggleFetch, enabled]);
 

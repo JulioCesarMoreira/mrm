@@ -72,7 +72,7 @@ export default function useFetchClients(): FetchClientsResponse {
     const data = await fetchData();
     setIsLoading(false);
 
-    setData(data.clients);
+    if (data.clients) setData(data.clients);
   }, [toggleFetch]);
 
   return { data, isLoading, fetch: fetchWithFilters };

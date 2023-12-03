@@ -80,7 +80,7 @@ export default function useFetchItems(
     const data = await fetchData();
     setIsLoading(false);
 
-    setData(data.itemServices);
+    if (data.itemServices) setData(data.itemServices);
   }, [toggleFetch]);
 
   return { data, isLoading, fetch: fetchWithFilters };
