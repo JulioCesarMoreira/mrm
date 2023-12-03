@@ -9,7 +9,7 @@ export abstract class ItemServiceRepository {
     filters: Omit<ItemService, 'id' | 'cpfCnpj'>,
   ): Promise<ItemService[]>;
 
-  abstract fetchToProposal(): Promise<ItemService[]>;
+  abstract fetchToProposal(tenantId: string): Promise<ItemService[]>;
 
   abstract update(
     entityId: number,

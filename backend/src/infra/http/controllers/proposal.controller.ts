@@ -153,12 +153,14 @@ export class ProposalController {
   }
 
   @Get('item-service')
-  async getItemServiceToProposal(): Promise<
-    FetchItemServicesToProposalResponseDto | ErrorResponseDto
-  > {
+  async getItemServiceToProposal(
+    @RequestTentantData() tenantData: RequestTenantDataInterface,
+  ): Promise<FetchItemServicesToProposalResponseDto | ErrorResponseDto> {
     try {
+      const tenantId = tenantData.id;
+
       const fetchItemsServices =
-        await this.itemsServiceFetchUseCase.fetchItemService();
+        await this.itemsServiceFetchUseCase.fetchItemService(tenantId);
 
       return ItemServiceMapper.fetchItemServiceToController(fetchItemsServices);
     } catch (error) {
