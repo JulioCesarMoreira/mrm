@@ -19,6 +19,7 @@ export abstract class WellRepository {
       | 'latitude'
       | 'mapLink'
     >,
+    tenantId: string,
   ): Promise<Well[]>;
 
   abstract update(

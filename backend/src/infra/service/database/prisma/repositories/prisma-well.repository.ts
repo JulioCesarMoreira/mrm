@@ -53,25 +53,28 @@ export class PrismaWellRepository implements WellRepository {
     return wellEntity;
   }
 
-  async fetch({
-    voltage,
-    totalDepth,
-    sieveDepth,
-    staticLevel,
-    dynamicLevel,
-    startDate,
-    deliveryDate,
-    sedimentaryDepth,
-    distric,
-    zipcode,
-    street,
-    number,
-    longitude,
-    latitude,
-    mapLink,
-    cityId,
-    proposalId,
-  }: Omit<Well, 'id'>): Promise<Well[]> {
+  async fetch(
+    {
+      voltage,
+      totalDepth,
+      sieveDepth,
+      staticLevel,
+      dynamicLevel,
+      startDate,
+      deliveryDate,
+      sedimentaryDepth,
+      distric,
+      zipcode,
+      street,
+      number,
+      longitude,
+      latitude,
+      mapLink,
+      cityId,
+      proposalId,
+    }: Omit<Well, 'id'>,
+    tenantId: string,
+  ): Promise<Well[]> {
     const fetchWell = await this.prisma.well.findMany({
       where: {
         ...(voltage && { voltage }),
@@ -91,6 +94,7 @@ export class PrismaWellRepository implements WellRepository {
         ...(mapLink && { mapLink }),
         ...(cityId && { cityId }),
         ...(proposalId && { proposalId }),
+        proposal: { tenantId: tenantId },
       },
     });
 
