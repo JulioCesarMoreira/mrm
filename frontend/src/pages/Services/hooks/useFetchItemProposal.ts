@@ -61,7 +61,7 @@ export default function useFetchItemProposal(
 
       setIsLoading(false);
 
-      setData(data.itemProposals);
+      if (data.itemProposals) setData(data.itemProposals);
     }
   }, [toggleFetch, enabled]);
 

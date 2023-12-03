@@ -50,7 +50,7 @@ export default function useFetchCategories(): FetchCategoriesResponse {
     const data = await fetchData();
     setIsLoading(false);
 
-    setData(data.categoryServices);
+    if (data.categoryServices) setData(data.categoryServices);
   }, [toggleFetch]);
 
   return { data, isLoading };
