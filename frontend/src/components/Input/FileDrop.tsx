@@ -30,8 +30,6 @@ export default function FileDrop({
     onSetFiles(acceptedFiles.map((file) => ({ file, key: nanoid() })));
   }, []);
 
-  const acceptedFormats = ['.doc', '.docx'];
-
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     maxFiles: 20,
@@ -77,7 +75,10 @@ export default function FileDrop({
       <p className="text-gray-scale-300">Selecione arquivos ou arraste aqui</p>
       <div className="text-gray-scale-400 text-center text-sm">
         {filesLength > 1 ? `${filesLength} arquivos selecionados` : ''} <br />
-        Número máximo de arquivos: 20
+        Número máximo de arquivos: <b>20</b>
+        <br />
+        Tipos de arquivos aceitos:{' '}
+        <b>.png, .jpg, .jpeg, .pdf, .xlsx, .xls, .doc, .docx</b>
       </div>
     </div>
   );
