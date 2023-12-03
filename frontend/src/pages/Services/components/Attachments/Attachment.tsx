@@ -25,13 +25,22 @@ export default function Attachment({
   return (
     <div className="flex-col-center group col-span-1">
       {name && isFileAnImage(name) ? (
-        <img src={url} alt="anexo" className="h-full" />
+        <Tooltip position="top" text="Abrir em nova aba">
+          <button onClick={() => window.open(url, '_blank')?.focus()}>
+            <img src={url} alt="anexo" className="h-full rounded-md" />
+          </button>
+        </Tooltip>
       ) : (
-        <div className="flex-center h-full">
-          <File size={26} color="#52575F" />
-        </div>
+        <Tooltip position="top" text="Abrir em nova aba">
+          <button
+            onClick={() => window.open(url, '_blank')?.focus()}
+            className="flex-center bg-gray-scale-800 min-h-full w-full rounded-md"
+          >
+            <File size={26} color="#52575F" />
+          </button>
+        </Tooltip>
       )}
-      <div className="flex w-full items-center justify-center gap-2">
+      <div className="mt-1 flex w-full items-center justify-center gap-2">
         <span className="text-gray-scale-200">{name}</span>
 
         <Tooltip text="Excluir" position="bottom" disabled={firstRender}>

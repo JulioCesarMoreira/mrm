@@ -5,19 +5,72 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { Info, Paperclip, Trash } from 'lucide-react';
-import { ReactElement } from 'react';
+import { Info, Loader, Paperclip, Trash } from 'lucide-react';
+import { ReactElement, useMemo, useState } from 'react';
 import Attachment from './Attachment';
 import { Input } from '@components/Input';
 import useServiceContext from 'pages/Services/context/useServiceContext';
 import Tooltip from '@components/Tooltip/Tooltip';
+import Spinner from '@components/ui/spinner';
+import { Button } from '@components/ui/button';
 
 export default function AttachmentsDialog(): ReactElement {
-  const { attachments, onSetAttachments, onRemoveAllAttachments } =
-    useServiceContext();
+  const {
+    attachments,
+    defaultAttachments,
+    isLoadingAttachments,
+    onSetAttachments,
+    onRemoveAllAttachments,
+  } = useServiceContext();
+  const [openConfirm, setOpenConfirm] = useState(false);
+
+  const onConfirm = (): void => {
+    setOpenConfirm(false);
+    onRemoveAllAttachments();
+  };
+
+  const onOpenConfirmRemoveAllAttachments = (): void => setOpenConfirm(true);
+
+  const onCancel = (): void => setOpenConfirm(false);
+
+  const attachmentsToShow = useMemo(
+    () => [
+      ...attachments.map(({ file, key }) => ({
+        key,
+        name: file.name,
+        url: URL.createObjectURL(file),
+      })),
+      ...defaultAttachments,
+    ],
+    [attachments, defaultAttachments],
+  );
 
   return (
     <Dialog>
+      <Dialog open={openConfirm} onOpenChange={setOpenConfirm}>
+        <DialogContent className="text-center">
+          Você está prestes a remover todos os anexos. <br /> Prosseguir?
+          <hr className="w-full" />
+          <div className="-mb-4 flex w-full flex-row-reverse gap-4 pt-4">
+            <Button
+              type="button"
+              variant={'secondary'}
+              onClick={onCancel}
+              className="hover:bg-gray-scale-700 transition-colors duration-200"
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="button"
+              variant={'default'}
+              onClick={onConfirm}
+              className="bg-red-auxiliary hover:bg-red-auxiliary-dark text-white transition-colors duration-200"
+            >
+              Remover todos
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
       <DialogTrigger className="flex-center bg-dark-blue w-28 gap-2 rounded-full px-4 py-2 text-white">
         <Paperclip size={18} color="white" />
         <span className="text-sm">Anexos</span>
@@ -57,6 +110,11 @@ export default function AttachmentsDialog(): ReactElement {
                               Seus anexos selecionados serão salvos assim que
                               clicar no botão de "Salvar" da tela do serviço.
                             </li>
+                            <li>Você pode selecionar até 20 arquivos.</li>
+                            <li>
+                              Formatos aceitos: .png, .jpg, .jpeg, .pdf, .xlsx,
+                              .xls, .doc, .docx
+                            </li>
                           </ul>
                         </div>
                       </DialogContent>
@@ -70,34 +128,38 @@ export default function AttachmentsDialog(): ReactElement {
 
         <hr className="w-full" />
 
-        {attachments.length > 0 && (
+        {attachmentsToShow.length > 0 && (
           <Tooltip text="Remover todos" arrow position="left">
-            <button className="ml-auto w-fit" onClick={onRemoveAllAttachments}>
+            <button
+              className="ml-auto w-fit"
+              onClick={onOpenConfirmRemoveAllAttachments}
+            >
               <Trash size={22} color="gray" />
             </button>
           </Tooltip>
         )}
-        <div className="grid max-h-[480px] grid-flow-row grid-cols-3 gap-20 overflow-y-auto p-4">
-          {attachments.length > 0 ? (
-            attachments.map(({ file, key }) => (
-              <Attachment
-                key={key}
-                fileKey={key}
-                name={file.name}
-                url={URL.createObjectURL(file)}
-              />
-            ))
-          ) : (
-            <div className="flex-center col-span-full w-full py-20">
-              Nenhum anexo vinculado a este serviço.
-            </div>
-          )}
-        </div>
+        {isLoadingAttachments ? (
+          <div className="flex w-full items-center justify-center py-20">
+            <Spinner />
+          </div>
+        ) : (
+          <div className="grid max-h-[480px] grid-flow-row grid-cols-3 gap-20 overflow-y-auto p-4">
+            {attachmentsToShow.length > 0 ? (
+              attachmentsToShow.map(({ url, name, key }) => (
+                <Attachment key={key} fileKey={key} name={name} url={url} />
+              ))
+            ) : (
+              <div className="flex-center col-span-full w-full py-20">
+                Nenhum anexo vinculado a este serviço.
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="border-gray-scale-600 w-full border-t border-dotted" />
 
         <Input.FileDrop
-          filesLength={attachments.length}
+          filesLength={attachmentsToShow.length}
           onSetFiles={onSetAttachments}
         />
       </DialogContent>
