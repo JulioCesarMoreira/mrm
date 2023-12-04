@@ -50,7 +50,7 @@ function ServicesFormPage(): ReactElement {
     setSelectedCategories,
   } = useServiceContext();
 
-  const { data: proposalServices } = useFetchProposalServices(!!proposalId);
+  const { data: proposalServices } = useFetchProposalServices(proposalId);
 
   const proposalServiceId = proposalServices?.[0]?.id
     ? String(proposalServices[0].id)
@@ -322,6 +322,7 @@ function ServicesFormPage(): ReactElement {
           }
         }
       }
+
       setSelectedCategories(proposalSelectedCategories);
     }
   }, [

@@ -23,7 +23,7 @@ interface FetchProposalServicesResponse {
 }
 
 export default function useFetchProposalServices(
-  enabled: boolean,
+  proposalId: string | undefined,
 ): FetchProposalServicesResponse {
   const { handleError } = useOnError();
 
@@ -40,6 +40,9 @@ export default function useFetchProposalServices(
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/proposalService`,
         {
+          params: {
+            proposalId,
+          },
           headers: {
             Authorization: `Bearer ${idToken}`,
             'Content-Type': 'application/json',
@@ -56,7 +59,7 @@ export default function useFetchProposalServices(
   };
 
   useAsyncEffect(async () => {
-    if (enabled) {
+    if (proposalId) {
       setIsLoading(true);
       const data = await fetchData();
 
@@ -64,7 +67,7 @@ export default function useFetchProposalServices(
 
       if (data.proposalServices) setData(data.proposalServices);
     }
-  }, [toggleFetch, enabled]);
+  }, [toggleFetch, proposalId]);
 
   return { data, isLoading };
 }
