@@ -1,0 +1,6 @@
+
+alias buildProd="cd ~/mrm && git pull && cp backend/.env.prod backend/.env && pnpm i && pnpm -F backend prisma:generate && pnpm -F backend build"
+
+alias deployProd="cd ~/mrm && nohup pnpm -F backend start > output.log 2>&1 &"
+
+alias stopProd="sudo fuser -k 8000/tcp"
