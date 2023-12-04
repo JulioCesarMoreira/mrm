@@ -10,7 +10,6 @@ import useOnError from 'hooks/useOnError';
 import { Well } from '../types';
 
 interface WellsFilter {
-  startDate: string;
   deliveryDate: string;
 }
 

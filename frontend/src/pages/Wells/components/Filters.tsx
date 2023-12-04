@@ -4,10 +4,10 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { Search } from 'lucide-react';
 import { ReactElement } from 'react';
-import { format, parse, parseISO } from 'date-fns';
+import { format, isValid, parse } from 'date-fns';
+import { useToast } from '@components/ui/use-toast';
 
 interface WellsFilter {
-  startDate: string;
   deliveryDate: string;
 }
 
@@ -16,16 +16,28 @@ interface FilterProperties {
 }
 
 export default function Filters({ fetch }: FilterProperties): ReactElement {
-  function onSubmitFilters({ deliveryDate, startDate }: WellsFilter): void {
+  const { toast } = useToast();
+
+  function onSubmitFilters({ deliveryDate }: WellsFilter): void {
+    if (!deliveryDate) {
+      fetch({} as WellsFilter);
+      return;
+    }
+
+    const parsedDate = parse(deliveryDate, 'dd/MM/yyyy', new Date());
+
+    if (!isValid(parsedDate)) {
+      toast({
+        title: 'Data inválida.',
+        className: 'dark bg-dark-blue text-white stroke-white',
+      });
+      return;
+    }
+
+    const dateFormatted = format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+
     void fetch({
-      deliveryDate: format(
-        parse(deliveryDate, 'dd/MM/yyyy', new Date()),
-        "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
-      ),
-      startDate: format(
-        parse(startDate, 'dd/MM/yyyy', new Date()),
-        "yyyy-MM-dd'T'HH:mm:ss.SSSXXX",
-      ),
+      deliveryDate: dateFormatted,
     });
   }
 
@@ -36,11 +48,6 @@ export default function Filters({ fetch }: FilterProperties): ReactElement {
         onSubmit={onSubmitFilters}
         className="flex w-full gap-6"
       >
-        <Input.Wrapper className="mb-2 ml-6 w-[240px]">
-          <Input.Label label="Data de início" />
-          <Input.DatePicker name="startDate" />
-        </Input.Wrapper>
-
         <Input.Wrapper className="mb-2 w-[240px]">
           <Input.Label label="Data de entrega" />
           <Input.DatePicker name="deliveryDate" />

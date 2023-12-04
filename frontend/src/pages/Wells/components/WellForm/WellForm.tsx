@@ -80,14 +80,24 @@ function WellFormBody({
                 Cancelar
               </Button>
             </DialogTrigger>
-            <Button
-              type={isAdding ? 'button' : 'submit'}
-              onClick={isAdding ? onAdd : undefined}
-              variant="default"
-              className="bg-hidro-blue-300 hover:bg-main-blue text-white"
-            >
-              Salvar
-            </Button>
+            {isAdding ? (
+              <Button
+                type="button"
+                onClick={onAdd}
+                variant="default"
+                className="bg-hidro-blue-300 hover:bg-main-blue text-white"
+              >
+                Salvar
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                variant="default"
+                className="bg-hidro-blue-300 hover:bg-main-blue text-white"
+              >
+                Salvar
+              </Button>
+            )}
           </div>
         </>
       )}
@@ -102,7 +112,7 @@ export default function WellForm({
   isLoading,
   onChangeOpenWell,
 }: WellsFormProperties & { isLoading?: boolean }): ReactElement {
-  const { trigger, getValues, reset } = useFormContext<ServiceFields>();
+  const { trigger, getValues, reset } = useFormContext<ServiceFields | Well>();
 
   const [openDialog, setOpenDialog] = useState(false);
 
@@ -122,7 +132,11 @@ export default function WellForm({
 
   useEffect(() => {
     if (defaultValues) {
-      reset({ ...getValues(), well: defaultValues });
+      if (isAdding) {
+        reset({ ...getValues(), well: defaultValues });
+      } else {
+        reset(defaultValues);
+      }
     }
   }, [defaultValues]);
 

@@ -20,7 +20,7 @@ import {
   toggleFetchWells,
 } from 'constants/atoms';
 import useInsertWell from 'pages/Wells/hooks/useInsertWell';
-import { format, parse } from 'date-fns';
+import { addDays, format, parse, parseISO } from 'date-fns';
 import { InsertWellInput } from 'pages/Wells/types';
 import axios from 'axios';
 import useFetchWells from 'pages/Wells/hooks/useFetchWells';
@@ -271,9 +271,19 @@ function ServicesFormPage(): ReactElement {
     setIsLoading(false);
   }
 
-  const handleWellDefaultValues =
-    wells.find((well) => String(well.proposalId) === String(proposalId)) ??
-    wellDefaultValues;
+  const foundWell = wells.find(
+    (well) => String(well.proposalId) === String(proposalId),
+  );
+
+  const handleWellDefaultValues = foundWell
+    ? {
+        ...foundWell,
+        deliveryDate: format(
+          addDays(parseISO(foundWell.deliveryDate), 1),
+          'ddMMyyyy',
+        ),
+      }
+    : wellDefaultValues;
 
   useEffect(() => {
     if (proposalId && !routeData) navigate('/servicos');
