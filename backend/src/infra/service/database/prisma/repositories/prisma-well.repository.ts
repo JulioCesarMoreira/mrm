@@ -76,6 +76,9 @@ export class PrismaWellRepository implements WellRepository {
     tenantId: string,
   ): Promise<Well[]> {
     const fetchWell = await this.prisma.well.findMany({
+      orderBy: {
+        id: 'desc',
+      },
       where: {
         ...(voltage && { voltage }),
         ...(totalDepth && { totalDepth }),

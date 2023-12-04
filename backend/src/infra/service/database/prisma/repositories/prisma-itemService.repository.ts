@@ -87,6 +87,9 @@ export class PrismaItemServiceRepository implements ItemServiceRepository {
 
   async fetchToProposal(tenantId: string): Promise<ItemService[]> {
     const fetchItemService = await this.prisma.itemService.findMany({
+      orderBy: {
+        id: 'desc',
+      },
       where: {
         categoryService: {
           tenantId,

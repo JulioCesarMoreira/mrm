@@ -39,6 +39,9 @@ export class PrismaClientRepository implements ClientRepository {
     tenantId: string,
   ): Promise<Client[]> {
     const fetchClient = await this.prisma.client.findMany({
+      orderBy: {
+        id: 'desc',
+      },
       where: {
         ...(contactName && { contactName: { contains: contactName } }),
         ...(contactPhone && { contactPhone: { contains: contactPhone } }),
