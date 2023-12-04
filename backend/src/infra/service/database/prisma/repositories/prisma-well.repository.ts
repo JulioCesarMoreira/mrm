@@ -15,7 +15,7 @@ export class PrismaWellRepository implements WellRepository {
         sieveDepth: well.sieveDepth,
         staticLevel: well.staticLevel,
         dynamicLevel: well.dynamicLevel,
-        deliveryDate: well.deliveryDate.toISOString().split('T')[0],
+        deliveryDate: well.deliveryDate,
         startDate: well.startDate,
         sedimentaryDepth: well.sedimentaryDepth,
         distric: well.distric,

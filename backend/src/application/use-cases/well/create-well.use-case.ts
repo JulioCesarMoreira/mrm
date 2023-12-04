@@ -20,7 +20,9 @@ export class CreateWellUseCase {
     const { deliveryDate, startDate } = wellDto;
 
     // converting date to save in RDS
-    wellDto.deliveryDate = deliveryDate ? new Date(deliveryDate) : deliveryDate;
+    wellDto.deliveryDate = deliveryDate
+      ? new Date(new Date(deliveryDate).toISOString().split('T')[0])
+      : deliveryDate;
     wellDto.startDate = startDate ? new Date(startDate) : startDate;
 
     if (
