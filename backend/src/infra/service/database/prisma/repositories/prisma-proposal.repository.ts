@@ -57,6 +57,9 @@ export class PrismaProposalRepository implements ProposalRepository {
     tenantId: string,
   ): Promise<Proposal[]> {
     const fetchProposal = await this.prisma.proposal.findMany({
+      orderBy: {
+        id: 'desc',
+      },
       where: {
         ...(sendDate && { sendDate }),
         ...(installmentsBalance && { installmentsBalance }),
