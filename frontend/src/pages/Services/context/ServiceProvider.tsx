@@ -106,6 +106,7 @@ export default function ServiceProvider({
     setAttachments([]);
     setDefaultAttachments([]);
   };
+
   const value: ServiceContextProperties = useMemo(
     () => ({
       attachments,

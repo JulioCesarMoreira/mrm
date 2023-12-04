@@ -258,8 +258,6 @@ function ServicesFormPage(): ReactElement {
         );
       }
 
-      console.log('DELETE ATTACHMENTS');
-
       toast({
         title: proposalId
           ? 'Houve um erro ao editar a Proposta de Serviço.'
@@ -293,9 +291,6 @@ function ServicesFormPage(): ReactElement {
 
       for (const proposalService of proposalServices) {
         if (String(proposalService.proposalId) === String(proposalId)) {
-          console.log('==========================');
-          console.log('proposalService', proposalService);
-
           const foundCategory = categories.find(
             (category) =>
               String(category.id) === String(proposalService.categoryServiceId),
@@ -307,34 +302,26 @@ function ServicesFormPage(): ReactElement {
                 String(item.proposalServiceId) === String(proposalService.id),
             );
 
-            console.log('foundCategory', foundCategory);
-            console.log('foundItems', foundItems);
-
-            const itemsOk = foundItems.map((foundItem) => ({
-              quantity: String(foundItem.quantity),
-              unitPrice: String(foundItem.unitPrice),
-              key: String(foundItem.id),
-              name: items.find(
-                (item) => String(item.id) === String(foundItem.itemServiceId),
-              )?.name as string,
-              unity: '1',
-            }));
-
-            console.log('itemsOk', itemsOk);
-
             const selectedCategoryToPush = {
               color: foundCategory.color,
               direction: proposalService.side,
               id: foundCategory.id,
               name: foundCategory.name,
-              items: itemsOk,
+              items: foundItems.map((foundItem) => ({
+                quantity: String(foundItem.quantity),
+                unitPrice: String(foundItem.unitPrice),
+                key: String(foundItem.itemServiceId),
+                name: items.find(
+                  (item) => String(item.id) === String(foundItem.itemServiceId),
+                )?.name as string,
+                unity: '1',
+              })),
             };
 
             proposalSelectedCategories.push(selectedCategoryToPush);
           }
         }
       }
-
       setSelectedCategories(proposalSelectedCategories);
     }
   }, [
@@ -342,7 +329,8 @@ function ServicesFormPage(): ReactElement {
     proposalServiceId,
     proposalServices,
     categories,
-    itemsProposal && items,
+    itemsProposal,
+    items,
   ]);
 
   return (

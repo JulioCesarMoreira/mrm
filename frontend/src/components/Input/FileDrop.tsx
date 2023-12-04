@@ -18,7 +18,6 @@ export default function FileDrop({
   const { toast } = useToast();
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log(acceptedFiles);
     if (acceptedFiles.length + filesLength > 20) {
       toast({
         title: 'Você excedeu o número máximo de 20 arquivos.',
