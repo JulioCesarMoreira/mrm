@@ -75,6 +75,11 @@ export class ItemProposalController {
     @Query() filters: FetchItemProposalsDto,
   ): Promise<FetchItemProposalsResponseDto | ErrorResponseDto> {
     try {
+      const { proposalServiceId } = filters;
+
+      if (proposalServiceId) {
+        filters.proposalServiceId = Number(proposalServiceId);
+      }
       const fetchItemProposalsList =
         await this.fetchItemProposalsUseCase.fetchItemProposal(filters);
 

@@ -30,18 +30,26 @@ export class PrismaItemProposalRepository implements ItemProposalRepository {
     return getItemProposal;
   }
 
-  async fetch({
-    unitPrice,
-    quantity,
-    proposalServiceId,
-    itemServiceId,
-  }: Omit<ItemProposal, 'id'>): Promise<ItemProposal[]> {
+  async fetch(
+    {
+      unitPrice,
+      quantity,
+      proposalServiceId,
+      itemServiceId,
+    }: Omit<ItemProposal, 'id'>,
+    proposalId: number,
+  ): Promise<ItemProposal[]> {
     const fetchItemProposal = await this.prisma.itemProposal.findMany({
       where: {
-        ...(unitPrice && { unitPrice }),
-        ...(quantity && { quantity }),
-        ...(proposalServiceId && { proposalServiceId }),
-        ...(itemServiceId && { itemServiceId }),
+        ...(Number(unitPrice) && { unitPrice }),
+        ...(Number(quantity) && { quantity }),
+        ...(Number(proposalServiceId) && { proposalServiceId }),
+        ...(Number(itemServiceId) && { itemServiceId }),
+        proposalService: {
+          proposal: {
+            id: Number(proposalId),
+          },
+        },
       },
     });
 

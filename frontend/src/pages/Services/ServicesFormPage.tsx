@@ -50,8 +50,9 @@ function ServicesFormPage(): ReactElement {
     setSelectedCategories,
   } = useServiceContext();
 
-  const { data: itemsProposal } = useFetchItemProposal(!!proposalId);
   const { data: proposalServices } = useFetchProposalServices(!!proposalId);
+
+  const { data: itemsProposal } = useFetchItemProposal(!!proposalId);
 
   const { idToken } = useAtomValue(authenticatedUserAtom);
   const setToggleFetchWells = useSetAtom(toggleFetchWells);

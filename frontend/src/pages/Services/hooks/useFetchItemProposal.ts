@@ -23,6 +23,7 @@ interface FetchItemProposalResponse {
 
 export default function useFetchItemProposal(
   enabled: boolean,
+  proposalId?: number,
 ): FetchItemProposalResponse {
   const { handleError } = useOnError();
 
@@ -37,7 +38,9 @@ export default function useFetchItemProposal(
   }> => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/itemProposal`,
+        `${
+          import.meta.env.VITE_API_URL
+        }/itemProposal?proposalServiceId=${proposalId}`,
         {
           headers: {
             Authorization: `Bearer ${idToken}`,

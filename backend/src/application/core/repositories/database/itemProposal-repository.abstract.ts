@@ -5,7 +5,10 @@ export abstract class ItemProposalRepository {
 
   abstract get(id: number): Promise<ItemProposal | null>;
 
-  abstract fetch(filters: Omit<ItemProposal, 'id'>): Promise<ItemProposal[]>;
+  abstract fetch(
+    filters: Omit<ItemProposal, 'id'>,
+    proposalId: number,
+  ): Promise<ItemProposal[]>;
 
   abstract update(
     entityId: number,

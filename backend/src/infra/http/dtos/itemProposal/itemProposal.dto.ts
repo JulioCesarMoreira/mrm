@@ -32,8 +32,8 @@ export class FetchItemProposalsDto {
   @IsInt()
   quantity: number;
 
-  @IsOptional()
-  @IsInt()
+  @IsNotEmpty()
+  @IsNumberString()
   proposalServiceId: number;
 
   @IsOptional()
