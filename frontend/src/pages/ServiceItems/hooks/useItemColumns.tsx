@@ -15,12 +15,13 @@ export default function useItemColumns(
       )
     : new Map<string, CategoryService>([]);
 
-  return [
-    {
-      accessorKey: 'id',
-      header: 'ID',
-      cell: ({ row }) => <div className="capitalize">{row.getValue('id')}</div>,
-    },
+  const idCol: ColumnDef<ItemService> = {
+    accessorKey: 'id',
+    header: 'ID',
+    cell: ({ row }) => <div className="capitalize">{row.getValue('id')}</div>,
+  };
+
+  const columns: ColumnDef<ItemService>[] = [
     {
       accessorKey: 'name',
       header: ({ column }) => {
@@ -97,4 +98,6 @@ export default function useItemColumns(
       },
     },
   ];
+
+  return import.meta.env.DEV ? [idCol, ...columns] : columns;
 }

@@ -16,12 +16,13 @@ export default function useServiceColumns(
       )
     : new Map<string, Client>([]);
 
-  return [
-    {
-      accessorKey: 'id',
-      header: 'ID',
-      cell: ({ row }) => <div className="capitalize">{row.getValue('id')}</div>,
-    },
+  const idCol: ColumnDef<Service> = {
+    accessorKey: 'id',
+    header: 'ID',
+    cell: ({ row }) => <div className="capitalize">{row.getValue('id')}</div>,
+  };
+
+  const columns: ColumnDef<Service>[] = [
     {
       accessorKey: 'clientId',
       header: ({ column }) => {
@@ -90,4 +91,6 @@ export default function useServiceColumns(
       },
     },
   ];
+
+  return import.meta.env.DEV ? [idCol, ...columns] : columns;
 }

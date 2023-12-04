@@ -8,12 +8,13 @@ import NumberFormat from 'react-number-format';
 import { formatPhone } from 'constants/index';
 
 export default function useClientColumns(): ColumnDef<Client>[] {
-  return [
-    {
-      accessorKey: 'id',
-      header: 'ID',
-      cell: ({ row }) => <div className="capitalize">{row.getValue('id')}</div>,
-    },
+  const idCol: ColumnDef<Client> = {
+    accessorKey: 'id',
+    header: 'ID',
+    cell: ({ row }) => <div className="capitalize">{row.getValue('id')}</div>,
+  };
+
+  const columns: ColumnDef<Client>[] = [
     {
       accessorKey: 'name',
       header: ({ column }) => {
@@ -110,4 +111,6 @@ export default function useClientColumns(): ColumnDef<Client>[] {
       },
     },
   ];
+
+  return import.meta.env.DEV ? [idCol, ...columns] : columns;
 }

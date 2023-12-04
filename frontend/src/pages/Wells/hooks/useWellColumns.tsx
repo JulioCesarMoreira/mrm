@@ -7,12 +7,13 @@ import WellActions from '../components/WellForm/WellActions';
 import { addDays, format, parseISO } from 'date-fns';
 
 export default function useWellColumns(): ColumnDef<Well>[] {
-  return [
-    {
-      accessorKey: 'id',
-      header: 'ID',
-      cell: ({ row }) => <div className="capitalize">{row.getValue('id')}</div>,
-    },
+  const idCol: ColumnDef<Well> = {
+    accessorKey: 'id',
+    header: 'ID',
+    cell: ({ row }) => <div className="capitalize">{row.getValue('id')}</div>,
+  };
+
+  const columns: ColumnDef<Well>[] = [
     {
       accessorKey: 'client.name',
       header: ({ column }) => {
@@ -122,4 +123,6 @@ export default function useWellColumns(): ColumnDef<Well>[] {
       },
     },
   ];
+
+  return import.meta.env.DEV ? [idCol, ...columns] : columns;
 }
