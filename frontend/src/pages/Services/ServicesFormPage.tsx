@@ -1,5 +1,5 @@
 import FormWrapper from '@components/FormWrapper/FormWrapper';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import CategoryList from './components/ServiceForm/Category/CategoryList';
 import ServiceProvider from './context/ServiceProvider';
@@ -271,19 +271,24 @@ function ServicesFormPage(): ReactElement {
     setIsLoading(false);
   }
 
-  const foundWell = wells.find(
-    (well) => String(well.proposalId) === String(proposalId),
+  const foundWell = useMemo(
+    () => wells.find((well) => String(well.proposalId) === String(proposalId)),
+    [wells],
   );
 
-  const handleWellDefaultValues = foundWell
-    ? {
-        ...foundWell,
-        deliveryDate: format(
-          addDays(parseISO(foundWell.deliveryDate), 1),
-          'ddMMyyyy',
-        ),
-      }
-    : wellDefaultValues;
+  const handleWellDefaultValues = useMemo(
+    () =>
+      foundWell
+        ? {
+            ...foundWell,
+            deliveryDate: format(
+              addDays(parseISO(foundWell.deliveryDate), 1),
+              'ddMMyyyy',
+            ),
+          }
+        : wellDefaultValues,
+    [foundWell],
+  );
 
   useEffect(() => {
     if (proposalId && !routeData) navigate('/servicos');
