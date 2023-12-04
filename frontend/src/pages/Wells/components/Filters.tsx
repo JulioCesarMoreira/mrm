@@ -34,7 +34,7 @@ export default function Filters({ fetch }: FilterProperties): ReactElement {
       return;
     }
 
-    const dateFormatted = format(parsedDate, "yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+    const dateFormatted = format(parsedDate, 'yyyy-MM-dd');
 
     void fetch({
       deliveryDate: dateFormatted,

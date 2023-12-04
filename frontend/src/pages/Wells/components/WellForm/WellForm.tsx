@@ -1,6 +1,5 @@
-import FormWrapper from '@components/FormWrapper/FormWrapper';
-import { MutableRefObject, ReactElement, useEffect, useState } from 'react';
-import { Well, WellFields } from '../../types';
+import { ReactElement, useEffect, useState } from 'react';
+import { Well } from '../../types';
 import { Button } from '@components/ui/button';
 import {
   Dialog,
@@ -9,19 +8,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@components/ui/dialog';
-import { useSetAtom } from 'jotai';
-import { toggleFetchWells } from 'constants/atoms';
-import useUpdateWell from '../../hooks/useUpdateWell';
 import Spinner from '@components/ui/spinner';
 import Tooltip from '@components/Tooltip/Tooltip';
 import { Info, Pencil } from 'lucide-react';
 import DataTableTitle from '@components/DataTable/DataTableTitle';
-import { CLOSE_DIALOG_DURATION } from 'constants';
 import WellFormFields from './WellFormFields';
 import WellFormClientData from './WellFormClientData';
 import WellFormAddress from './WellFormAddress';
-import { format, isValid, parse } from 'date-fns';
-import { removeSpecialCharacters } from '@lib/utils';
 import Svg from '@components/Svg/Svg';
 import { useFormContext } from 'react-hook-form';
 import { ServiceFields } from 'pages/Services/types';
@@ -93,6 +86,7 @@ function WellFormBody({
               <Button
                 type="submit"
                 variant="default"
+                form="well-form"
                 className="bg-hidro-blue-300 hover:bg-main-blue text-white"
               >
                 Salvar

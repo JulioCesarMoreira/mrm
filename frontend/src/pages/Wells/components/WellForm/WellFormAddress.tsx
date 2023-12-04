@@ -53,6 +53,7 @@ export default function WellFormAddress({
             maskType="cep"
             rules={{
               validate: (value: string): string | undefined =>
+                value &&
                 removeSpecialCharacters(value).length > 0 &&
                 removeSpecialCharacters(value).length < 8
                   ? 'CEP inválido'
