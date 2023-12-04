@@ -1,4 +1,4 @@
-import { ItemProposal } from '@application/core/entities';
+import { ItemProposal, ProposalService } from '@application/core/entities';
 import {
   ItemProposalRepository,
   ProposalServiceRepository,
@@ -17,17 +17,24 @@ export class FetchItemProposalUseCase {
   ): Promise<ItemProposal[]> {
     const { proposalServiceId } = filters;
 
+    let proposalService: ProposalService;
+
     if (proposalServiceId) {
-      const proposal = await this.proposalServiceRepository.get(
+      proposalService = await this.proposalServiceRepository.get(
         proposalServiceId,
       );
 
-      if (!proposal) {
+      if (!proposalService) {
         throw new BadRequestException('proposal service not found.');
       }
+
+      delete filters.proposalServiceId;
     }
 
-    const fetchItemProposal = await this.itemProposalRepository.fetch(filters);
+    const fetchItemProposal = await this.itemProposalRepository.fetch(
+      filters,
+      proposalService.proposalId,
+    );
 
     return fetchItemProposal;
   }

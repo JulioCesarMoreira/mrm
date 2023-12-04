@@ -27,7 +27,7 @@ export class PrismaProposalServiceRepository
   async get(id: number): Promise<ProposalService> {
     const getProposalService = await this.prisma.proposalService.findUnique({
       where: {
-        id: id,
+        id: Number(id),
       },
     });
 
