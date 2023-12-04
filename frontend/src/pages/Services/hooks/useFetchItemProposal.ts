@@ -22,7 +22,7 @@ interface FetchItemProposalResponse {
 }
 
 export default function useFetchItemProposal(
-  enabled: boolean,
+  proposalServiceId: string | undefined,
 ): FetchItemProposalResponse {
   const { handleError } = useOnError();
 
@@ -32,13 +32,18 @@ export default function useFetchItemProposal(
   const toggleFetch = useAtomValue(toggleFetchServices);
   const { idToken } = useAtomValue(authenticatedUserAtom);
 
-  const fetchData = async (): Promise<{
+  const fetchData = async (
+    id: string,
+  ): Promise<{
     itemProposals: ItemProposal[];
   }> => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/itemProposal`,
         {
+          params: {
+            proposalServiceId: id,
+          },
           headers: {
             Authorization: `Bearer ${idToken}`,
             'Content-Type': 'application/json',
@@ -55,15 +60,15 @@ export default function useFetchItemProposal(
   };
 
   useAsyncEffect(async () => {
-    if (enabled) {
+    if (proposalServiceId) {
       setIsLoading(true);
-      const data = await fetchData();
+      const data = await fetchData(proposalServiceId);
 
       setIsLoading(false);
 
       if (data.itemProposals) setData(data.itemProposals);
     }
-  }, [toggleFetch, enabled]);
+  }, [toggleFetch, proposalServiceId]);
 
   return { data, isLoading };
 }

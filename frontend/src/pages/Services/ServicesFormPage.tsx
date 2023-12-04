@@ -50,8 +50,13 @@ function ServicesFormPage(): ReactElement {
     setSelectedCategories,
   } = useServiceContext();
 
-  const { data: itemsProposal } = useFetchItemProposal(!!proposalId);
   const { data: proposalServices } = useFetchProposalServices(!!proposalId);
+
+  const proposalServiceId = proposalServices?.[0]?.id
+    ? String(proposalServices[0].id)
+    : undefined;
+
+  const { data: itemsProposal } = useFetchItemProposal(proposalServiceId);
 
   const { idToken } = useAtomValue(authenticatedUserAtom);
   const setToggleFetchWells = useSetAtom(toggleFetchWells);
@@ -288,6 +293,9 @@ function ServicesFormPage(): ReactElement {
 
       for (const proposalService of proposalServices) {
         if (String(proposalService.proposalId) === String(proposalId)) {
+          console.log('==========================');
+          console.log('proposalService', proposalService);
+
           const foundCategory = categories.find(
             (category) =>
               String(category.id) === String(proposalService.categoryServiceId),
@@ -299,20 +307,27 @@ function ServicesFormPage(): ReactElement {
                 String(item.proposalServiceId) === String(proposalService.id),
             );
 
+            console.log('foundCategory', foundCategory);
+            console.log('foundItems', foundItems);
+
+            const itemsOk = foundItems.map((foundItem) => ({
+              quantity: String(foundItem.quantity),
+              unitPrice: String(foundItem.unitPrice),
+              key: String(foundItem.id),
+              name: items.find(
+                (item) => String(item.id) === String(foundItem.itemServiceId),
+              )?.name as string,
+              unity: '1',
+            }));
+
+            console.log('itemsOk', itemsOk);
+
             const selectedCategoryToPush = {
               color: foundCategory.color,
               direction: proposalService.side,
               id: foundCategory.id,
               name: foundCategory.name,
-              items: foundItems.map((foundItem) => ({
-                quantity: String(foundItem.quantity),
-                unitPrice: String(foundItem.unitPrice),
-                key: String(foundItem.id),
-                name: items.find(
-                  (item) => String(item.id) === String(foundItem.itemServiceId),
-                )?.name as string,
-                unity: '1',
-              })),
+              items: itemsOk,
             };
 
             proposalSelectedCategories.push(selectedCategoryToPush);
@@ -322,7 +337,13 @@ function ServicesFormPage(): ReactElement {
 
       setSelectedCategories(proposalSelectedCategories);
     }
-  }, [proposalId, proposalServices, categories, itemsProposal && items]);
+  }, [
+    proposalId,
+    proposalServiceId,
+    proposalServices,
+    categories,
+    itemsProposal && items,
+  ]);
 
   return (
     <FormWrapper<ServiceFields>
