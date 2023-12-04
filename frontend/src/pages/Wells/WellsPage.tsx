@@ -40,7 +40,7 @@ export default function WellsPage(): ReactElement {
         />
         <DataTable
           data={data}
-          rows={8}
+          rows={6}
           columns={columns}
           isLoading={isLoading}
         />

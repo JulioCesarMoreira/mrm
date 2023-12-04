@@ -74,7 +74,7 @@ export default function WellActions({
       <FormWrapper<Well>
         id="well-form"
         onSubmit={onSubmitWell}
-        className="py-4"
+        className="py-1"
         defaultValues={well.original}
       >
         <WellForm
