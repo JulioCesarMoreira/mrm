@@ -37,17 +37,19 @@ export const wellDefaultValues = {
   zipcode: '',
 };
 
+const getDateFormat = (date: string): string => {
+  if (date.length > 16) return "yyyy-MM-dd'T'HH:mm:ss.SSSX";
+
+  if (date.includes('/')) return 'dd/MM/yyyy';
+
+  return 'ddMMyyyy';
+};
+
 export const isWellValid = (well: Well): boolean => {
   if (
     !well.deliveryDate ||
     !isValid(
-      parse(
-        well.deliveryDate,
-        well.deliveryDate.length > 16
-          ? "yyyy-MM-dd'T'HH:mm:ss.SSSX"
-          : 'dd/MM/yyyy',
-        new Date(),
-      ),
+      parse(well.deliveryDate, getDateFormat(well.deliveryDate), new Date()),
     ) ||
     !well.staticLevel ||
     well.staticLevel === 0 ||
