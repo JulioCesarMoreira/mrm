@@ -69,7 +69,7 @@ export default function Select({
           {renderValue && renderValue(field.value)}
         </SelectValue>
       </SelectTrigger>
-      <SelectContent>
+      <SelectContent className="max-h-[30vh]">
         {options.map(({ name, value }) =>
           renderOption ? (
             <Fragment key={value}>{renderOption({ name, value })}</Fragment>

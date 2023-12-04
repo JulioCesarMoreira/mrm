@@ -4,13 +4,12 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { Search } from 'lucide-react';
 import { ReactElement } from 'react';
-import { Client } from '../types';
 import { removeSpecialCharacters } from '@lib/utils';
 
 interface ClientsFilter {
   name: string;
   contactName: string;
-  contactPhone: string;
+  contactPhone: string | undefined;
 }
 
 interface FilterProperties {
@@ -23,7 +22,7 @@ export default function Filters({ fetch }: FilterProperties): ReactElement {
       ...data,
       contactPhone: data.contactPhone
         ? removeSpecialCharacters(data.contactPhone)
-        : '',
+        : undefined,
     });
   }
 
