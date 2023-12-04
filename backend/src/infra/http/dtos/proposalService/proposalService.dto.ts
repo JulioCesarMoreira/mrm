@@ -23,14 +23,14 @@ export class GetProposalServiceIdDto {
 }
 
 export class FetchProposalServicesDto {
-  @IsInt()
+  @IsNumberString()
   @IsOptional()
   order: number;
 
   @IsOptional()
   side: 'LEFT' | 'RIGHT';
 
-  @IsInt()
+  @IsNumberString()
   @IsOptional()
   proposalId: number;
 }

@@ -75,6 +75,11 @@ export class ProposalServiceController {
     @Query() filters: FetchProposalServicesDto,
   ): Promise<FetchProposalServicesResponseDto | ErrorResponseDto> {
     try {
+      const { proposalId } = filters;
+
+      if (proposalId) {
+        filters.proposalId = Number(proposalId);
+      }
       const fetchProposalServicesList =
         await this.fetchProposalServicesUseCase.fetchProposalService(filters);
 
