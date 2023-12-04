@@ -35,7 +35,10 @@ export default function CategoryList({
     setSelectedCategories((previous) => [
       ...previous,
       {
-        color: '#3A9ED4',
+        color:
+          categories?.find(
+            (category) => String(category.id) === String(categoryOption.value),
+          )?.color ?? '#3A9ED4',
         direction,
         items: [],
         name: categoryOption.name,
