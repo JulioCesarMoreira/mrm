@@ -4,17 +4,25 @@ import Tooltip from '@components/Tooltip/Tooltip';
 import { Button } from '@components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import { Client } from 'pages/Clients/types';
-import { format, parseISO } from 'date-fns';
+import { addDays, format, parseISO } from 'date-fns';
 import ServiceActions from '../components/ServiceForm/ServiceActions';
+import { Well } from 'pages/Wells/types';
 
 export default function useServiceColumns(
   clients: Client[] | undefined,
+  wells: Well[],
 ): ColumnDef<Service>[] {
   const clientsMap = clients
     ? new Map<string, Client>(
         clients.map((client) => [String(client.id), client]),
       )
     : new Map<string, Client>([]);
+
+  const wellsMap = wells
+    ? new Map<string, Well>(
+        wells.map((well) => [String(well.proposalId), well]),
+      )
+    : new Map<string, Well>([]);
 
   const idCol: ColumnDef<Service> = {
     accessorKey: 'id',
@@ -77,10 +85,12 @@ export default function useServiceColumns(
         );
       },
       cell: ({ row }) => {
-        const sendDate = row.getValue('sendDate');
+        const deliveryDate = wellsMap.get(
+          String(row.original.id),
+        )?.deliveryDate;
 
-        return sendDate
-          ? format(parseISO(row.getValue('sendDate')), 'dd/MM/yyyy')
+        return deliveryDate
+          ? format(addDays(parseISO(deliveryDate), 1), 'dd/MM/yyyy')
           : '-';
       },
     },

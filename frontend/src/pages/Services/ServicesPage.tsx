@@ -8,6 +8,7 @@ import DataTableTitle from '@components/DataTable/DataTableTitle';
 import { Button } from '@components/ui/button';
 import { Plus } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import useFetchWells from 'pages/Wells/hooks/useFetchWells';
 
 export default function ServicesPage(): ReactElement {
   const { data: clients, isLoading: isLoadingClients } = useFetchClients();
@@ -17,7 +18,9 @@ export default function ServicesPage(): ReactElement {
     fetch,
   } = useFetchServices();
 
-  const columns = useServiceColumns(clients);
+  const { data: wells, isLoading: isLoadingWells } = useFetchWells();
+
+  const columns = useServiceColumns(clients, wells);
 
   return (
     <div className="flex w-full flex-col">
@@ -56,7 +59,7 @@ export default function ServicesPage(): ReactElement {
           data={services}
           rows={8}
           columns={columns}
-          isLoading={isLoadingClients || isLoadingServices}
+          isLoading={isLoadingClients || isLoadingServices || isLoadingWells}
         />
       </div>
     </div>
