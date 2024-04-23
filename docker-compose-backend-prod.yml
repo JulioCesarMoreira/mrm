@@ -6,9 +6,9 @@ services:
       context: .
       dockerfile: docker/backend/Dockerfile
     environment:
-      - DATABASE_URL=mysql://root:mrmmysql@mrm-mysql-instance-1.ccprilvyxwrp.us-west-2.rds.amazonaws.com:3306/mrm_mysql_dev?connection_limit=9&pool_timeout=10&connect_timeout=10&socket_timeout=10
+      - DATABASE_URL=
       - NODE_ENV=development
-      - COGNITO_USERPOOL="us-west-2_iV27jfIWi"
+      - COGNITO_USERPOOL=""
     ports:
       - '8000:8000'
     container_name: mrm-backend
